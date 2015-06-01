@@ -149,14 +149,6 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
     private void placeOrder(OrderDetail orderDetail) {
 
-        Gson gson=new Gson();
-
-        String orderJson = gson.toJson(orderDetail);
-
-        //orderJson="Hello, this is me";
-
-
-
         RestClient.getAdapter().placeOrder(orderDetail, new Callback<order_detail.Response>() {
 
             @Override
@@ -180,9 +172,9 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
     private String getDeviceId(Context context){
 
-        String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        //String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-       // String deviceId = "QWERTY111";
+        String deviceId = "QWERTY111";
 
         return deviceId;
     }
