@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -179,9 +180,9 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
     private String getDeviceId(Context context){
 
-       // String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        String deviceId = "QWERTY111";
+       // String deviceId = "QWERTY111";
 
         return deviceId;
     }
