@@ -1,11 +1,15 @@
 package com.attribe.waiterapp.screens;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.attribe.waiterapp.Database.DatabaseHelper;
@@ -13,13 +17,18 @@ import com.attribe.waiterapp.Database.TABLE_CATEGORIES;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.interfaces.onDbCreate;
 import com.attribe.waiterapp.models.Category;
+import com.attribe.waiterapp.models.DeviceRegister;
 import com.attribe.waiterapp.models.Item;
+import com.attribe.waiterapp.network.PassCodeResponse;
 import com.attribe.waiterapp.network.RestClient;
 
+import com.attribe.waiterapp.utils.DevicePreferences;
 import com.attribe.waiterapp.utils.ExceptionHanlder;
 import com.google.gson.Gson;
 import org.apache.http.util.ByteArrayBuffer;
+import retrofit.Callback;
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -49,7 +58,7 @@ public class SplashScreen extends Activity{
 		gson = new Gson();
 		databaseHelper = new DatabaseHelper(this);
 		databaseHelper.getWritableDatabase();
-
+		DevicePreferences.getInstance().init(SplashScreen.this);
 
 //		databaseHelper.clearCategoryTable();
 //		databaseHelper.clearMenuTable();
@@ -66,7 +75,9 @@ public class SplashScreen extends Activity{
 //		getCategories();
 //		getItems();
 
-		showMenuScreen();
+		showDeviceRegisterDialog();
+		//showPassCodeDialog();
+		//showMenuScreen();
 
 
 		/*
@@ -130,6 +141,7 @@ public class SplashScreen extends Activity{
 			
 		Toast.makeText(SplashScreen.this, "Items added successfully into db",
 				Toast.LENGTH_SHORT).show();
+
 
 		showMenuScreen();
 
@@ -209,4 +221,85 @@ public class SplashScreen extends Activity{
 	else{
 		showSetUpScreen();
 	}*/
+
+
+	public void showPassCodeDialog(){
+
+		Dialog dialog = new Dialog(this);
+
+		dialog.setTitle(R.string.pass_code_title);
+		dialog.setContentView(R.layout.dialog_pass_code);
+
+		EditText passCodeText=(EditText)dialog.findViewById(R.id.dialog_pass_code_text);
+		String passCode = passCodeText.getText().toString();
+		Button verifyButton = (Button)dialog.findViewById(R.id.dialog_pass_code_button);
+		verifyButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+
+				RestClient.getAdapter().verifyUser(passCode, new Callback<PassCodeResponse>() {
+
+
+					@Override
+					public void success(PassCodeResponse passCodeResponse, Response response) {
+
+						DevicePreferences.getInstance().init(SplashScreen.this);
+
+						DevicePreferences.getInstance().setClientKey(passCodeResponse.toString());
+
+						showDeviceRegisterDialog();
+					}
+
+					@Override
+					public void failure(RetrofitError retrofitError) {
+
+					}
+				});
+			}
+		});
+		dialog.show();
+
+	}
+
+	private void showDeviceRegisterDialog() {
+		Dialog dialog=new Dialog(SplashScreen.this);
+
+		dialog.setTitle(R.string.title_device_registration);
+		dialog.setContentView(R.layout.dialog_register_device);
+
+		EditText deviceNameText=(EditText) dialog.findViewById(R.id.dialog_register_text);
+		Button registerButton = (Button)dialog.findViewById(R.id.dialog_register_button);
+
+		String deviceName = deviceNameText.getText().toString();
+		String deviceId = DevicePreferences.getInstance().getDeviceId();
+
+		registerButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+
+				DeviceRegister deviceRegister=new DeviceRegister(deviceName,deviceId);
+
+
+				RestClient.getAdapter().registerDevice(deviceRegister, new Callback<DeviceRegister.Response>() {
+
+
+					@Override
+					public void success(DeviceRegister.Response response, Response response2) {
+
+					}
+
+					@Override
+					public void failure(RetrofitError retrofitError) {
+
+					}
+				});
+			}
+		});
+
+
+		dialog.show();
+
+	}
 }

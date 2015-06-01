@@ -28,7 +28,7 @@ public class SetupScreen extends Activity {
     }
 
     private void initContents() {
-        devicePreferences =new DevicePreferences(this);
+        //devicePreferences =new DevicePreferences(this);
 
 
 

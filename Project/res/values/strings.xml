@@ -8,4 +8,8 @@
     <string name="confirm_order_text">CONFIRM ORDER NOW</string>
     <string name="proceed_to_order" >Place order</string>
     <string name="proceed_to_order_message">Proceed to order?</string>
+    <string name="pass_code_title">Enter your pass code</string>
+    <string name="pass_code_button_text">Verify</string>
+    <string name="dialog_register_registerButton">Register </string>
+    <string name="title_device_registration">Name this device</string>
 </resources>

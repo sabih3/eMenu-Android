@@ -133,9 +133,6 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
-
-
-
                             placeOrder(makeOrder(getOrderDetail(OrderContainer.getInstance().getOrderList()), getDeviceId(getActivity()),computeTotalPrice()));
 
                             Toast.makeText(getActivity(),"Order Placed",Toast.LENGTH_SHORT).show();
@@ -170,11 +167,11 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
         return deviceOrder;
     }
 
-    private String getDeviceId(Context context){
+    private static String getDeviceId(Context context){
 
-        //String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        String deviceId = "QWERTY111";
+        //String deviceId = "QWERTY111";
 
         return deviceId;
     }

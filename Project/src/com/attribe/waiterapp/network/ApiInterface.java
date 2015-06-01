@@ -36,4 +36,11 @@ public interface ApiInterface {
 
     @POST(URL_PLACE_ORDER)
     void placeOrder(@Body OrderDetail orderObject,Callback<order_detail.Response> response);
+
+    @POST("")
+    void verifyUser(String passCode,Callback<PassCodeResponse> response);
+
+    @POST("/devices")
+    void registerDevice(@Body DeviceRegister deviceRegister,Callback<DeviceRegister.Response> response);
+
 }
