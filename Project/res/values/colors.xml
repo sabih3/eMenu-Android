@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name ="orange">#FF9022</color>
+    <color name="maroon">#7C2315</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grid_selected_color">#9ad718</color>
+    <color name="black_opaque">#95000000</color>
+
+    <color name="abc_search_url_text_normal">#7fa87f</color>
+    <color name="abc_search_url_text_selected">@android:color/black</color>
+    <color name="abc_search_url_text_pressed">@android:color/black</color>
+    <color name="dark_grey">#363636</color>
+    <color name="abc_input_method_navigation_guard">@android:color/black</color>
+</resources>

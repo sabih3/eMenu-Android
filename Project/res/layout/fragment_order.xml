@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black_opaque"
+           android:padding="10dp"
+            >
+
+        <TextView
+                  android:id="@+id/fragment_order_textTotal"
+                  android:layout_marginLeft="30dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/total_text"
+                  android:textSize="25sp"
+                  android:layout_gravity="center"
+                />
+
+        <TextView
+                android:id="@+id/fragment_order_textTotalPrice"
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="35sp"/>
+
+        <Button
+                android:id="@+id/fragment_order_confirmButton"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="@string/confirm_order_text"
+                android:textColor="@color/maroon"
+                android:background="@drawable/confirm_order_bg"
+                android:layout_gravity="center"/>
+
+    </LinearLayout>
+    <GridView
+            android:id="@+id/fragment_order_grid"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            android:horizontalSpacing="20dp"
+            >
+
+    </GridView>
+</LinearLayout>
