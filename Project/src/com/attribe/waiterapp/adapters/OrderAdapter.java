@@ -1,11 +1,13 @@
 package com.attribe.waiterapp.adapters;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.interfaces.OnItemRemoveListener;
@@ -77,6 +79,11 @@ public class OrderAdapter extends BaseAdapter{
                                         computeTotal(orderList.get(i).getQuantityValue(),orderList.get(i).getItem().getPrice()));
         viewHolder.itemPrice.setText(Double.toString(orderList.get(i).getItem().getPrice()));
 
+        if(orderList.get(i).getItem().getImageBlob()!= null){
+            viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeByteArray(orderList.get(i).getItem().getImageBlob(),0,
+                    orderList.get(i).getItem().getImageBlob().length));
+        }
+
         viewHolder.crossBox.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -106,12 +113,14 @@ public class OrderAdapter extends BaseAdapter{
         viewHolder.itemQuantity=(TextView)convertView.findViewById(R.id.grid_item_order_quantity);
         viewHolder.itemPrice=(TextView)convertView.findViewById(R.id.grid_item_price);
         viewHolder.crossBox=(CheckBox) convertView.findViewById(R.id.grid_item_order_cross);
+        viewHolder.itemImage=(ImageView)convertView.findViewById(R.id.grid_item_image);
         return viewHolder;
     }
 
     private class ViewHolder {
         TextView itemName,itemPrice,itemQuantity;
         CheckBox crossBox;
+        ImageView itemImage;
 
     }
 

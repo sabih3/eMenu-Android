@@ -14,5 +14,7 @@ public class DeviceRegister {
     }
 
     public class Response {
+        String message;
+        String status;
     }
 }

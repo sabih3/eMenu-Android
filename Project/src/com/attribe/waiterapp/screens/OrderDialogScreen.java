@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.adapters.CategoryAdapter;
 import com.attribe.waiterapp.adapters.CategoryItemAdapter;
+import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
 import com.attribe.waiterapp.models.CartItem;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
@@ -26,6 +27,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by Sabih Ahmed on 5/14/2015.
  */
 public class OrderDialogScreen extends Activity implements NumberPicker.OnValueChangeListener{
+
     private TextView textViewItemName, textViewTotalPrice, textViewItemPrice;
     private NumberPicker pricePicker;
     private ImageView itemImage;
@@ -33,6 +35,15 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     private Intent i;
     private int itemQuantity;
     private static CopyOnWriteArrayList<Order> orderList;
+    private static OnQuantityChangeListener quantityChangeListener;
+
+    public OrderDialogScreen(){
+
+    }
+    public void setQuantityChangeListener(OnQuantityChangeListener quantityChangeListener){
+        this.quantityChangeListener = quantityChangeListener;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +106,9 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
         textViewTotalPrice.setText(getString(R.string.label_total) + "\t " + String.valueOf(getPrice(newVal, item.getPrice())));
         itemQuantity = newVal;
+
+
+
     }
 
     private double getPrice(int newVal, double price) {
@@ -130,7 +144,11 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 
 
                     iterator.setQuantityValue(itemQuantity);            //intention of increasing quantity
+                    if(quantityChangeListener!=null){
+                        quantityChangeListener.onQuantityChanged();
+                    }
                     update = true;
+
                 }
 
             }
@@ -144,11 +162,6 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 
             OrderContainer.getInstance().getOrderList().add(order);
         }
-
-
-
-
-
 
 
         this.finish();

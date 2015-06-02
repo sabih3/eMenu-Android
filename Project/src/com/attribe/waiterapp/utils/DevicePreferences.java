@@ -14,6 +14,8 @@ public class DevicePreferences {
     private Context mContext;
     private static DevicePreferences mInstance;
     private SharedPreferences mPrefs;
+    private static String DEVICE_REGISTRATION = "deviceRegistrationFlag" ;
+    private static String DEVICE_VERIFICATION = "deviceVerificationFlag";
 
     public static DevicePreferences getInstance(){
         if(mInstance == null){
@@ -56,9 +58,46 @@ public class DevicePreferences {
 
     }
 
+    public void setDeviceRegistrationStatus(Boolean isRegistered){
+
+        SharedPreferences.Editor editor = mPrefs.edit();
+
+        editor.putBoolean(DEVICE_REGISTRATION, isRegistered);
+
+        editor.commit();
+    }
+
+    public Boolean isDeviceRegistered(){
+
+        boolean isRegistered;
+
+        isRegistered = mPrefs.getBoolean(DEVICE_REGISTRATION, false);
+
+        return isRegistered;
+
+    }
+
+    public void setDeviceVerificationStatus(boolean verificationStatus){
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean(DEVICE_VERIFICATION, verificationStatus);
+
+        editor.commit();
+
+    }
+
+    public boolean isDeviceVerified(){
+        boolean verificationFlag;
+
+        verificationFlag = mPrefs.getBoolean(DEVICE_VERIFICATION,false);
+
+        return verificationFlag;
+    }
+
+
+
     public String getDeviceId(){
 
-        String deviceId = Settings.Secure.getString(this.mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
+       String deviceId = Settings.Secure.getString(this.mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
 
         //String deviceId = "QWERTY111";
 

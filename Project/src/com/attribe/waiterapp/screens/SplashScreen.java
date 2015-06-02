@@ -47,22 +47,20 @@ public class SplashScreen extends Activity{
 
 	private TABLE_CATEGORIES table_categories;
 	ArrayList<Integer> categoryIdList;
-	private onDbCreate dbCreateListener;
 	private Gson gson;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));
 		setContentView(R.layout.screen_splash);
 
-		gson = new Gson();
-		databaseHelper = new DatabaseHelper(this);
-		databaseHelper.getWritableDatabase();
-		DevicePreferences.getInstance().init(SplashScreen.this);
+		initContents();
 
-//		databaseHelper.clearCategoryTable();
-//		databaseHelper.clearMenuTable();
-//		databaseHelper.clearImagesTable();
+		databaseHelper.clearCategoryTable();
+		databaseHelper.clearMenuTable();
+		databaseHelper.clearImagesTable();
+
 
 
 
@@ -72,10 +70,17 @@ public class SplashScreen extends Activity{
 		}
 
 
-//		getCategories();
-//		getItems();
+		if(!DevicePreferences.getInstance().isDeviceRegistered()){
+			showDeviceRegisterDialog();
+		}
+		else{
+			showMenuScreen();
+//			getCategories();
+//			getItems();
+		}
 
-		showDeviceRegisterDialog();
+
+		//showDeviceRegisterDialog();
 		//showPassCodeDialog();
 		//showMenuScreen();
 
@@ -90,6 +95,14 @@ public class SplashScreen extends Activity{
 
 		  } },2000);
 		*/
+
+	}
+
+	private void initContents() {
+		gson = new Gson();
+		databaseHelper = new DatabaseHelper(this);
+		databaseHelper.getWritableDatabase();
+		DevicePreferences.getInstance().init(SplashScreen.this);
 
 	}
 
@@ -271,15 +284,17 @@ public class SplashScreen extends Activity{
 		EditText deviceNameText=(EditText) dialog.findViewById(R.id.dialog_register_text);
 		Button registerButton = (Button)dialog.findViewById(R.id.dialog_register_button);
 
-		String deviceName = deviceNameText.getText().toString();
-		String deviceId = DevicePreferences.getInstance().getDeviceId();
+
 
 		registerButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
 
-				DeviceRegister deviceRegister=new DeviceRegister(deviceName,deviceId);
+				String deviceName = deviceNameText.getText().toString();
+				String deviceId = DevicePreferences.getInstance().getDeviceId();
+
+				DeviceRegister deviceRegister=new DeviceRegister(deviceId,deviceName);
 
 
 				RestClient.getAdapter().registerDevice(deviceRegister, new Callback<DeviceRegister.Response>() {
@@ -288,6 +303,9 @@ public class SplashScreen extends Activity{
 					@Override
 					public void success(DeviceRegister.Response response, Response response2) {
 
+						DevicePreferences.getInstance().setDeviceRegistrationStatus(true);
+						getCategories();
+						getItems();
 					}
 
 					@Override

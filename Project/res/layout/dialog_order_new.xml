@@ -83,7 +83,7 @@
 
     <Button android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Add to order"
+            android:text="@string/add_to_order"
             android:background="@drawable/button_maroon_bg" android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/dialog_order_totalPrice"

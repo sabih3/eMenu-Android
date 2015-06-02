@@ -15,9 +15,11 @@ import android.widget.*;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.adapters.OrderAdapter;
 import com.attribe.waiterapp.interfaces.OnItemRemoveListener;
+import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
 import com.attribe.waiterapp.models.*;
 import com.attribe.waiterapp.network.RestClient;
 import com.attribe.waiterapp.utils.Constants;
+import com.attribe.waiterapp.utils.DevicePreferences;
 import com.attribe.waiterapp.utils.OrderContainer;
 import com.google.gson.Gson;
 import org.json.JSONException;
@@ -32,7 +34,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by Sabih Ahmed on 5/26/2015.
  */
-public class OrderFragment extends Fragment implements GridView.OnItemClickListener,OnItemRemoveListener{
+public class OrderFragment extends Fragment implements GridView.OnItemClickListener,OnItemRemoveListener,OnQuantityChangeListener{
 
     public GridView ordergrid;
     private OrderAdapter orderAdapter;
@@ -68,6 +70,8 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
         confirmButton.setOnClickListener(new ComfirmButtonClick());
         orderAdapter.setOnItemRemoveListener(this);
 
+        OrderDialogScreen dialogScreen=new OrderDialogScreen();
+        dialogScreen.setQuantityChangeListener(this);
 
     }
 
@@ -112,12 +116,18 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
         return total;
     }
 
+    @Override
+    public void onQuantityChanged() {
+        totalPrice.setText(Double.toString(computeTotalPrice()));
+        orderAdapter.notifyDataSetChanged();
+    }
+
     public class ComfirmButtonClick implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
             if(OrderContainer.getInstance().getOrderList().isEmpty()){
-                Toast.makeText(getActivity(),"Please select items to order",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),getString(R.string.select_items_prompt),Toast.LENGTH_SHORT).show();
             }
             else{
 
@@ -133,9 +143,11 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                            placeOrder(makeOrder(getOrderDetail(OrderContainer.getInstance().getOrderList()), getDeviceId(getActivity()),computeTotalPrice()));
 
-                            Toast.makeText(getActivity(),"Order Placed",Toast.LENGTH_SHORT).show();
+                            placeOrder(makeOrder(getOrderDetail(OrderContainer.getInstance().getOrderList()),
+                                    DevicePreferences.getInstance().getDeviceId(), computeTotalPrice()));
+
+                            Toast.makeText(getActivity(),getString(R.string.order_placed),Toast.LENGTH_SHORT).show();
                             OrderContainer.getInstance().getOrderList().clear();
                         }
                     })

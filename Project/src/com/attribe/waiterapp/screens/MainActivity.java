@@ -24,6 +24,7 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
+
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_maroon));
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));
 
