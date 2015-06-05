@@ -19,6 +19,10 @@ public interface ApiInterface {
     public static String URL_GET_CATEGORIES ="/categories";
     public static String URL_GET_ITEMS = "/menus";
     public static String URL_PLACE_ORDER = "/orders";
+    public static String URL_SYNC ="/categories/sync";
+    public static String URL_REGISTER_DEVICE= "/devices";
+    public static String URL_GET_KEY="/user/get_api_key";
+    public static String PARAM_PASSCODE = "passcode";
 
     @GET(URL_GET_CATEGORIES)
     void getCategories(Callback<ArrayList<Category>> callback);
@@ -34,13 +38,18 @@ public interface ApiInterface {
     @GET(URL_GET_ITEMS)
     ArrayList<Item> getItemSync(@Query("category_id") long categoryId);
 
+    @GET(URL_SYNC)
+    void syncData(Callback<ArrayList<Data>> callback);
+
+
     @POST(URL_PLACE_ORDER)
     void placeOrder(@Body OrderDetail orderObject,Callback<order_detail.Response> response);
 
-    @POST("")
-    void verifyUser(String passCode,Callback<PassCodeResponse> response);
+    @GET(URL_GET_KEY)
+    void getClientKey(@Query(PARAM_PASSCODE) String passCode,Callback<PassCodeResponse> response);
 
-    @POST("/devices")
+    @POST(URL_REGISTER_DEVICE)
     void registerDevice(@Body DeviceRegister deviceRegister,Callback<DeviceRegister.Response> response);
 
+    String getClientKey(@Query(PARAM_PASSCODE) String passCode);
 }

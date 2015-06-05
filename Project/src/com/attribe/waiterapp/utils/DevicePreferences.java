@@ -16,6 +16,7 @@ public class DevicePreferences {
     private SharedPreferences mPrefs;
     private static String DEVICE_REGISTRATION = "deviceRegistrationFlag" ;
     private static String DEVICE_VERIFICATION = "deviceVerificationFlag";
+    private static String CLIENT_KEY="clientSecret";
 
     public static DevicePreferences getInstance(){
         if(mInstance == null){
@@ -42,17 +43,19 @@ public class DevicePreferences {
 
         SharedPreferences.Editor editor = mPrefs.edit();
 
-        editor.putString(clientSecret,"clientSecret");
+
+        editor.putString(CLIENT_KEY , clientSecret);
 
         editor.commit();
 
     }
 
 
-    public String getClientKey(String key){
+    public String getClientKey(){
         //SharedPreferences prefs = mContext.getSharedPreferences("clientPrefs", Context.MODE_PRIVATE);
 
-        String clientSecret = mPrefs.getString(key, null);
+
+        String clientSecret = mPrefs.getString(CLIENT_KEY, null);
 
         return clientSecret;
 

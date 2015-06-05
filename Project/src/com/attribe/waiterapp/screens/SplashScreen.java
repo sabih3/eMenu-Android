@@ -17,6 +17,7 @@ import com.attribe.waiterapp.Database.TABLE_CATEGORIES;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.interfaces.onDbCreate;
 import com.attribe.waiterapp.models.Category;
+import com.attribe.waiterapp.models.Data;
 import com.attribe.waiterapp.models.DeviceRegister;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.network.PassCodeResponse;
@@ -27,6 +28,7 @@ import com.attribe.waiterapp.utils.ExceptionHanlder;
 import com.google.gson.Gson;
 import org.apache.http.util.ByteArrayBuffer;
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -42,7 +44,8 @@ import java.util.List;
  */
 public class SplashScreen extends Activity{
 
-	private Handler postDelayedHandler;
+    private static final String PASSCODE = "17408";
+    private Handler postDelayedHandler;
 	private DatabaseHelper databaseHelper;
 
 	private TABLE_CATEGORIES table_categories;
@@ -57,32 +60,54 @@ public class SplashScreen extends Activity{
 
 		initContents();
 
-		databaseHelper.clearCategoryTable();
-		databaseHelper.clearMenuTable();
-		databaseHelper.clearImagesTable();
+        if(DevicePreferences.getInstance().getClientKey() == null){// app is being installed on first time
+
+            clearDbTables();
+
+            RestClient.getAdapter().getClientKey(PASSCODE, new Callback<PassCodeResponse>() {
+
+                @Override
+                public void success(PassCodeResponse passCodeResponse, Response response) {
+
+                    String responseJson = gson.toJson(passCodeResponse);
+                    PassCodeResponse responseObject = gson.fromJson(responseJson, PassCodeResponse.class);
+                    DevicePreferences.getInstance().setClientKey(responseObject.getApi_key());
+
+                    //registerDevice();
+
+                    showDeviceRegisterDialog();
+                    //syncData();
+
+                }
+
+                @Override
+                public void failure(RetrofitError retrofitError) {
+
+                }
+            });
+        }
+
+        else{
+
+            showMenuScreen();
+
+        }
 
 
 
 
-		if (android.os.Build.VERSION.SDK_INT > 9) {
-		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		    StrictMode.setThreadPolicy(policy);
-		}
 
 
-		if(!DevicePreferences.getInstance().isDeviceRegistered()){
-			showDeviceRegisterDialog();
-		}
-		else{
-			showMenuScreen();
-//			getCategories();
-//			getItems();
-		}
 
 
+
+		//getCategories();
+		//getItems();
 		//showDeviceRegisterDialog();
 		//showPassCodeDialog();
-		//showMenuScreen();
+
+		//syncData();
+        //showMenuScreen();
 
 
 		/*
@@ -98,11 +123,42 @@ public class SplashScreen extends Activity{
 
 	}
 
-	private void initContents() {
+    private void clearDbTables() {
+        databaseHelper.clearCategoryTable();
+        databaseHelper.clearMenuTable();
+        databaseHelper.clearImagesTable();
+    }
+
+    private void registerDevice() {
+        DeviceRegister deviceRegistration = new DeviceRegister(DevicePreferences.getInstance().getDeviceId(),"tabS7");
+
+        RestClient.getAdapter().registerDevice(deviceRegistration, new Callback<DeviceRegister.Response>() {
+            @Override
+            public void success(DeviceRegister.Response response, Response response2) {
+
+                if(response.status.equals("501")){ //Device has already registered, skip registration
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+
+            }
+        });
+
+    }
+
+    private void initContents() {
 		gson = new Gson();
 		databaseHelper = new DatabaseHelper(this);
 		databaseHelper.getWritableDatabase();
 		DevicePreferences.getInstance().init(SplashScreen.this);
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
 	}
 
@@ -143,7 +199,8 @@ public class SplashScreen extends Activity{
 				int imagesListSize = images.size();
 				for (int z = 0; z < imagesListSize  ; z++) {
 
-					byte[] itemImage = convertToBlob(images.get(z).getUrl());databaseHelper.addImages(item.getId(), itemImage,
+					byte[] itemImage = convertToBlob(images.get(z).getUrl());
+					databaseHelper.addImages(item.getId(), itemImage,
 							images.get(z).getCreated_at(), images.get(z).getUpdated_at());
 				}
 			}
@@ -184,7 +241,7 @@ public class SplashScreen extends Activity{
 
 
 				category.setImageBlob(imageBlob);
-				Log.d("GetCat",category.getName());
+
 			}
 			databaseHelper.addCategory(category);
 
@@ -251,28 +308,77 @@ public class SplashScreen extends Activity{
 			@Override
 			public void onClick(View view) {
 
-				RestClient.getAdapter().verifyUser(passCode, new Callback<PassCodeResponse>() {
+				RestClient.getAdapter().getClientKey(passCode, new Callback<PassCodeResponse>() {
 
 
-					@Override
-					public void success(PassCodeResponse passCodeResponse, Response response) {
+                    @Override
+                    public void success(PassCodeResponse passCodeResponse, Response response) {
 
-						DevicePreferences.getInstance().init(SplashScreen.this);
+                        DevicePreferences.getInstance().init(SplashScreen.this);
 
-						DevicePreferences.getInstance().setClientKey(passCodeResponse.toString());
+                        DevicePreferences.getInstance().setClientKey(passCodeResponse.toString());
 
-						showDeviceRegisterDialog();
-					}
+                        showDeviceRegisterDialog();
+                    }
 
-					@Override
-					public void failure(RetrofitError retrofitError) {
+                    @Override
+                    public void failure(RetrofitError retrofitError) {
 
-					}
-				});
+                    }
+                });
 			}
 		});
 		dialog.show();
 
+	}
+
+	private void syncData(){
+
+		RestClient.getAdapter().syncData(new Callback<ArrayList<Data>>() {
+
+
+			@Override
+			public void success(ArrayList<Data> data, Response response) {
+
+				for(int i = 0; i < data.size();i++){
+
+                    String categoryJson = gson.toJson(data.get(i));
+                    Category receivedCategory = gson.fromJson(categoryJson, Category.class);
+					if(receivedCategory.getImageUrl()!=null){
+
+						receivedCategory.setImageBlob(convertToBlob(receivedCategory.getImageUrl()));
+					}
+
+					databaseHelper.addCategory(receivedCategory);
+
+
+					ArrayList<Item> menus = data.get(i).getMenus();
+					for(int z = 0; z < menus.size() ; z++){
+
+                        String itemJson = gson.toJson(menus.get(z));
+                        Item receivedItem = gson.fromJson(itemJson,Item.class);
+
+                        databaseHelper.addItem(receivedItem);
+						List<Item.Image> images = receivedItem.getImages();
+						int imageListSize = images.size();
+						for(int x = 0 ; x <imageListSize ; x++){
+
+							byte[] itemImage = convertToBlob(images.get(x).getUrl());
+                            databaseHelper.addImages(receivedItem.getId(),itemImage,images.get(x).getCreated_at(),images.get(x).getUpdated_at());
+						}
+
+					}
+
+				}
+                showMenuScreen();
+
+			}
+
+			@Override
+			public void failure(RetrofitError retrofitError) {
+
+			}
+		});
 	}
 
 	private void showDeviceRegisterDialog() {
@@ -304,8 +410,7 @@ public class SplashScreen extends Activity{
 					public void success(DeviceRegister.Response response, Response response2) {
 
 						DevicePreferences.getInstance().setDeviceRegistrationStatus(true);
-						getCategories();
-						getItems();
+						syncData();
 					}
 
 					@Override

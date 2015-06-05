@@ -39,7 +39,7 @@ public class RestClient {
 
                 request.addHeader("Accept","application/json");
                 //request.addHeader("Accept","application/text");
-                request.addHeader(Constants.PARAM_AUTHORIZATION,Constants.VAL_AUTHORIZATION);
+                request.addHeader(Constants.PARAM_AUTHORIZATION,DevicePreferences.getInstance().getClientKey());
             }
         };
 
