@@ -33,7 +33,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -89,6 +92,7 @@ public class SplashScreen extends Activity{
 
         else{
 
+            //saveImageIntoFile("http://178.62.30.18:3000/uploads/menu_images/1433503516-Corn_Chicken_Soup.png","Chicken Corn Soup",);
             showMenuScreen();
 
         }
@@ -136,7 +140,7 @@ public class SplashScreen extends Activity{
             @Override
             public void success(DeviceRegister.Response response, Response response2) {
 
-                if(response.status.equals("501")){ //Device has already registered, skip registration
+                if (response.status.equals("501")) { //Device has already registered, skip registration
 
                 }
             }
@@ -276,6 +280,39 @@ public class SplashScreen extends Activity{
 		}
 		return null;
 	}
+
+
+    private void saveImageIntoFile(String imageUrl,String itemName,String imageCreateDate){
+        try {
+            URL imageURL = new URL(imageUrl);
+            URLConnection connection = imageURL.openConnection();
+
+            InputStream inputStream = new BufferedInputStream(imageURL.openStream(),10240);
+
+            File cacheDir = getCacheDir();
+            File cacheFile = new File(cacheDir,itemName+imageCreateDate);
+            FileOutputStream fileOutputStream = new FileOutputStream(cacheFile);
+
+            byte buffer []= new byte[1024];
+            int dataSize;
+            int loadSize = 0;
+
+            while((dataSize = inputStream.read(buffer))!= -1){
+
+                loadSize += dataSize;
+                fileOutputStream.write(buffer,0,dataSize);
+
+            }
+
+            fileOutputStream.close();
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
