@@ -4,6 +4,7 @@ package com.attribe.waiterapp.utils;
  * Created by Sabih Ahmed on 5/13/2015.
  */
 public class Constants {
+    public static final String KEY_ITEM_POSITION = "position";
     public static int TIMEOUT = 70000 * 1;
     public static String PARAM_AUTHORIZATION = "Authorization";
     public static String VAL_AUTHORIZATION = "c4d016ec-e9db-4132-ac24-75d6bcf1f32f";

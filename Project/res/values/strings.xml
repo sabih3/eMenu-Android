@@ -15,4 +15,6 @@
     <string name="add_to_order">Add to order</string>
     <string name="order_placed" type="id">Order placed</string>
     <string name="select_items_prompt">Please select items to order</string>
+    <string name="getting_categories">Syncing Categories</string>
+    <string name="getting_items">Syncing items</string>
 </resources>

@@ -2,6 +2,7 @@ package com.attribe.waiterapp.adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.utils.OrderContainer;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -79,9 +81,11 @@ public class OrderAdapter extends BaseAdapter{
                                         computeTotal(orderList.get(i).getQuantityValue(),orderList.get(i).getItem().getPrice()));
         viewHolder.itemPrice.setText(Double.toString(orderList.get(i).getItem().getPrice()));
 
-        if(orderList.get(i).getItem().getImageBlob()!= null){
-            viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeByteArray(orderList.get(i).getItem().getImageBlob(),0,
-                    orderList.get(i).getItem().getImageBlob().length));
+        if(orderList.get(i).getItem().getImageBlob()== null){
+
+            viewHolder.itemImage.setImageURI(getImage(orderList.get(i)));
+//            viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeByteArray(orderList.get(i).getItem().getImageBlob(),0,
+//                    orderList.get(i).getItem().getImageBlob().length));
         }
 
         viewHolder.crossBox.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +125,18 @@ public class OrderAdapter extends BaseAdapter{
         TextView itemName,itemPrice,itemQuantity;
         CheckBox crossBox;
         ImageView itemImage;
+
+    }
+
+    private Uri getImage(Order order){
+        File cacheDir = mContext.getCacheDir();
+
+        String filePath = order.getItem().getName()+order.getItem().getCreated_at();
+        File imageFile = new File(cacheDir,filePath);
+
+        Uri uri=Uri.fromFile(imageFile);
+
+        return uri;
 
     }
 

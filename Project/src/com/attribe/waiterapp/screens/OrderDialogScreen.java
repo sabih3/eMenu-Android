@@ -3,14 +3,17 @@ package com.attribe.waiterapp.screens;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.adapters.CategoryAdapter;
 import com.attribe.waiterapp.adapters.CategoryItemAdapter;
+import com.attribe.waiterapp.interfaces.OnItemAddedToOrder;
 import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
 import com.attribe.waiterapp.models.CartItem;
 import com.attribe.waiterapp.models.Item;
@@ -19,6 +22,7 @@ import com.attribe.waiterapp.utils.OrderContainer;
 import com.attribe.waiterapp.utils.Constants;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,14 +35,20 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     private TextView textViewItemName, textViewTotalPrice, textViewItemPrice;
     private NumberPicker pricePicker;
     private ImageView itemImage;
+    private CheckBox removeButton;
     private Item item;
     private Intent i;
     private int itemQuantity;
+    private int position;
     private static CopyOnWriteArrayList<Order> orderList;
     private static OnQuantityChangeListener quantityChangeListener;
-
+    private static OnItemAddedToOrder onItemAddedToOrder;
     public OrderDialogScreen(){
 
+    }
+
+    public void setOnItemAddedToOrderListener(OnItemAddedToOrder onItemAddedToOrderListener){
+        this.onItemAddedToOrder = onItemAddedToOrderListener;
     }
     public void setQuantityChangeListener(OnQuantityChangeListener quantityChangeListener){
         this.quantityChangeListener = quantityChangeListener;
@@ -56,7 +66,7 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     private void initContent() {
         i = getIntent();
         item = (Item) i.getSerializableExtra(Constants.KEY_SERIALIZEABLE_ITEM_OBJECT);
-
+        position = i.getIntExtra(Constants.KEY_ITEM_POSITION, -1);
         itemImage = (ImageView)findViewById(R.id.dialog_order_image);
         textViewItemName = (TextView)findViewById(R.id.dialog_order_itemName);
         textViewItemPrice = (TextView)findViewById(R.id.dialog_order_totalPrice);
@@ -65,7 +75,16 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         pricePicker.setMinValue(1);
         pricePicker.setMaxValue(100);
         pricePicker.setOnValueChangedListener(this);
+        removeButton=(CheckBox)findViewById(R.id.dialog_order_removeButton);
 
+        removeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                finish();
+            }
+        });
         initValues();
 
     }
@@ -73,8 +92,10 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     private void initValues() {
         textViewItemName.setText(item.getName());
         textViewItemPrice.setText(String.valueOf(item.getPrice()));
-        if(item.getImageBlob() != null){
-            itemImage.setImageBitmap(BitmapFactory.decodeByteArray(item.getImageBlob(),0,item.getImageBlob().length));
+
+        if(item.getImageBlob() == null){
+            itemImage.setImageURI(getImageUri(item));
+            //itemImage.setImageBitmap(BitmapFactory.decodeByteArray(item.getImageBlob(),0,item.getImageBlob().length));
         }
 
 
@@ -144,7 +165,7 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 
 
                     iterator.setQuantityValue(itemQuantity);            //intention of increasing quantity
-                    if(quantityChangeListener!=null){
+                    if(quantityChangeListener != null){
                         quantityChangeListener.onQuantityChanged();
                     }
                     update = true;
@@ -154,18 +175,27 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
             }
 
             if(!update){
-                OrderContainer.getInstance().getOrderList().add(order);
+                onItemAddedToOrder.onItemAdded(position,itemQuantity);
+
             }
 
         }
         else{
-
-            OrderContainer.getInstance().getOrderList().add(order);
+              onItemAddedToOrder.onItemAdded(position,itemQuantity);
         }
 
 
         this.finish();
 
+    }
+
+    private Uri getImageUri(Item item){
+        File cacheDir = this.getCacheDir();
+        String filePath = item.getName()+item.getCreated_at();
+        File imageFile = new File(cacheDir, filePath);
+        Uri uri= Uri.fromFile(imageFile);
+
+        return uri;
     }
 
 

@@ -10,7 +10,7 @@ public class Table_MenuImages {
 	public static String CREATE_IMAGES_TABLE = "CREATE  TABLE "+ TABLE_MENU_IMAGES_NAME +
 												" ("+ COLUMN_ID +"Integer Primary Key "+Constants.COMMA_SEP+
 												COLUMN_MENU_ID +" int "+Constants.COMMA_SEP+
-												COLUMN_IMAGE + Constants.TYPE_BYTE + Constants.COMMA_SEP+
+												COLUMN_IMAGE + Constants.TYPE_TEXT + Constants.COMMA_SEP+
 												Constants.COLUMN_CREATED_AT + Constants.TYPE_DATETIME+Constants.COMMA_SEP+
 												Constants.COLUMN_UPDATED_AT + Constants.TYPE_DATETIME +
 												")";

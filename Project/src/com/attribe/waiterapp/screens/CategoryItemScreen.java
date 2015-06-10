@@ -11,6 +11,7 @@ import android.widget.*;
 import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.adapters.CategoryItemAdapter;
+import com.attribe.waiterapp.interfaces.OnItemAddedToOrder;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.network.RestClient;
@@ -29,9 +30,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by Sabih Ahmed on 5/12/2015.
  */
 
-public class CategoryItemScreen extends Fragment implements GridView.OnItemClickListener,FragmentManager.OnBackStackChangedListener{
+public class CategoryItemScreen extends Fragment implements GridView.OnItemClickListener,
+        FragmentManager.OnBackStackChangedListener,OnItemAddedToOrder{
 
-    private ListView listView;
+
+    private View listView;
     private GridView gridView;
     Fragment detailFragment;
     private OrderFragment orderFragment;
@@ -58,7 +61,8 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
-
+        OrderDialogScreen orderDialogScreen=new OrderDialogScreen();
+        orderDialogScreen.setOnItemAddedToOrderListener(this);
 
        return view;
     }
@@ -126,13 +130,10 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> adapterView, View listView, int i, long l) {
 
-
-        CheckBox itemCheckBox= (CheckBox) view.findViewById(R.id.grid_item_check);
-        itemArrayList.get(i).setSelected(true);
-        itemCheckBox.setChecked(true);
-        showOrderDialog(itemArrayList.get(i));
+        this.listView=listView;
+        showOrderDialog(itemArrayList.get(i),i);
 
     }
 
@@ -144,9 +145,10 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
 
 
-    private void showOrderDialog(Item item) {
+    private void showOrderDialog(Item item, int position) {
         Intent intent = new Intent(getActivity(),OrderDialogScreen.class);
         intent.putExtra(Constants.KEY_SERIALIZEABLE_ITEM_OBJECT, item);
+        intent.putExtra(Constants.KEY_ITEM_POSITION, position);
 
         startActivity(intent);
 
@@ -168,5 +170,16 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         fragmentTransaction.addToBackStack(CategoryItemScreen.class.getName());
         fragmentTransaction.commit();
 
+    }
+
+
+    @Override
+    public void onItemAdded(int position,int itemQuantity) {
+
+        CheckBox itemCheckBox = (CheckBox) listView.findViewById(R.id.grid_item_check);
+        itemArrayList.get(position).setSelected(true);
+        itemArrayList.get(position).setDesiredQuantity(itemQuantity);
+        //itemCheckBox.setButtonDrawable(R.drawable.tick_green);
+       itemCheckBox.setChecked(true);
     }
 }

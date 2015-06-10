@@ -2,7 +2,6 @@ package com.attribe.waiterapp.models;
 
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,8 @@ public class Item implements Serializable {
     private List<Image> images = new ArrayList<Image>();
     private boolean selected;
     private byte[] imageBlob;
+    private String imageUrl;
+    private int desiredQuantity;
 
     /**
      *
@@ -28,7 +29,8 @@ public class Item implements Serializable {
      * @param description
      * @param price
      */
-    public Item(int id, String name, String description, double price, int category_id, byte[] imagesBlob){
+    public Item(int id, String name, String description, double price, int category_id, String created_at, String updated_at,
+                /*byte[] imagesBlob*/ ArrayList<Image> itemImages){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -36,8 +38,21 @@ public class Item implements Serializable {
         this.category_id = category_id;
         this.created_at = created_at;
         this.updated_at = updated_at;
-        this.imageBlob = imagesBlob;
+       // this.imageBlob = imagesBlob;//
+        this.images = itemImages;
 
+    }
+
+    public Item(int id, String name, String description, String created_at, String updated_at, double price, int category_id,
+                String imageUrl) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.price = price;
+        this.category_id = category_id;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -127,53 +142,20 @@ public class Item implements Serializable {
         this.imageBlob = imagesBlob;
     }
 
-    public class Image {
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-        private Integer id;
-        private String url;
-        private String created_at;
-        private String updated_at;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-        public Integer getId() {
-            return id;
-        }
+    public int getDesiredQuantity() {
+        return desiredQuantity;
+    }
 
-        public String getCreated_at() {
-			return created_at;
-		}
-
-
-
-		public void setCreated_at(String created_at) {
-			this.created_at = created_at;
-		}
-
-
-
-		public String getUpdated_at() {
-			return updated_at;
-		}
-
-
-
-		public void setUpdated_at(String updated_at) {
-			this.updated_at = updated_at;
-		}
-
-
-
-		public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
+    public void setDesiredQuantity(int desiredQuantity) {
+        this.desiredQuantity = desiredQuantity;
     }
 }
 

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,11 +14,7 @@ import android.widget.Toast;
 import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.Database.TABLE_CATEGORIES;
 import com.attribe.waiterapp.R;
-import com.attribe.waiterapp.interfaces.onDbCreate;
-import com.attribe.waiterapp.models.Category;
-import com.attribe.waiterapp.models.Data;
-import com.attribe.waiterapp.models.DeviceRegister;
-import com.attribe.waiterapp.models.Item;
+import com.attribe.waiterapp.models.*;
 import com.attribe.waiterapp.network.PassCodeResponse;
 import com.attribe.waiterapp.network.RestClient;
 
@@ -28,7 +23,6 @@ import com.attribe.waiterapp.utils.ExceptionHanlder;
 import com.google.gson.Gson;
 import org.apache.http.util.ByteArrayBuffer;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -36,7 +30,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -199,12 +192,12 @@ public class SplashScreen extends Activity{
 
 
 				databaseHelper.addItem(item);
-				List<Item.Image> images = itemList.get(x).getImages();
+				List<Image> images = itemList.get(x).getImages();
 				int imagesListSize = images.size();
 				for (int z = 0; z < imagesListSize  ; z++) {
 
-					byte[] itemImage = convertToBlob(images.get(z).getUrl());
-					databaseHelper.addImages(item.getId(), itemImage,
+					//byte[] itemImage = convertToBlob(images.get(z).getUrl());
+					databaseHelper.addImages(item.getId(), images.get(x).getUrl(),
 							images.get(z).getCreated_at(), images.get(z).getUpdated_at());
 				}
 			}
@@ -374,52 +367,69 @@ public class SplashScreen extends Activity{
 		RestClient.getAdapter().syncData(new Callback<ArrayList<Data>>() {
 
 
-			@Override
-			public void success(ArrayList<Data> data, Response response) {
+            @Override
+            public void success(ArrayList<Data> data, Response response) {
 
-				for(int i = 0; i < data.size();i++){
+                for (int i = 0; i < data.size(); i++) {
 
                     String categoryJson = gson.toJson(data.get(i));
                     Category receivedCategory = gson.fromJson(categoryJson, Category.class);
-					if(receivedCategory.getImageUrl()!=null){
+                    if (receivedCategory.getImageUrl() != null) {
 
-						receivedCategory.setImageBlob(convertToBlob(receivedCategory.getImageUrl()));
-					}
+                        saveImageIntoFile(receivedCategory.getImageUrl(), receivedCategory.getName(), receivedCategory.getCreated_at());
 
-					databaseHelper.addCategory(receivedCategory);
+                        //receivedCategory.setImageBlob(convertToBlob(receivedCategory.getImageUrl()));
+                    }
+                    //showProcessStatus(getResources().getString(R.string.getting_categories) + " :" + receivedCategory.getName());
+                    //showToast(getResources().getString(R.string.getting_categories) + " :" + receivedCategory.getName());
+                    databaseHelper.addCategory(receivedCategory);
 
 
-					ArrayList<Item> menus = data.get(i).getMenus();
-					for(int z = 0; z < menus.size() ; z++){
+                    ArrayList<Item> menus = data.get(i).getMenus();
+                    for (int z = 0; z < menus.size(); z++) {
 
                         String itemJson = gson.toJson(menus.get(z));
-                        Item receivedItem = gson.fromJson(itemJson,Item.class);
+                        Item receivedItem = gson.fromJson(itemJson, Item.class);
 
+                        //showProcessStatus(getResources().getString(R.string.getting_categories) + " :" + receivedCategory.getName());
+                        //showToast(getResources().getString(R.string.getting_items) + " :" + receivedItem.getName());
                         databaseHelper.addItem(receivedItem);
-						List<Item.Image> images = receivedItem.getImages();
-						int imageListSize = images.size();
-						for(int x = 0 ; x <imageListSize ; x++){
+                        List<Image> images = receivedItem.getImages();
+                        int imageListSize = images.size();
+                        for (int x = 0; x < imageListSize; x++) {
 
-							byte[] itemImage = convertToBlob(images.get(x).getUrl());
-                            databaseHelper.addImages(receivedItem.getId(),itemImage,images.get(x).getCreated_at(),images.get(x).getUpdated_at());
-						}
+                            databaseHelper.addImages(receivedItem.getId(), images.get(x).getUrl(), images.get(x).getCreated_at(), images.get(x).getUpdated_at());
+                            saveImageIntoFile(images.get(x).getUrl(), receivedItem.getName(), receivedItem.getCreated_at());
+                            //byte[] itemImage = convertToBlob(images.get(x).getUrl());
+                            //databaseHelper.addImages(receivedItem.getId(),itemImage,images.get(x).getCreated_at(),images.get(x).getUpdated_at());
+                        }
 
-					}
+                    }
 
-				}
+                }
                 showMenuScreen();
 
-			}
+            }
 
-			@Override
-			public void failure(RetrofitError retrofitError) {
+            @Override
+            public void failure(RetrofitError retrofitError) {
 
-			}
-		});
+            }
+        });
 	}
 
-	private void showDeviceRegisterDialog() {
-		Dialog dialog=new Dialog(SplashScreen.this);
+    private void showProcessStatus(String message) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showToast(message);
+            }
+        });
+    }
+
+    private void showDeviceRegisterDialog() {
+		Dialog dialog = new Dialog(SplashScreen.this);
 
 		dialog.setTitle(R.string.title_device_registration);
 		dialog.setContentView(R.layout.dialog_register_device);
@@ -447,6 +457,7 @@ public class SplashScreen extends Activity{
 					public void success(DeviceRegister.Response response, Response response2) {
 
 						DevicePreferences.getInstance().setDeviceRegistrationStatus(true);
+                        dialog.dismiss();
 						syncData();
 					}
 
@@ -462,4 +473,9 @@ public class SplashScreen extends Activity{
 		dialog.show();
 
 	}
+
+    private void showToast(String message){
+
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+    }
 }

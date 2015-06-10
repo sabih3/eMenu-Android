@@ -3,6 +3,7 @@ package com.attribe.waiterapp.screens;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -25,7 +26,8 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
 
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_maroon));
+        //actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_maroon));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar)));
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));
 
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);

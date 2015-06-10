@@ -34,7 +34,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by Sabih Ahmed on 5/26/2015.
  */
-public class OrderFragment extends Fragment implements GridView.OnItemClickListener,OnItemRemoveListener,OnQuantityChangeListener{
+public class OrderFragment extends Fragment implements GridView.OnItemClickListener,
+        OnItemRemoveListener,OnQuantityChangeListener{
 
     public GridView ordergrid;
     private OrderAdapter orderAdapter;
@@ -143,9 +144,12 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
+                            ArrayList<order_detail> order_detail=getOrderDetail(OrderContainer.getInstance().getOrderList());
+                            String deviceId = DevicePreferences.getInstance().getDeviceId();
+                            int tableNumber = DevicePreferences.getInstance().getTableNumber();
 
-                            placeOrder(makeOrder(getOrderDetail(OrderContainer.getInstance().getOrderList()),
-                                    DevicePreferences.getInstance().getDeviceId(), computeTotalPrice()));
+                            placeOrder(makeOrder(order_detail,
+                                    deviceId, computeTotalPrice(),tableNumber));
 
                             Toast.makeText(getActivity(),getString(R.string.order_placed),Toast.LENGTH_SHORT).show();
                             OrderContainer.getInstance().getOrderList().clear();
@@ -172,9 +176,9 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
         });
     }
 
-    private OrderDetail makeOrder(ArrayList<order_detail> orderDetail, String deviceId, double orderTotal) {
+    private OrderDetail makeOrder(ArrayList<order_detail> orderDetail, String deviceId, double orderTotal,int tableNumber) {
 
-        OrderDetail deviceOrder=new OrderDetail(deviceId,orderDetail,orderTotal);
+        OrderDetail deviceOrder=new OrderDetail(deviceId,orderDetail,orderTotal,tableNumber);
 
         return deviceOrder;
     }
@@ -196,9 +200,10 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
             int itemId = orderList.get(i).getItem().getId();
             int quantityValue = orderList.get(i).getQuantityValue();
-            double item_total = orderList.get(i).getItem().getPrice()*orderList.get(i).getQuantityValue();
+            String itemName = orderList.get(i).getItem().getName();
+            double item_price = orderList.get(i).getItem().getPrice();
 
-            order_detail order=new order_detail(itemId,quantityValue,item_total);
+            order_detail order = new order_detail(itemId,itemName,quantityValue,item_price);
             order_detail.add(order);
         }
 

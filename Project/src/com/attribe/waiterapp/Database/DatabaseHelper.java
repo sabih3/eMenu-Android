@@ -11,6 +11,7 @@ import android.util.Log;
 import com.attribe.waiterapp.interfaces.onDbCreate;
 import com.attribe.waiterapp.models.Category;
 import com.attribe.waiterapp.models.Item;
+import com.attribe.waiterapp.models.Image;
 import com.attribe.waiterapp.utils.ExceptionHanlder;
 
 import java.util.ArrayList;
@@ -102,13 +103,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
 
-    public void addImages(int itemId,byte[] image, String createdAt, String updatedAt){
+    public void addImages(int itemId,/*byte[] image*/ String imageUrl, String createdAt, String updatedAt){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(Table_MenuImages.COLUMN_MENU_ID, itemId);
-        values.put(Table_MenuImages.COLUMN_IMAGE, image);
+        values.put(Table_MenuImages.COLUMN_IMAGE, imageUrl);
+        values.put(Constants.COLUMN_CREATED_AT, createdAt);
+        values.put(Constants.COLUMN_UPDATED_AT, updatedAt);
         try {
         	 db.insert(Table_MenuImages.TABLE_MENU_IMAGES_NAME, null, values);
         } catch (SQLiteException e) {
@@ -164,23 +167,29 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQueryLeftJoin="SELECT m.*, mi.* from menus m  left join menu_images mi on m.id = mi.menu_id\n" +
                 "where m.category_id = "+categoryId;
 
-        String revisedQuery="SELECT m.*, mi.menu_id,mi.image from menus m  left join menu_images mi on m.id = mi.menu_id\n" +
+        String revisedQuery="SELECT m.*, mi.menu_id, mi.image from menus m  left join menu_images mi on m.id = mi.menu_id\n" +
                 "where m.category_id = "+categoryId;
 
         Cursor cursor = db.rawQuery(revisedQuery, null);
+        ArrayList<Image> itemImages = new ArrayList<>();
+
 
         if(cursor.moveToFirst()){
+
             do{
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_ID.trim()));
                 int category_id = cursor.getInt(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_CATEGORY_ID.trim()));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_NAME.trim()));
                 int price = cursor.getInt(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_PRICE.trim()));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_DESCRIPTION.trim()));
-                byte[] image = cursor.getBlob(cursor.getColumnIndexOrThrow(Table_MenuImages.COLUMN_IMAGE.trim()));
+                String created_at = cursor.getString(cursor.getColumnIndexOrThrow(Constants.COLUMN_CREATED_AT.trim()));
+                String updated_at = cursor.getString(cursor.getColumnIndexOrThrow(Constants.COLUMN_UPDATED_AT.trim()));
+                String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Table_MenuImages.COLUMN_IMAGE.trim()));
 
 
+                //byte [] image = cursor.getBlob(cursor.getColumnIndexOrThrow(Table_MenuImages.COLUMN_IMAGE.trim()));
 
-                Item item=new Item(id,name,description,price,category_id,image);
+                Item item = new Item(id,name,description,created_at,updated_at,price,category_id,imageUrl);
                 itemsList.add(item);
 
             }while(cursor.moveToNext());

@@ -17,6 +17,7 @@ public class DevicePreferences {
     private static String DEVICE_REGISTRATION = "deviceRegistrationFlag" ;
     private static String DEVICE_VERIFICATION = "deviceVerificationFlag";
     private static String CLIENT_KEY="clientSecret";
+    private static String KEY_TABLE_NUMBER="tableNumber";
 
     public static DevicePreferences getInstance(){
         if(mInstance == null){
@@ -105,6 +106,18 @@ public class DevicePreferences {
         //String deviceId = "QWERTY111";
 
         return deviceId;
+    }
+
+    public void setTableNumber(int tableNumber){
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putInt(KEY_TABLE_NUMBER,tableNumber);
+
+        editor.commit();
+    }
+
+    public int getTableNumber(){
+        int tableNumber = mPrefs.getInt(KEY_TABLE_NUMBER,58);
+        return tableNumber;
     }
 
 

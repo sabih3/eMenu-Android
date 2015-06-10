@@ -3,6 +3,7 @@ package com.attribe.waiterapp.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,14 @@ import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.screens.OrderDialogScreen;
 import com.attribe.waiterapp.utils.Constants;
 import com.attribe.waiterapp.utils.OrderContainer;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -67,10 +74,25 @@ public class CategoryItemAdapter extends BaseAdapter {
 
         byte[] imagesBlob = itemList.get(position).getImageBlob();
 
-        if(imagesBlob != null){
+        if(imagesBlob == null){
+            File cacheDir = context.getCacheDir();
+            String filePath = itemList.get(position).getName()+itemList.get(position).getCreated_at();
+            File cacheFile = new File(cacheDir, filePath);
+            Uri uri= Uri.fromFile(cacheFile);
 
-            viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeByteArray(imagesBlob,0,
-                    imagesBlob.length));
+            try {
+                InputStream fileInputStream=new FileInputStream(cacheFile);
+
+                //viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+
+                viewHolder.itemImage.setImageURI(uri);
+                //viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeFile(cacheFile.getAbsolutePath()));
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+//            viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeByteArray(imagesBlob,0,
+//                    imagesBlob.length));
 
 
         }
@@ -99,10 +121,9 @@ public class CategoryItemAdapter extends BaseAdapter {
 
                 if (itemList.get(position).isSelected()) {
 
-                    Order order = new Order(itemList.get(position), 1);
-                    if(OrderContainer.getInstance().getOrderList().contains(order)){
+                    int itemQuantity = (itemList.get(position).getDesiredQuantity()== 0)? 1 : itemList.get(position).getDesiredQuantity();
+                    Order order = new Order(itemList.get(position), itemQuantity);
 
-                    }
                     finalViewHolder.listItemGridLayout.setBackground(context.getResources().getDrawable(R.drawable.grid_item_background_selected));
 
                     itemList.get(position).setSelected(true);
