@@ -21,9 +21,6 @@ import com.attribe.waiterapp.network.RestClient;
 import com.attribe.waiterapp.utils.Constants;
 import com.attribe.waiterapp.utils.DevicePreferences;
 import com.attribe.waiterapp.utils.OrderContainer;
-import com.google.gson.Gson;
-import org.json.JSONException;
-import org.json.JSONObject;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -42,10 +39,11 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
     private CopyOnWriteArrayList<Order> orderList;
     private TextView totalText, totalPrice;
     private Button confirmButton;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order, container, false);
+         view = inflater.inflate(R.layout.fragment_order, container, false);
 
         initContents(view);
         return view;
@@ -153,11 +151,19 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
                             Toast.makeText(getActivity(),getString(R.string.order_placed),Toast.LENGTH_SHORT).show();
                             OrderContainer.getInstance().getOrderList().clear();
+
+
+                            hideOrderFragment();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
                     .show();
         }
+    }
+
+    private void hideOrderFragment() {
+        view.findViewById(R.id.fragment_order_parent).setVisibility(View.GONE);
+
     }
 
     private void placeOrder(OrderDetail orderDetail) {

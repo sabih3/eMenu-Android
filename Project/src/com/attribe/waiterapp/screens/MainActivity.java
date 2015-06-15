@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import com.attribe.waiterapp.R;
 import android.support.v4.app.FragmentActivity;
+import com.attribe.waiterapp.utils.DevicePreferences;
 import com.attribe.waiterapp.utils.ExceptionHanlder;
 
 public class MainActivity extends FragmentActivity implements CategoryScreen.OnCategorySelectListener,
@@ -31,7 +32,15 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));
 
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
         setContentView(R.layout.main);
+//        if(DevicePreferences.getInstance().isRtlLayout()){
+//            setContentView(R.layout.main_rtl);
+//        }
+//        else{
+//            setContentView(R.layout.main);
+//        }
+
         //getFragmentManager().addOnBackStackChangedListener(this);
 
     }
@@ -47,6 +56,18 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
     public void onCategorySelected(long id) {
         CategoryItemScreen itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
         itemFragment.updateFragment(id);
+
+
+//        if(DevicePreferences.getInstance().isRtlLayout()){
+//            CategoryItemScreen itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_rtl_itemScreen);
+//            itemFragment.updateFragment(id);
+//        }
+//        else{
+//            CategoryItemScreen itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
+//            itemFragment.updateFragment(id);
+//        }
+
+
     }
 
     @Override
@@ -76,8 +97,19 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
     }
 
     private void showOrderFragment() {
+
         CategoryItemScreen itemScreen= (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
         itemScreen.showOrderFragment();
+
+//        if(DevicePreferences.getInstance().isRtlLayout()){
+//            CategoryItemScreen itemScreen= (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_rtl_itemScreen);
+//            itemScreen.showOrderFragment();
+//        }
+//        else{
+//            CategoryItemScreen itemScreen= (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
+//            itemScreen.showOrderFragment();
+//        }
+
 
     }
 

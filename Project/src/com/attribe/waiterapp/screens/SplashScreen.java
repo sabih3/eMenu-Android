@@ -54,25 +54,48 @@ public class SplashScreen extends Activity{
 		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));
 		setContentView(R.layout.screen_splash);
 
-		initContents();
-
-        if(DevicePreferences.getInstance().getClientKey() == null){// app is being installed on first time
+         initContents();
+         DevicePreferences.getInstance().setRtlLayout(true);
+        if(DevicePreferences.getInstance().getClientKey() == null ){// app is being installed on first time
 
             clearDbTables();
 
+            showSetupDialog();
+        }
+
+        else{
+
+            showMenuScreen();
+
+        }
+
+	}
+
+    private void getClientKey() {
+
+        if(DevicePreferences.getInstance().isNetworkAvailable()){
             RestClient.getAdapter().getClientKey(PASSCODE, new Callback<PassCodeResponse>() {
 
                 @Override
                 public void success(PassCodeResponse passCodeResponse, Response response) {
 
                     String responseJson = gson.toJson(passCodeResponse);
-                    PassCodeResponse responseObject = gson.fromJson(responseJson, PassCodeResponse.class);
-                    DevicePreferences.getInstance().setClientKey(responseObject.getApi_key());
+                    PassCodeResponse responsePasscode = gson.fromJson(responseJson, PassCodeResponse.class);
 
-                    //registerDevice();
+                    if(responsePasscode.getStatus().equals(PassCodeResponse.RESPONSE_PASSCODE_INVALID)){
+                        //TODO: Handle invalid passcode
+                    }
 
-                    showDeviceRegisterDialog();
-                    //syncData();
+                    if(responsePasscode.getStatus().equals(PassCodeResponse.RESPONSE_PASSCODE_SUCCESS)){
+                        DevicePreferences.getInstance().setClientKey(responsePasscode.getApi_key());
+
+                        //registerDevice();
+
+                        showSetupDialog();
+                        //syncData();
+                    }
+
+
 
                 }
 
@@ -84,41 +107,10 @@ public class SplashScreen extends Activity{
         }
 
         else{
-
-            //saveImageIntoFile("http://178.62.30.18:3000/uploads/menu_images/1433503516-Corn_Chicken_Soup.png","Chicken Corn Soup",);
-            showMenuScreen();
-
+            //showNoInternetDialog();
         }
 
-
-
-
-
-
-
-
-
-		//getCategories();
-		//getItems();
-		//showDeviceRegisterDialog();
-		//showPassCodeDialog();
-
-		//syncData();
-        //showMenuScreen();
-
-
-		/*
-		  new Handler().postDelayed(new Runnable() {
-
-		  @Override public void run() {
-
-		  	showMenuScreen();
-
-
-		  } },2000);
-		*/
-
-	}
+    }
 
     private void clearDbTables() {
         databaseHelper.clearCategoryTable();
@@ -127,7 +119,7 @@ public class SplashScreen extends Activity{
     }
 
     private void registerDevice() {
-        DeviceRegister deviceRegistration = new DeviceRegister(DevicePreferences.getInstance().getDeviceId(),"tabS7");
+        DeviceRegister deviceRegistration = new DeviceRegister(DevicePreferences.getInstance().getDeviceId(),"","");
 
         RestClient.getAdapter().registerDevice(deviceRegistration, new Callback<DeviceRegister.Response>() {
             @Override
@@ -263,7 +255,7 @@ public class SplashScreen extends Activity{
 
 			int current=0;
 			while((current = bis.read())!=-1){
-				baf.append((byte)current);
+				baf.append((byte) current);
 			}
 
 			return baf.toByteArray();
@@ -307,22 +299,6 @@ public class SplashScreen extends Activity{
         }
     }
 
-
-
-	/* TODO:Logic for handling first time setup */
-	/*
-	if(userRegistered){
-
-		getCategories();
-		getItems();
-
-	}
-
-	else{
-		showSetUpScreen();
-	}*/
-
-
 	public void showPassCodeDialog(){
 
 		Dialog dialog = new Dialog(this);
@@ -348,7 +324,7 @@ public class SplashScreen extends Activity{
 
                         DevicePreferences.getInstance().setClientKey(passCodeResponse.toString());
 
-                        showDeviceRegisterDialog();
+                        showSetupDialog();
                     }
 
                     @Override
@@ -428,44 +404,69 @@ public class SplashScreen extends Activity{
         });
     }
 
-    private void showDeviceRegisterDialog() {
+    private void showSetupDialog() {
 		Dialog dialog = new Dialog(SplashScreen.this);
 
 		dialog.setTitle(R.string.title_device_registration);
 		dialog.setContentView(R.layout.dialog_register_device);
 
-		EditText deviceNameText=(EditText) dialog.findViewById(R.id.dialog_register_text);
+        EditText passCode=(EditText)dialog.findViewById(R.id.dialog_register_text);
+		EditText deviceNameText=(EditText) dialog.findViewById(R.id.dialog_register_deviceName);
 		Button registerButton = (Button)dialog.findViewById(R.id.dialog_register_button);
-
-
 
 		registerButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
 
+                String passcode = passCode.getText().toString();
+
 				String deviceName = deviceNameText.getText().toString();
 				String deviceId = DevicePreferences.getInstance().getDeviceId();
 
-				DeviceRegister deviceRegister=new DeviceRegister(deviceId,deviceName);
+				DeviceRegister deviceRegister=new DeviceRegister(deviceId,deviceName,passcode);
+
+                if(DevicePreferences.getInstance().isNetworkAvailable()){
+                    RestClient.getAdapter().registerDevice(deviceRegister, new Callback<DeviceRegister.Response>() {
 
 
-				RestClient.getAdapter().registerDevice(deviceRegister, new Callback<DeviceRegister.Response>() {
+                        @Override
+                        public void success(DeviceRegister.Response response, Response response2) {
 
+                            String responseJson = gson.toJson(response);
+                            DeviceRegister.Response registrationResponse = gson.fromJson(responseJson,DeviceRegister.Response.class);
 
-					@Override
-					public void success(DeviceRegister.Response response, Response response2) {
+                            if(registrationResponse.status.equals(DeviceRegister.STATUS_SUCCESS)){
+                                DevicePreferences.getInstance().setDeviceRegistrationStatus(true);
+                                dialog.dismiss();
+                                DevicePreferences.getInstance().setClientKey(registrationResponse.getKey());
+                                syncData();
+                            }
 
-						DevicePreferences.getInstance().setDeviceRegistrationStatus(true);
-                        dialog.dismiss();
-						syncData();
-					}
+                            if(registrationResponse.status.equals(DeviceRegister.STATUS_DEVICE_ID_EXISTS)){
+                                dialog.dismiss();
+                                dialog.setTitle(registrationResponse.getMessage());
+                                dialog.show();
+                            }
 
-					@Override
-					public void failure(RetrofitError retrofitError) {
+                            if(registrationResponse.status.equals(DeviceRegister.STATUS_DEVICE_NAME_EXISTS)){
+                                dialog.dismiss();
+                                dialog.setTitle(registrationResponse.getMessage());
+                                dialog.show();
+                            }
 
-					}
-				});
+                        }
+
+                        @Override
+                        public void failure(RetrofitError retrofitError) {
+
+                        }
+                    });
+                }
+                else{
+                    DevicePreferences.getInstance().showNoConnectionDialog();
+                }
+
 			}
 		});
 

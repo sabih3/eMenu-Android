@@ -1,17 +1,23 @@
 package com.attribe.waiterapp.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import com.attribe.waiterapp.R;
 
 /**
  * Created by Sabih Ahmed on 5/22/2015.
  */
 public class DevicePreferences {
 
-    private Context mContext;
+    private static Context mContext;
     private static DevicePreferences mInstance;
     private SharedPreferences mPrefs;
     private static String DEVICE_REGISTRATION = "deviceRegistrationFlag" ;
@@ -103,22 +109,84 @@ public class DevicePreferences {
 
        String deviceId = Settings.Secure.getString(this.mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        //String deviceId = "QWERTY111";
+//        Math.random();
+//        int random= (int) (Math.random()*100);
+//
+//        deviceId = Integer.toString(random);
+//        String deviceId = "QWERTY111";
 
         return deviceId;
     }
 
     public void setTableNumber(int tableNumber){
         SharedPreferences.Editor editor = mPrefs.edit();
-        editor.putInt(KEY_TABLE_NUMBER,tableNumber);
+        editor.putInt(KEY_TABLE_NUMBER, tableNumber);
 
         editor.commit();
     }
 
     public int getTableNumber(){
-        int tableNumber = mPrefs.getInt(KEY_TABLE_NUMBER,58);
+        int tableNumber = mPrefs.getInt(KEY_TABLE_NUMBER, 0);
         return tableNumber;
     }
+
+    public void setRtlLayout(boolean rtlFlag){
+        SharedPreferences.Editor editor=mPrefs.edit();
+        editor.putBoolean("rtlFlag",true);
+
+        editor.commit();
+    }
+
+    public boolean isRtlLayout(){
+        SharedPreferences.Editor editor = mPrefs.edit();
+
+        return mPrefs.getBoolean("rtlFlag",false);
+
+    }
+
+    public boolean isNetworkAvailable(){
+
+        boolean networkInfo;
+
+        ConnectivityManager connectivityManager= (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo!=null && activeNetworkInfo.isConnected();
+    }
+
+    public static void showNoConnectionDialog()
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(true);
+        builder.setMessage(R.string.no_connection);
+        builder.setTitle(R.string.no_connection_title);
+        builder.setPositiveButton(R.string.settings_button_text, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                mContext.startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel_button_text, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                return;
+            }
+        });
+
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
+        {
+            public void onCancel(DialogInterface dialog) {
+                return;
+            }
+        });
+
+        builder.show();
+    }
+
 
 
 

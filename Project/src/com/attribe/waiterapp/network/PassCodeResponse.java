@@ -4,6 +4,9 @@ package com.attribe.waiterapp.network;
  * Created by Sabih Ahmed on 6/1/2015.
  */
 public class PassCodeResponse {
+    public static String RESPONSE_PASSCODE_INVALID = "401";
+    public static String RESPONSE_PASSCODE_SUCCESS = "200";
+
     String message,api_key,status;
 
     public String getMessage() {

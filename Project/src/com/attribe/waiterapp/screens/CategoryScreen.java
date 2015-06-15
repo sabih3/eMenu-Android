@@ -18,6 +18,7 @@ import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.adapters.CategoryAdapter;
 import com.attribe.waiterapp.models.Category;
 import com.attribe.waiterapp.network.RestClient;
+import com.attribe.waiterapp.utils.DevicePreferences;
 import com.attribe.waiterapp.utils.ExceptionHanlder;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -41,6 +42,18 @@ public class CategoryScreen extends ListFragment{
 
         DatabaseHelper mDatabaseHelper = new DatabaseHelper(getActivity());
         categoryArrayList= mDatabaseHelper.getAllCategories();
+
+//        if(DevicePreferences.getInstance().isRtlLayout()){
+//
+//            categoryArrayList.get(0).setName(getString(R.string.category_fastFood));
+//            categoryArrayList.get(1).setName(getString(R.string.category_chinese));
+//            categoryArrayList.get(2).setName(getString(R.string.category_pakistani));
+//            categoryArrayList.get(3).setName(getString(R.string.category_soup));
+//            categoryArrayList.get(4).setName(getString(R.string.category_beverages));
+//            categoryArrayList.get(5).setName(getString(R.string.category_continental));
+//
+//
+//        }
         CategoryAdapter listAdapter = new CategoryAdapter(getActivity(),categoryArrayList);
         setListAdapter(listAdapter);
 
@@ -52,6 +65,7 @@ public class CategoryScreen extends ListFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_category_screen, container,false);
+
 
         return view;
     }

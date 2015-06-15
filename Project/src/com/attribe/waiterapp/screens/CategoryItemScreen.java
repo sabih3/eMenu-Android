@@ -16,6 +16,7 @@ import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.network.RestClient;
 import com.attribe.waiterapp.utils.Constants;
+import com.attribe.waiterapp.utils.DevicePreferences;
 import com.attribe.waiterapp.utils.OrderContainer;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -102,7 +103,6 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
         }
 
-
         CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
 
         if(detailFragment!=null){
@@ -126,6 +126,58 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         gridView.setAdapter(adapter);
         gridView.setVisibility(View.VISIBLE);
 
+        /*
+        if (DevicePreferences.getInstance().isRtlLayout()){
+            CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
+
+            if(detailFragment!=null){
+                if(detailFragment.getView()!=null){
+                    detailFragment.getView().setVisibility(View.GONE);
+                }
+            }
+
+            Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_rtl_itemScreen);
+            if(!itemFragment.isVisible()){
+
+                itemFragment.getView().setVisibility(View.VISIBLE);
+                gridView.setVisibility(View.VISIBLE);
+            }
+
+            if( orderFragment != null) {
+                if (orderFragment.isVisible()) {
+                    orderFragment.getView().setVisibility(View.GONE);
+                }
+            }
+            gridView.setAdapter(adapter);
+            gridView.setVisibility(View.VISIBLE);
+        }
+
+        else{
+            CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
+
+            if(detailFragment!=null){
+                if(detailFragment.getView()!=null){
+                    detailFragment.getView().setVisibility(View.GONE);
+                }
+            }
+
+            Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
+            if(!itemFragment.isVisible()){
+
+                itemFragment.getView().setVisibility(View.VISIBLE);
+                gridView.setVisibility(View.VISIBLE);
+            }
+
+            if( orderFragment != null) {
+                if (orderFragment.isVisible()) {
+                    orderFragment.getView().setVisibility(View.GONE);
+                }
+            }
+            gridView.setAdapter(adapter);
+            gridView.setVisibility(View.VISIBLE);
+        }*/
+
+
     }
 
 
@@ -133,7 +185,7 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
     public void onItemClick(AdapterView<?> adapterView, View listView, int i, long l) {
 
         this.listView=listView;
-        showOrderDialog(itemArrayList.get(i),i);
+        showOrderDialog(itemArrayList.get(i), i);
 
     }
 

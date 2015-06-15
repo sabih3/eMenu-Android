@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.models.Category;
+import com.attribe.waiterapp.utils.DevicePreferences;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +50,18 @@ public class CategoryAdapter extends BaseAdapter
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater  layoutInflater= (LayoutInflater) context.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
-        View row = layoutInflater.inflate(R.layout.list_item_category, null);
+        View row;
+
+        row = layoutInflater.inflate(R.layout.list_item_category, null);
+//        if(DevicePreferences.getInstance().isRtlLayout()){
+//             row=layoutInflater.inflate(R.layout.list_item_category_rtl,null);
+//        }
+//
+//        else{
+//             row = layoutInflater.inflate(R.layout.list_item_category, null);
+//        }
+
+
 
         TextView categoryName= (TextView) row.findViewById(R.id.list_item_category);
         ImageView imageView=(ImageView)row.findViewById(R.id.list_item_category_image);

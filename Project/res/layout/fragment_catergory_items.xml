@@ -16,8 +16,11 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+
             android:numColumns="3"
-            android:horizontalSpacing="20dp"
+
             >
 
 
