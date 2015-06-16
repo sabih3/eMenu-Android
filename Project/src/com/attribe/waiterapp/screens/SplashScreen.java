@@ -2,6 +2,7 @@ package com.attribe.waiterapp.screens;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.attribe.waiterapp.Database.DatabaseHelper;
@@ -43,7 +45,8 @@ public class SplashScreen extends Activity{
     private static final String PASSCODE = "17408";
     private Handler postDelayedHandler;
 	private DatabaseHelper databaseHelper;
-
+    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
 	private TABLE_CATEGORIES table_categories;
 	ArrayList<Integer> categoryIdList;
 	private Gson gson;
@@ -340,6 +343,8 @@ public class SplashScreen extends Activity{
 
 	private void syncData(){
 
+        showProgress(getResources().getString(R.string.getting_data));
+
 		RestClient.getAdapter().syncData(new Callback<ArrayList<Data>>() {
 
 
@@ -356,8 +361,7 @@ public class SplashScreen extends Activity{
 
                         //receivedCategory.setImageBlob(convertToBlob(receivedCategory.getImageUrl()));
                     }
-                    //showProcessStatus(getResources().getString(R.string.getting_categories) + " :" + receivedCategory.getName());
-                    //showToast(getResources().getString(R.string.getting_categories) + " :" + receivedCategory.getName());
+
                     databaseHelper.addCategory(receivedCategory);
 
 
@@ -367,8 +371,7 @@ public class SplashScreen extends Activity{
                         String itemJson = gson.toJson(menus.get(z));
                         Item receivedItem = gson.fromJson(itemJson, Item.class);
 
-                        //showProcessStatus(getResources().getString(R.string.getting_categories) + " :" + receivedCategory.getName());
-                        //showToast(getResources().getString(R.string.getting_items) + " :" + receivedItem.getName());
+
                         databaseHelper.addItem(receivedItem);
                         List<Image> images = receivedItem.getImages();
                         int imageListSize = images.size();
@@ -425,7 +428,8 @@ public class SplashScreen extends Activity{
 				String deviceId = DevicePreferences.getInstance().getDeviceId();
 
 				DeviceRegister deviceRegister=new DeviceRegister(deviceId,deviceName,passcode);
-
+                dialog.dismiss();
+                showProgress(getResources().getString(R.string.registering_device));
                 if(DevicePreferences.getInstance().isNetworkAvailable()){
                     RestClient.getAdapter().registerDevice(deviceRegister, new Callback<DeviceRegister.Response>() {
 
@@ -433,12 +437,13 @@ public class SplashScreen extends Activity{
                         @Override
                         public void success(DeviceRegister.Response response, Response response2) {
 
+                            hideProgress();
                             String responseJson = gson.toJson(response);
                             DeviceRegister.Response registrationResponse = gson.fromJson(responseJson,DeviceRegister.Response.class);
 
                             if(registrationResponse.status.equals(DeviceRegister.STATUS_SUCCESS)){
                                 DevicePreferences.getInstance().setDeviceRegistrationStatus(true);
-                                dialog.dismiss();
+
                                 DevicePreferences.getInstance().setClientKey(registrationResponse.getKey());
                                 syncData();
                             }
@@ -478,5 +483,16 @@ public class SplashScreen extends Activity{
     private void showToast(String message){
 
         Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+    }
+
+    private void showProgress(String message){
+
+        progressDialog=ProgressDialog.show(this,"",message,false);
+
+    }
+
+    private void hideProgress(){
+
+        progressDialog.dismiss();
     }
 }

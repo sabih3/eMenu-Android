@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -162,7 +163,18 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
     }
 
     private void hideOrderFragment() {
-        view.findViewById(R.id.fragment_order_parent).setVisibility(View.GONE);
+        view.findViewById(R.id.fragment_order_thankyouFrame).setVisibility(View.VISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.findViewById(R.id.fragment_order_parent).setVisibility(View.GONE);
+
+            }
+        }, 6000);
+
+
+
 
     }
 

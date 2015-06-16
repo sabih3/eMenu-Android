@@ -15,6 +15,7 @@
     <string name="add_to_order">Add to order</string>
     <string name="order_placed" type="id">Order placed</string>
     <string name="select_items_prompt">Please select items to order</string>
+    <string name="getting_data">Downloading restaurant data</string>
     <string name="getting_categories">Syncing Categories</string>
     <string name="getting_items">Syncing items</string>
     <string name="hint_enter_passcode">Enter restaurant passcode</string>
@@ -23,5 +24,6 @@
     <string name="settings_button_text">Go to settings</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="no_connection_title">No Network</string>
+    <string name="registering_device">Let us register your device</string>
 
 </resources>

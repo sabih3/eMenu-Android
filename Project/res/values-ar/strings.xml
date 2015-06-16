@@ -24,6 +24,7 @@
     <string name="category_soup">حساء</string>
     <string name="category_beverages">مشروبات</string>
     <string name="category_continental">قاري</string>
+    <string name="registering_device">Let us register your device</string>
 
 
 </resources>

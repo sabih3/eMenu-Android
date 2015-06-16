@@ -29,6 +29,7 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
 
         //actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.action_bar_maroon));
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar)));
+        actionBar.setIcon(R.drawable.dm_logo_white);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));
 
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
