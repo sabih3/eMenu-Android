@@ -53,6 +53,8 @@ public class CategoryAdapter extends BaseAdapter
         View row;
 
         row = layoutInflater.inflate(R.layout.list_item_category, null);
+
+
 //        if(DevicePreferences.getInstance().isRtlLayout()){
 //             row=layoutInflater.inflate(R.layout.list_item_category_rtl,null);
 //        }
@@ -88,14 +90,17 @@ public class CategoryAdapter extends BaseAdapter
 
         categoryName.setText(categoryArrayList.get(position).getName());
 
+        if(categoryArrayList.get(position).isSelected()){
+            row.setBackground(context.getResources().getDrawable(R.drawable.dialog_order_bg));
+            ((TextView) row.findViewById(R.id.list_item_category)).setTextColor(context.getResources()
+                    .getColor(R.color.maroon));
+            categoryArrayList.get(position).setSelected(false);
+        }
 
-//        categoryName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                categoryName.setBackground(context.getResources().getDrawable(R.drawable.dialog_order_bg));
-//                categoryName.setTextColor(context.getResources().getColor(R.color.maroon));
-//            }
-//        });
+        else{
+            row.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+        }
+
         return row;
     }
 }

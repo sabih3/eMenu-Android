@@ -14,6 +14,7 @@ public class Category {
     private String updated_at;
     private String image;
     private byte[] imageBlob;
+    private boolean selected;
     
 
 
@@ -94,5 +95,14 @@ public class Category {
 
     public void setImageBlob(byte[] imageBlob) {
         this.imageBlob = imageBlob;
+    }
+
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

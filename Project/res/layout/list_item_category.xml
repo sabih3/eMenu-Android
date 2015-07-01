@@ -31,5 +31,7 @@
             android:paddingBottom="15dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:id="@+id/list_item_category"/>
+            android:id="@+id/list_item_category"
+            android:textColor="@drawable/category_row_selector"
+            />
 </LinearLayout>

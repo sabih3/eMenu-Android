@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,8 +62,9 @@ public class CategoryItemAdapter extends BaseAdapter {
 
         if(view == null){
             LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view  = inflater.inflate(R.layout.list_item_grid,null);
+            view  = inflater.inflate(R.layout.list_item_grid, null);
             viewHolder=createViewHolder(view);
+
             view.setTag(viewHolder);
 
         }
@@ -73,26 +75,13 @@ public class CategoryItemAdapter extends BaseAdapter {
         }
 
         byte[] imagesBlob = itemList.get(position).getImageBlob();
-
+        viewHolder.position = position;
         if(imagesBlob == null){
-            File cacheDir = context.getCacheDir();
-            String filePath = itemList.get(position).getName()+itemList.get(position).getCreated_at();
-            File cacheFile = new File(cacheDir, filePath);
-            Uri uri= Uri.fromFile(cacheFile);
 
-            try {
-                InputStream fileInputStream=new FileInputStream(cacheFile);
+            new ThumbnailTask(context, position, viewHolder ,itemList)
+            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,null);
 
-                //viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
 
-                viewHolder.itemImage.setImageURI(uri);
-                //viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeFile(cacheFile.getAbsolutePath()));
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-//            viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeByteArray(imagesBlob,0,
-//                    imagesBlob.length));
 
 
         }
@@ -178,6 +167,7 @@ public class CategoryItemAdapter extends BaseAdapter {
         CheckBox gridItemCheckBox;
         LinearLayout listItemGridLayout;
         ImageView itemImage;
+        public int position;
 
 
     }
@@ -188,5 +178,54 @@ public class CategoryItemAdapter extends BaseAdapter {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
+    }
+
+    private static class ThumbnailTask extends AsyncTask{
+
+        private int mPosition;
+        private ViewHolder mHolder;
+        private Context mContext;
+        private ArrayList<Item> mItemList;
+        private File cacheDir;
+        private String filePath;
+        private File cacheFile;
+        private Uri uri;
+        private InputStream fileInputStream;
+
+        public ThumbnailTask(Context context, int position, ViewHolder viewHolder, ArrayList<Item> itemList) {
+            this.mPosition = position;
+            this.mHolder = viewHolder;
+            this.mContext=context;
+            this.mItemList=itemList;
+        }
+
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            cacheDir = mContext.getCacheDir();
+            filePath = mItemList.get(mPosition).getName() + mItemList.get(mPosition).getCreated_at();
+            cacheFile = new File(cacheDir, filePath);
+            uri = Uri.fromFile(cacheFile);
+
+            try {
+                fileInputStream = new FileInputStream(cacheFile);
+
+                //mHolder.itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+
+                //mHolder.itemImage.setImageURI(uri);
+                //viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeFile(cacheFile.getAbsolutePath()));
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            if (mHolder.position == mPosition) {
+                mHolder.itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+            }
+        }
     }
 }
