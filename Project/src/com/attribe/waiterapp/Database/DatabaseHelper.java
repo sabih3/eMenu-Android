@@ -153,9 +153,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ArrayList<Item> itemsList = new ArrayList<Item>();
         SQLiteDatabase db = this.getWritableDatabase();
 
-//        String selectQuery = "Select * from "+ Table_menus.TABLE_MENU_NAME +"where "+ Table_menus.COLUMN_CATEGORY_ID+" = "+categoryId;
+        String selectQuery = "Select * from "+ Table_menus.TABLE_MENU_NAME +"where "+ Table_menus.COLUMN_CATEGORY_ID+" = "+categoryId;
 
-        String selectQuery ="SELECT menus.id, menus.category_id, menus.name, " +
+        String selectQuery2 ="SELECT menus.id, menus.category_id, menus.name, " +
                 "menus.price, menus.description, menus.created_at, " +
                 "menus.updated_at," +
                 "menu_images.menu_id, menu_images.image\n" +
@@ -170,26 +170,46 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String revisedQuery="SELECT m.*, mi.menu_id, mi.image from menus m  left join menu_images mi on m.id = mi.menu_id\n" +
                 "where m.category_id = "+categoryId;
 
-        Cursor cursor = db.rawQuery(revisedQuery, null);
-        ArrayList<Image> itemImages = new ArrayList<>();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
 
 
         if(cursor.moveToFirst()){
 
             do{
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_ID.trim()));
+                String imageQuery="Select * from menu_images where menu_id = "+ id;
+                ArrayList<Image> itemImages = new ArrayList<>();
+                Cursor cursorOfImage = db.rawQuery(imageQuery, null);
+                if(cursorOfImage.moveToFirst()){
+                    do{
+
+                        Integer imageId=cursorOfImage.getInt(cursor.getColumnIndexOrThrow(Table_MenuImages.COLUMN_ID.trim()));
+                        int menu_id=cursorOfImage.getInt(cursorOfImage.getColumnIndexOrThrow(Table_MenuImages.COLUMN_MENU_ID.trim()));
+                        String imageUrl = cursorOfImage.getString(cursorOfImage.getColumnIndexOrThrow(Table_MenuImages.COLUMN_IMAGE.trim()));
+
+                        String createdAt= cursorOfImage.getString(cursorOfImage.getColumnIndexOrThrow(Constants.COLUMN_CREATED_AT.trim()));;
+                        String updatedAt = cursorOfImage.getString(cursorOfImage.getColumnIndexOrThrow(Constants.COLUMN_UPDATED_AT.trim()));;
+                        Image itemImage = new Image(imageId, menu_id, imageUrl,createdAt,updatedAt);
+                        itemImages.add(itemImage);
+
+                    }while(cursorOfImage.moveToNext());
+
+                }
+
+
                 int category_id = cursor.getInt(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_CATEGORY_ID.trim()));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_NAME.trim()));
-                int price = cursor.getInt(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_PRICE.trim()));
+                double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_PRICE.trim()));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow(Table_menus.COLUMN_DESCRIPTION.trim()));
                 String created_at = cursor.getString(cursor.getColumnIndexOrThrow(Constants.COLUMN_CREATED_AT.trim()));
                 String updated_at = cursor.getString(cursor.getColumnIndexOrThrow(Constants.COLUMN_UPDATED_AT.trim()));
-                String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Table_MenuImages.COLUMN_IMAGE.trim()));
+               // String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(Table_MenuImages.COLUMN_IMAGE.trim()));
 
 
                 //byte [] image = cursor.getBlob(cursor.getColumnIndexOrThrow(Table_MenuImages.COLUMN_IMAGE.trim()));
 
-                Item item = new Item(id,name,description,created_at,updated_at,price,category_id,imageUrl);
+                Item item = new Item(id,name,description,price,category_id,created_at,updated_at,itemImages);
                 itemsList.add(item);
 
             }while(cursor.moveToNext());

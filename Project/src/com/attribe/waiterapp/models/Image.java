@@ -8,12 +8,21 @@ import java.io.Serializable;
 public class Image implements Serializable{
 
     private Integer id;
+    private int menu_id;
     private String url;
     private String created_at;
     private String updated_at;
 
     public Image(Integer id, String url, String created_at, String updated_at) {
         this.id = id;
+        this.url = url;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public Image(Integer id, int menu_id,String url, String created_at, String updated_at) {
+        this.id = id;
+        this.menu_id = menu_id;
         this.url = url;
         this.created_at = created_at;
         this.updated_at = updated_at;

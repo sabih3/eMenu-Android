@@ -3,7 +3,7 @@ package com.attribe.waiterapp.models;
 import java.util.ArrayList;
 
 /**
- * Created by Sabih Ahmed on 03-Jun-15.
+ * Created by Sabih Ahmed on new_order-Jun-15.
  */
 public class Data {
 
