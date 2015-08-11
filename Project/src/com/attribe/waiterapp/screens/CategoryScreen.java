@@ -36,6 +36,17 @@ public class CategoryScreen extends ListFragment  {
     OnCategorySelectListener callBack;
     private CategoryAdapter listAdapter;
     private ArrayList<Category> categoryArrayList;
+
+    public CategoryScreen(){
+
+    }
+
+    public void setOnCategorySelecListener(OnCategorySelectListener callBack, int id){
+
+        this.callBack=callBack;
+        callBack.onCategorySelected(id);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,17 +56,7 @@ public class CategoryScreen extends ListFragment  {
         DatabaseHelper mDatabaseHelper = new DatabaseHelper(getActivity());
         categoryArrayList= mDatabaseHelper.getAllCategories();
 
-//        if(DevicePreferences.getInstance().isRtlLayout()){
-//
-//            categoryArrayList.get(0).setName(getString(R.string.category_fastFood));
-//            categoryArrayList.get(1).setName(getString(R.string.category_chinese));
-//            categoryArrayList.get(2).setName(getString(R.string.category_pakistani));
-//            categoryArrayList.get(3).setName(getString(R.string.category_soup));
-//            categoryArrayList.get(4).setName(getString(R.string.category_beverages));
-//            categoryArrayList.get(5).setName(getString(R.string.category_continental));
-//
-//
-//        }
+
 
         listAdapter = new CategoryAdapter(getActivity(), categoryArrayList);
 
@@ -69,7 +70,6 @@ public class CategoryScreen extends ListFragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_category_screen, container,false);
-
 
         return view;
     }

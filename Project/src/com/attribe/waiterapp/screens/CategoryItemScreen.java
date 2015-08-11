@@ -38,6 +38,7 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
     private View listView;
     private GridView gridView;
     Fragment detailFragment;
+    Fragment carouselFragment;
     private OrderFragment orderFragment;
     private ArrayList<Item> itemArrayList;
     private CheckBox gridItemCheckBox;
@@ -111,6 +112,7 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
             }
         }
 
+
         Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
         if(!itemFragment.isVisible()){
 
@@ -125,58 +127,6 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         }
         gridView.setAdapter(adapter);
         gridView.setVisibility(View.VISIBLE);
-
-        /*
-        if (DevicePreferences.getInstance().isRtlLayout()){
-            CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
-
-            if(detailFragment!=null){
-                if(detailFragment.getView()!=null){
-                    detailFragment.getView().setVisibility(View.GONE);
-                }
-            }
-
-            Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_rtl_itemScreen);
-            if(!itemFragment.isVisible()){
-
-                itemFragment.getView().setVisibility(View.VISIBLE);
-                gridView.setVisibility(View.VISIBLE);
-            }
-
-            if( orderFragment != null) {
-                if (orderFragment.isVisible()) {
-                    orderFragment.getView().setVisibility(View.GONE);
-                }
-            }
-            gridView.setAdapter(adapter);
-            gridView.setVisibility(View.VISIBLE);
-        }
-
-        else{
-            CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
-
-            if(detailFragment!=null){
-                if(detailFragment.getView()!=null){
-                    detailFragment.getView().setVisibility(View.GONE);
-                }
-            }
-
-            Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-            if(!itemFragment.isVisible()){
-
-                itemFragment.getView().setVisibility(View.VISIBLE);
-                gridView.setVisibility(View.VISIBLE);
-            }
-
-            if( orderFragment != null) {
-                if (orderFragment.isVisible()) {
-                    orderFragment.getView().setVisibility(View.GONE);
-                }
-            }
-            gridView.setAdapter(adapter);
-            gridView.setVisibility(View.VISIBLE);
-        }*/
-
 
     }
 

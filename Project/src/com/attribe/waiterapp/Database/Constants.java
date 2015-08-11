@@ -10,4 +10,5 @@ public class Constants {
     public static final String TYPE_BYTE = "byte ";
     public static final String TYPE_DATETIME = "DATETIME";
 	public static final String COMMA_SEP =", ";
+    public static final String EXTRA_CATEGORY_ID = "category_id";
 }

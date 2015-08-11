@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:pj="http://schemas.android.com/apk/res/com.attribe.waiterapp"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/table_bg_2"
+                >
+
+    <com.attribe.waiterapp.controls.Carousel
+            android:id="@+id/carousel"
+            android:layout_width="fill_parent"
+            android:layout_height="400dp"
+            pj:UseReflection="false"
+            pj:SelectedItem="0"
+
+            android:animationDuration="200"
+            pj:Items="@array/entries"
+            android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+            android:layout_marginRight="45dp" android:layout_marginTop="93dp"/>
+</RelativeLayout>

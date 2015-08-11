@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <array name="entries">
+        <item>@drawable/chinese</item>
+        <item>@drawable/bbq</item>
+        <item>@drawable/soup</item>
+        <item>@drawable/pizza</item>
+        <item>@drawable/fastfood</item>
+        <item>@drawable/chinese</item>
+        <item>@drawable/bbq</item>
+        <item>@drawable/soup</item>
+        <item>@drawable/pizza</item>
+        <item>@drawable/fastfood</item>
+        <item>@drawable/chinese</item>
+        <item>@drawable/bbq</item>
+
+
+    </array>
+</resources>

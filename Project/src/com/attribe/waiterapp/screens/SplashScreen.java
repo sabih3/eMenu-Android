@@ -68,7 +68,9 @@ public class SplashScreen extends Activity{
 
         else{
 
-            showMenuScreen();
+            //showMenuScreen();
+
+            showCarouselScreen();
 
         }
 
@@ -85,11 +87,11 @@ public class SplashScreen extends Activity{
                     String responseJson = gson.toJson(passCodeResponse);
                     PassCodeResponse responsePasscode = gson.fromJson(responseJson, PassCodeResponse.class);
 
-                    if(responsePasscode.getStatus().equals(PassCodeResponse.RESPONSE_PASSCODE_INVALID)){
+                    if (responsePasscode.getStatus().equals(PassCodeResponse.RESPONSE_PASSCODE_INVALID)) {
                         //TODO: Handle invalid passcode
                     }
 
-                    if(responsePasscode.getStatus().equals(PassCodeResponse.RESPONSE_PASSCODE_SUCCESS)){
+                    if (responsePasscode.getStatus().equals(PassCodeResponse.RESPONSE_PASSCODE_SUCCESS)) {
                         DevicePreferences.getInstance().setClientKey(responsePasscode.getApi_key());
 
                         //registerDevice();
@@ -97,7 +99,6 @@ public class SplashScreen extends Activity{
                         showSetupDialog();
                         //syncData();
                     }
-
 
 
                 }
@@ -159,6 +160,12 @@ public class SplashScreen extends Activity{
 		startActivity(intent);
 		finish();
 	}
+
+    private void showCarouselScreen(){
+        Intent intent = new Intent(SplashScreen.this, CarouselScreen.class);
+        startActivity(intent);
+        finish();
+    }
 
 	private void getItems() {
 		int categoryIdListSize = categoryIdList.size();
@@ -386,7 +393,7 @@ public class SplashScreen extends Activity{
                     }
 
                 }
-                showMenuScreen();
+                showCarouselScreen();
 
             }
 
