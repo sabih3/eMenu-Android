@@ -35,6 +35,7 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         FragmentManager.OnBackStackChangedListener,OnItemAddedToOrder{
 
 
+    private static final String TAG = CategoryItemScreen.class.getSimpleName();
     private View listView;
     private GridView gridView;
     Fragment detailFragment;
@@ -45,6 +46,12 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     private CopyOnWriteArrayList<Order> orderList;
+    private static Activity mActivity;
+    private static View view;
+
+    public CategoryItemScreen(){
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,16 +63,17 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_catergory_items, container, false);
+        view = inflater.inflate(R.layout.fragment_catergory_items, container, false);
         gridView=(GridView)view.findViewById(R.id.item_grid);
         itemArrayList = new ArrayList<Item>();
         CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
-        OrderDialogScreen orderDialogScreen=new OrderDialogScreen();
+        OrderDialogScreen orderDialogScreen = new OrderDialogScreen();
         orderDialogScreen.setOnItemAddedToOrderListener(this);
 
+        updateFragment(getArguments().getLong(com.attribe.waiterapp.Database.Constants.EXTRA_CATEGORY_ID));
        return view;
     }
 
@@ -74,22 +82,24 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
     public void updateFragment(long id){
 
 
-        DatabaseHelper mDatabaseHelper=new DatabaseHelper(getActivity());
-        itemArrayList = mDatabaseHelper.getItemsWithImages(id);
+        if(getActivity() != null){
+            DatabaseHelper mDatabaseHelper=new DatabaseHelper(getActivity());
+            itemArrayList = mDatabaseHelper.getItemsWithImages(id);
+            orderList = OrderContainer.getInstance().getOrderList();
+            if(! orderList.isEmpty()){
 
 
-        orderList = OrderContainer.getInstance().getOrderList();
-        if(! orderList.isEmpty()){
+
+                for(int i = 0 ; i<orderList.size(); i++){
+                    if(orderList.get(i).getItem().getCategory_id()== id){
+                        for(int x = 0; x < itemArrayList.size() ; x++){
+
+                            if(itemArrayList.get(x).getId() == orderList.get(i).getItem().getId()){
+                                itemArrayList.get(x).setSelected(true);
+                                continue;
+                            }
 
 
-
-            for(int i = 0 ; i<orderList.size(); i++){
-                if(orderList.get(i).getItem().getCategory_id()== id){
-                    for(int x = 0; x < itemArrayList.size() ; x++){
-
-                        if(itemArrayList.get(x).getId() == orderList.get(i).getItem().getId()){
-                            itemArrayList.get(x).setSelected(true);
-                            continue;
                         }
 
 
@@ -101,32 +111,100 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
             }
 
+            CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
 
-        }
-
-        CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
-
-        if(detailFragment!=null){
-            if(detailFragment.getView()!=null){
-                detailFragment.getView().setVisibility(View.GONE);
+            if(detailFragment!=null){
+                if(detailFragment.getView()!=null){
+                    detailFragment.getView().setVisibility(View.GONE);
+                }
             }
-        }
 
 
-        Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-        if(!itemFragment.isVisible()){
+            /**
+            Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
+            if(!itemFragment.isVisible()){
 
-            itemFragment.getView().setVisibility(View.VISIBLE);
+                itemFragment.getView().setVisibility(View.VISIBLE);
+                gridView.setVisibility(View.VISIBLE);
+            }
+
+            if( orderFragment != null) {
+                if (orderFragment.isVisible()) {
+                    orderFragment.getView().setVisibility(View.GONE);
+                }
+            }**/
+            gridView.setAdapter(adapter);
             gridView.setVisibility(View.VISIBLE);
+
         }
 
-        if( orderFragment != null) {
-            if (orderFragment.isVisible()) {
-                orderFragment.getView().setVisibility(View.GONE);
+        /**
+        else{
+            DatabaseHelper mDatabaseHelper=new DatabaseHelper(mActivity);
+            itemArrayList = mDatabaseHelper.getItemsWithImages(id);
+
+            orderList = OrderContainer.getInstance().getOrderList();
+            if(! orderList.isEmpty()){
+
+
+
+                for(int i = 0 ; i<orderList.size(); i++){
+                    if(orderList.get(i).getItem().getCategory_id()== id){
+                        for(int x = 0; x < itemArrayList.size() ; x++){
+
+                            if(itemArrayList.get(x).getId() == orderList.get(i).getItem().getId()){
+                                itemArrayList.get(x).setSelected(true);
+                                continue;
+                            }
+
+
+                        }
+
+
+                    }
+
+
+                }
+
+
             }
-        }
-        gridView.setAdapter(adapter);
-        gridView.setVisibility(View.VISIBLE);
+
+            CategoryItemAdapter adapter = new CategoryItemAdapter(mActivity, itemArrayList);
+
+            if(detailFragment!=null){
+                if(detailFragment.getView()!=null){
+                    detailFragment.getView().setVisibility(View.GONE);
+                }
+            }
+
+
+            Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
+            if(!itemFragment.isVisible()){
+
+                itemFragment.getView().setVisibility(View.VISIBLE);
+                gridView.setVisibility(View.VISIBLE);
+            }
+
+            if( orderFragment != null) {
+                if (orderFragment.isVisible()) {
+                    orderFragment.getView().setVisibility(View.GONE);
+                }
+            }
+
+            if(itemFragment instanceof OrderFragment){
+                itemFragment.getView().setVisibility(View.GONE);
+            }
+
+
+
+            gridView= (GridView) view.findViewById(R.id.item_grid);
+            gridView.setAdapter(adapter);
+            gridView.setVisibility(View.VISIBLE);
+        }**/
+
+
+
+
 
     }
 
@@ -134,7 +212,8 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> adapterView, View listView, int i, long l) {
 
-        this.listView=listView;
+        this.listView = listView;
+
         showOrderDialog(itemArrayList.get(i), i);
 
     }
@@ -145,7 +224,11 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
     }
 
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity=activity;
+    }
 
     private void showOrderDialog(Item item, int position) {
         Intent intent = new Intent(getActivity(),OrderDialogScreen.class);
@@ -165,23 +248,29 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
         orderFragment = OrderFragment.getInstance();
 
-
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, orderFragment);
-        //fragmentTransaction.hide(CategoryItemScreen.this);
-        fragmentTransaction.addToBackStack(CategoryItemScreen.class.getName());
+        fragmentTransaction.replace(R.id.fragment_container_items, orderFragment);
         fragmentTransaction.commit();
+
 
     }
 
 
     @Override
-    public void onItemAdded(int position,int itemQuantity) {
+    public void onItemAdded (int position,int itemQuantity) {
 
         CheckBox itemCheckBox = (CheckBox) listView.findViewById(R.id.grid_item_check);
         itemArrayList.get(position).setSelected(true);
         itemArrayList.get(position).setDesiredQuantity(itemQuantity);
         //itemCheckBox.setButtonDrawable(R.drawable.tick_green);
        itemCheckBox.setChecked(true);
+    }
+
+    public static CategoryItemScreen getInstance() {
+
+        CategoryItemScreen categoryItemScreen = new CategoryItemScreen();
+
+        return categoryItemScreen;
+
     }
 }

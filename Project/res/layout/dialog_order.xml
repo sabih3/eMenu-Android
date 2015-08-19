@@ -65,10 +65,22 @@
                   android:layout_marginTop="20dp"
                   android:layout_centerInParent="true">
 
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Clear menu"
-                android:padding="10dp"
-                android:background="@drawable/button_orange_bg"/>
+        <Button android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:text="-"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_black_bg"/>
+
+
+        <Button android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:text="+"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_black_bg"/>
 
 
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content"

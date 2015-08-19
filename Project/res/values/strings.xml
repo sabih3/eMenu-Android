@@ -25,5 +25,10 @@
     <string name="cancel_button_text">Cancel</string>
     <string name="no_connection_title">No Network</string>
     <string name="registering_device">Let us register your device</string>
+    <string name="cheff_description">We made this dish(and the chilli paste) using Tesco mixed chillies and it was FAR
+        too Spicy !! My husband really liked it but it blew my head off!!
+    </string>
+    <string name="cheff_name">Cooking Jenny</string>
+    <string name="items">item(s)</string>
 
 </resources>

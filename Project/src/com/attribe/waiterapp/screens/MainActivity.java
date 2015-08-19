@@ -1,20 +1,37 @@
 package com.attribe.waiterapp.screens;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
+
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import com.attribe.waiterapp.Database.Constants;
+import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
 import android.support.v4.app.FragmentActivity;
+import com.attribe.waiterapp.adapters.CategoryItemAdapter;
+import com.attribe.waiterapp.models.Item;
+import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.utils.ExceptionHanlder;
+import com.attribe.waiterapp.utils.OrderContainer;
+
+import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainActivity extends FragmentActivity implements CategoryScreen.OnCategorySelectListener,
         FragmentManager.OnBackStackChangedListener{
+
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private CategoryItemScreen dynamicFragment;
+    private ArrayList<Item> itemArrayList;
+    private CopyOnWriteArrayList<Order> orderList;
 
     /**
      * Called when the activity is first created.
@@ -49,10 +66,13 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
     @Override
     public void onBackPressed() {
         //If Grid of Items is visible, hide that
+
+        TODO://Removed Hardcoded fragment
+        /**
         CategoryItemScreen itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
         if(itemFragment.getView().getVisibility() == View.VISIBLE){
             itemFragment.getView().setVisibility(View.GONE);
-        }
+        }**/
 
         //TODO: REMOVE THIS FOR PRODUCTION BUILD
         this.finish();
@@ -61,22 +81,70 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
 
     @Override
     public void onCategorySelected(long id) {
+
+        Bundle args = new Bundle();
+        args.putLong(Constants.EXTRA_CATEGORY_ID,id);
+        CategoryItemScreen itemScreen = CategoryItemScreen.getInstance();
+        itemScreen.setArguments(args);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container_items, itemScreen)
+                .commit();
+
+
+        //  CategoryItemScreen.getInstance().updateFragment(id);
+
+
+
+
+
         //Show Grid of items of required category
-        CategoryItemScreen itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-        itemFragment.updateFragment(id);
+
+        //TODO:Removed HardCoded Fragment
+        //Fragment callingFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
 
 
-//        if(DevicePreferences.getInstance().isRtlLayout()){
-//            CategoryItemScreen itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_rtl_itemScreen);
-//            itemFragment.updateFragment(id);
-//        }
-//        else{
-//            CategoryItemScreen itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-//            itemFragment.updateFragment(id);
-//        }
+        /**
+        if(callingFragment instanceof CategoryItemScreen){
 
+
+            CategoryItemScreen itemFragment=null;
+            itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
+            itemFragment.updateFragment(id);
+        }
+
+        else if(callingFragment instanceof OrderFragment){
+            fragmentManager = getSupportFragmentManager();
+            dynamicFragment = CategoryItemScreen.getInstance();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_items, dynamicFragment);
+            fragmentTransaction.commit();
+
+            if(getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen) instanceof OrderFragment){
+
+
+                CategoryItemScreen categoryFragment;
+                categoryFragment=(CategoryItemScreen)(dynamicFragment);
+                categoryFragment.updateFragment(id);
+            }**/
+
+
+            /**
+            //User in on order screen, and has tapped any of the category item
+            OrderFragment itemFragment = null;
+            itemFragment = (OrderFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
+            //hiding the Order screen
+            itemFragment.getView().findViewById(R.id.fragment_order_amountLayout).setVisibility(View.GONE);
+            //fetching the items of desired category
+            itemFragment.updateFragment(id);
+            **/
+
+       // }
 
     }
+
+
 
     @Override
     public void onBackStackChanged() {
@@ -106,18 +174,18 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
 
     private void showOrderFragment() {
 
+        fragmentManager = getSupportFragmentManager();
 
+        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen));
+//        fragmentTransaction.add(R.id.fragment_container_items, OrderFragment.getInstance());
+        fragmentTransaction.replace(R.id.fragment_container_items, OrderFragment.getInstance());
+        fragmentTransaction.commit();
+
+        /**
         CategoryItemScreen itemScreen= (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
         itemScreen.showOrderFragment();
-
-//        if(DevicePreferences.getInstance().isRtlLayout()){
-//            CategoryItemScreen itemScreen= (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_rtl_itemScreen);
-//            itemScreen.showOrderFragment();
-//        }
-//        else{
-//            CategoryItemScreen itemScreen= (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-//            itemScreen.showOrderFragment();
-//        }
+        **/
 
 
     }

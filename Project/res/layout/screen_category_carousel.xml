@@ -4,18 +4,36 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="@drawable/table_bg_2"
+                android:background="@drawable/table_background"
                 >
 
+
+<FrameLayout android:layout_width="match_parent" android:layout_height="650dp">
     <com.attribe.waiterapp.controls.Carousel
             android:id="@+id/carousel"
-            android:layout_width="fill_parent"
-            android:layout_height="400dp"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginTop="200dp"
             pj:UseReflection="false"
             pj:SelectedItem="0"
-
             android:animationDuration="200"
             pj:Items="@array/entries"
-            android:layout_alignParentTop="true" android:layout_alignParentRight="true"
-            android:layout_marginRight="45dp" android:layout_marginTop="93dp"/>
+
+            />
+
+    <ImageView android:layout_width="match_parent" android:layout_height="650dp"
+               android:background="@drawable/glasses"
+
+            />
+
+</FrameLayout>
+
+
+
+
+
+
+
+
+
 </RelativeLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp">
+
+
+
+    <TextView
+            android:id="@+id/dialog_order_totalPrice"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Total: 30.00"
+            android:textColor="@color/maroon"
+            android:textSize="40sp"
+            />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+        <Button
+                android:id="@+id/buttonDecrement"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp"
+                android:text="-"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_black_bg"/>
+
+
+        <Button
+                android:id="@+id/buttonIncrement"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="+"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_black_bg"/>
+
+        <TextView
+                  android:id="@+id/textViewQuantity"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="20dp"
+                  android:textSize="20sp"/>
+
+    </LinearLayout>
+    <NumberPicker
+            android:id="@+id/dialog_order_numberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="100dp"
+            android:layout_below="@+id/dialog_order_totalPrice"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>
+
+    <TextView
+            android:id="@+id/dialog_order_itemDesc"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="include medium fries and soft drink , a lovely combination to fight with the hunger"
+            android:maxLines="4"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            />
+
+    <Button
+            android:id="@+id/button"
+            android:layout_width="370dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/add_to_order"
+            android:background="@drawable/button_maroon_bg"
+            android:onClick="addCart"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            />
+
+    <TextView
+            android:id="@+id/cheffSuggestion"
+            android:layout_marginTop="50dp"
+            android:layout_width="400dp"
+            android:layout_height="80dp"
+            android:text="' This is not your average chicken burger-with a soy, sesame and honey marinade this humble BBQ '"
+            android:textColor="@color/maroon"
+            android:textSize="20sp"
+            android:maxLines="3"
+            android:textAlignment="center"
+            />
+
+</LinearLayout>

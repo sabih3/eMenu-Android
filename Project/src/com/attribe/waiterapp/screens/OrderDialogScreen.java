@@ -1,41 +1,44 @@
 package com.attribe.waiterapp.screens;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.NumberPicker;
-import android.widget.TextView;
+import android.widget.*;
+import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
-import com.attribe.waiterapp.adapters.CategoryAdapter;
-import com.attribe.waiterapp.adapters.CategoryItemAdapter;
+import com.attribe.waiterapp.adapters.ImageAdapter;
 import com.attribe.waiterapp.interfaces.OnItemAddedToOrder;
 import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
-import com.attribe.waiterapp.models.CartItem;
+import com.attribe.waiterapp.interfaces.QuantityPicker;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.utils.OrderContainer;
 import com.attribe.waiterapp.utils.Constants;
-import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Sabih Ahmed on 5/14/2015.
  */
-public class OrderDialogScreen extends Activity implements NumberPicker.OnValueChangeListener{
+public class OrderDialogScreen extends Activity implements NumberPicker.OnValueChangeListener,QuantityPicker{
 
-    private TextView textViewItemName, textViewTotalPrice, textViewItemPrice;
+    private TextView textViewItemName,
+            textViewTotalPrice,
+            textViewItemPrice,
+            textViewQuantity,
+            textViewCategoryName;
     private NumberPicker pricePicker;
     private ImageView itemImage;
-    private CheckBox removeButton;
+    private ImageView backButton;
     private Item item;
     private Intent i;
     private int itemQuantity;
@@ -43,6 +46,22 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     private static CopyOnWriteArrayList<Order> orderList;
     private static OnQuantityChangeListener quantityChangeListener;
     private static OnItemAddedToOrder onItemAddedToOrder;
+    private ListView galleryList;
+    private ArrayList<Item> item_imageArrayList;
+    private Button buttonIncrement;
+    private Button buttonDecrement;
+
+    public Context mContext;
+    public File cacheDir;
+    public String filePath;
+    public File cacheFile;
+    public Uri uri;
+    public InputStream fileInputStream;
+
+    private QuantityPicker quantityPicker;
+    private int initialQuantity;
+    private int newQuantity;
+
     public OrderDialogScreen(){
 
     }
@@ -58,10 +77,16 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_order_new);
+        //setContentView(R.layout.dialog_order_new);
+
+        setContentView(R.layout.detail_full_screen);
+
         initContent();
 
+        quantityPicker=this;
+
     }
+
 
     private void initContent() {
         i = getIntent();
@@ -71,25 +96,50 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         textViewItemName = (TextView)findViewById(R.id.dialog_order_itemName);
         textViewItemPrice = (TextView)findViewById(R.id.dialog_order_totalPrice);
         textViewTotalPrice = (TextView) findViewById(R.id.dialog_order_totalPrice);
+        textViewQuantity = (TextView)findViewById(R.id.textViewQuantity);
+        textViewCategoryName = (TextView)findViewById(R.id.dialog_order_categoryName);
+
         pricePicker=(NumberPicker)findViewById(R.id.dialog_order_numberPicker);
         pricePicker.setMinValue(1);
         pricePicker.setMaxValue(100);
         pricePicker.setOnValueChangedListener(this);
-        removeButton=(CheckBox)findViewById(R.id.dialog_order_removeButton);
 
-        removeButton.setOnClickListener(new View.OnClickListener() {
+        buttonDecrement = (Button)findViewById(R.id.buttonDecrement);
+        buttonIncrement=(Button)findViewById(R.id.buttonIncrement);
 
-            @Override
-            public void onClick(View view) {
+        buttonDecrement.setOnClickListener(new QuantityDecrementListener());
+        buttonIncrement.setOnClickListener(new QuantityIncrementListener());
 
-                finish();
-            }
-        });
+        //////Gallery of images [start]
+        //vertical list of item images
+        galleryList = (ListView)findViewById(R.id.imageGalleryViewList);
+        item_imageArrayList = new ArrayList<Item>();
+        DatabaseHelper mDatabaseHelper=new DatabaseHelper(this);
+
+        //fetching items
+        item_imageArrayList = mDatabaseHelper.getItemsWithImages(item.getCategory_id());
+
+        galleryList.setAdapter(new ImageAdapter(this,item_imageArrayList));
+
+        cacheDir = OrderDialogScreen.this.getCacheDir();
+        galleryList.setOnItemClickListener(new GalleryClickListener());
+        //////Gallery Of Images [end]
+
+        backButton =(ImageView)findViewById(R.id.dialog_order_removeButton);
+
+        backButton.setOnClickListener(new BackButtonListener());
+
+        //////Initializing values
         initValues();
 
     }
 
+    /**This method initializes & renders the necessary information
+     * to the view such as item name, item price, item images, quantity etc
+     *
+     */
     private void initValues() {
+        ////setting item name and Price
         textViewItemName.setText(item.getName());
         textViewItemPrice.setText(String.valueOf(item.getPrice()));
 
@@ -98,15 +148,21 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
             //itemImage.setImageBitmap(BitmapFactory.decodeByteArray(item.getImageBlob(),0,item.getImageBlob().length));
         }
 
-
+        //////Iterate through order list to check if current item is already present in order list
+        ////// if it is found, set the price and quantity according to that of order
         if(!OrderContainer.getInstance().getOrderList().isEmpty()){
 
+            ////iterating through order list
             for(Order order: OrderContainer.getInstance().getOrderList() ){
 
+                ////if current item is found in order list
                 if(order.getItem().getId()== item.getId()){
 
+
+                    ////set its price & quantity
                     pricePicker.setValue(order.getQuantityValue());
                     itemQuantity = order.getQuantityValue();
+                    setQuantityView(itemQuantity);
 
                 }
 //                else{
@@ -115,21 +171,36 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 //                }
             }
         }
+
+        ////if not present in order, set the default price & quantity
         else{
             pricePicker.setValue(1);
             itemQuantity = 1;
+            setQuantityView(itemQuantity);
         }
 
-        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " + String.valueOf(item.getPrice()));
+        ////set Total price View according to quantity
+        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " +
+                String.valueOf(getPrice(itemQuantity, item.getPrice())));
+    }
+
+    private void setQuantityView(int itemQuantity) {
+        textViewQuantity.setText(Integer.toString(itemQuantity)+" "+getString(R.string.items));
     }
 
     @Override
     public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
-        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " + String.valueOf(getPrice(newVal, item.getPrice())));
+        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " +
+                String.valueOf(getPrice(newVal, item.getPrice())));
         itemQuantity = newVal;
 
+    }
 
-
+    @Override
+    public void onQuantityValueChange(int oldVal, int newVal) {
+        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " + String.valueOf(getPrice(newVal, item.getPrice())));
+        itemQuantity = newVal;
+        setQuantityView(itemQuantity);
     }
 
     private double getPrice(int newVal, double price) {
@@ -199,4 +270,68 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     }
 
 
+
+
+    private class GalleryClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            filePath =  item_imageArrayList.get(position).getName()+ item_imageArrayList.get(position).getCreated_at();
+            cacheFile = new File(cacheDir, filePath);
+            uri = Uri.fromFile(cacheFile);
+
+            try {
+                // display the images selected
+                fileInputStream = new FileInputStream(cacheFile);
+                ImageView imageView = (ImageView) findViewById(R.id.dialog_order_image);
+
+                imageView.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+
+            } catch (FileNotFoundException e) {
+                //handle exception here
+            }
+        }
+    }
+
+    private class QuantityIncrementListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+
+            initialQuantity=itemQuantity;
+            itemQuantity ++;
+
+            newQuantity = itemQuantity;
+
+            quantityPicker.onQuantityValueChange(initialQuantity,newQuantity);
+
+        }
+    }
+
+    private class QuantityDecrementListener implements View.OnClickListener {
+
+
+        @Override
+        public void onClick(View view) {
+
+            if(itemQuantity > 1 && itemQuantity!=0){
+                initialQuantity = itemQuantity;
+
+                itemQuantity--;
+                newQuantity = itemQuantity;
+
+                quantityPicker.onQuantityValueChange(initialQuantity,newQuantity);
+            }
+
+
+        }
+    }
+
+    private class BackButtonListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            finish();
+        }
+    }
 }

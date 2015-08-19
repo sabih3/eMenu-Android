@@ -950,7 +950,9 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
         }
 
         // Track the motion
-        trackMotionScroll(-1 * (int) distanceX);
+        //TODO: Sabih had changed below from -ve multiplier to positive multiplier
+        //This effected the scrolling as needed
+        trackMotionScroll(1 * (int) distanceX);
 
         mIsFirstScroll = false;
         return true;

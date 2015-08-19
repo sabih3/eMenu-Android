@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
+import com.attribe.waiterapp.adapters.CategoryItemAdapter;
 import com.attribe.waiterapp.adapters.OrderAdapter;
 import com.attribe.waiterapp.interfaces.OnItemRemoveListener;
 import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
@@ -41,6 +43,8 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
     private TextView totalText, totalPrice;
     private Button confirmButton;
     View view;
+    private ArrayList<Item> itemArrayList;
+    private static OrderFragment orderFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +80,7 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
     }
 
     public static OrderFragment getInstance(){
-        OrderFragment orderFragment = new OrderFragment();
+        orderFragment = new OrderFragment();
 
         return orderFragment;
     }
@@ -208,6 +212,66 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
         //String deviceId = "QWERTY111";
 
         return deviceId;
+    }
+
+    public void updateFragment(long id){
+
+
+        DatabaseHelper mDatabaseHelper=new DatabaseHelper(getActivity());
+        itemArrayList = mDatabaseHelper.getItemsWithImages(id);
+
+
+        orderList = OrderContainer.getInstance().getOrderList();
+        if(! orderList.isEmpty()){
+
+
+
+            for(int i = 0 ; i<orderList.size(); i++){
+                if(orderList.get(i).getItem().getCategory_id()== id){
+                    for(int x = 0; x < itemArrayList.size() ; x++){
+
+                        if(itemArrayList.get(x).getId() == orderList.get(i).getItem().getId()){
+                            itemArrayList.get(x).setSelected(true);
+                            continue;
+                        }
+
+
+                    }
+
+
+                }
+
+
+            }
+
+
+        }
+
+        CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
+
+        /**
+        if(detailFragment!=null){
+            if(detailFragment.getView()!=null){
+                detailFragment.getView().setVisibility(View.GONE);
+            }
+        }**/
+
+
+//        Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
+//        if(!itemFragment.isVisible()){
+//
+//            itemFragment.getView().setVisibility(View.VISIBLE);
+//            ordergrid.setVisibility(View.VISIBLE);
+//        }
+
+//        if( orderFragment != null) {
+//            if (orderFragment.isVisible()) {
+//                orderFragment.getView().setVisibility(View.GONE);
+//            }
+//        }
+        ordergrid.setAdapter(adapter);
+        ordergrid.setVisibility(View.VISIBLE);
+
     }
 
     private ArrayList<order_detail> getOrderDetail(CopyOnWriteArrayList<Order> orderList){
