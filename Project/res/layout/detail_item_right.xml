@@ -79,11 +79,13 @@
             android:textColor="#000000"
             />
 
+
+
     <Button
             android:id="@+id/button"
-            android:layout_width="370dp"
+            android:layout_width="390dp"
             android:layout_height="60dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="170dp"
             android:text="@string/add_to_order"
             android:background="@drawable/button_maroon_bg"
             android:onClick="addCart"
@@ -92,8 +94,20 @@
             />
 
     <TextView
-            android:id="@+id/cheffSuggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-McFadden says"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:layout_marginRight="65dp"
+            android:textAlignment="center"
             android:layout_marginTop="50dp"
+            android:layout_marginLeft="80dp"
+            android:textColor="#000000"/>
+
+    <TextView
+            android:id="@+id/cheffSuggestion"
+            android:layout_marginTop="20dp"
             android:layout_width="400dp"
             android:layout_height="80dp"
             android:text="' This is not your average chicken burger-with a soy, sesame and honey marinade this humble BBQ '"

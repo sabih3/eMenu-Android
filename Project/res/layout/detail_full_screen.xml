@@ -12,7 +12,7 @@
               android:background="@color/white">
 
     <LinearLayout android:layout_width="0dp"
-                  android:layout_weight="2"
+                  android:layout_weight="2.05"
                   android:layout_height="match_parent"
                   android:orientation="vertical"
             >
@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_action_previous_item"
-                    />
+                    android:layout_marginLeft="10dp" />
             <TextView
                     android:id="@+id/dialog_order_categoryName"
                     android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
                       android:layout_marginLeft="50dp"
-                >
+               android:background="#ffffff" >
 
 
         <TextView
@@ -59,17 +59,21 @@
                 android:textAllCaps="true"
                 android:textStyle="bold"/>
 
+
+
+
+
         <LinearLayout
-                android:layout_width="620dp"
+                android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:orientation="horizontal">
 
             <FrameLayout
                     android:id="@+id/order_image_frame"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="620dp"
+                    android:layout_height="390dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
+
                     android:layout_marginTop="5dp"
                     android:background="@drawable/dialog_order_image_bg"
                     android:focusable="false" >
@@ -77,7 +81,7 @@
                 <ImageView
                         android:id="@+id/dialog_order_image"
                         android:layout_width="610dp"
-                        android:layout_height="390dp"
+                        android:layout_height="380dp"
                         android:layout_gravity="center"
                         android:src="@drawable/sample_burger1_no_bg"
                         android:scaleType="centerCrop"    />
@@ -85,9 +89,13 @@
 
             <ListView
                     android:id="@+id/imageGalleryViewList"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    >
+                    android:layout_width="140dp"
+                    android:layout_height="390dp"
+                    android:divider="#ffffff"
+                    android:dividerHeight="20.0sp"
+                    android:background="#ffffff"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp">
 
             </ListView>
 
@@ -170,7 +178,7 @@
                         android:text="@string/cheff_description"
                         android:textSize="20sp"
                         android:maxLines="3"
-                        />
+                        android:textColor="#000000"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
