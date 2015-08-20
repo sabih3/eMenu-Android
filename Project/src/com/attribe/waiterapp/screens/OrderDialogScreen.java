@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.*;
 import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
@@ -76,9 +77,9 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.dialog_order_new);
 
+        super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.detail_full_screen);
 
         initContent();
