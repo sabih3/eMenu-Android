@@ -7,19 +7,43 @@
                 android:background="@drawable/table_background"
                 >
 
-
 <FrameLayout android:layout_width="match_parent" android:layout_height="650dp">
+
     <com.attribe.waiterapp.controls.Carousel
             android:id="@+id/carousel"
             android:layout_width="match_parent"
             android:layout_height="450dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="220dp"
             pj:UseReflection="false"
             pj:SelectedItem="0"
             android:animationDuration="200"
             pj:Items="@array/entries"
 
             />
+    <!--without Label final
+    <com.attribe.waiterapp.controls.Carousel
+            android:id="@+id/carousel"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginTop="220dp"
+            pj:UseReflection="false"
+            pj:SelectedItem="0"
+            android:animationDuration="200"
+            pj:Items="@array/entries"
+
+            />!-->
+    <!--with Label
+    <com.attribe.waiterapp.controls.Carousel
+            android:id="@+id/carousel"
+            android:layout_width="match_parent"
+            android:layout_height="675dp"
+            android:layout_marginTop="100dp"
+            pj:UseReflection="false"
+            pj:SelectedItem="0"
+            android:animationDuration="200"
+            pj:Items="@array/entries"
+
+            />!-->
 
     <ImageView android:layout_width="match_parent" android:layout_height="650dp"
                android:background="@drawable/glasses"
