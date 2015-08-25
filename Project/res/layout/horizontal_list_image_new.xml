@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#ffffff" 
+    android:layout_gravity="center">
+    
+    
+     <FrameLayout android:layout_width="300dp"
+                     android:layout_height="200dp"
+                     android:layout_gravity="center"
+                     android:background="@drawable/dialog_order_image_bg" 
+                     android:focusable="false">
+    
+    
+            <ImageView
+                    
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/sample_burger1_no_bg"
+                    android:id="@+id/dialog_menu_image"
+                    android:layout_gravity="center"
+                
+                    />
+    
+
+             </FrameLayout>
+</LinearLayout>

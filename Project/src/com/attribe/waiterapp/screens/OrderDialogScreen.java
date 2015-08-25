@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -14,10 +17,18 @@ import com.attribe.waiterapp.adapters.ImageAdapter;
 import com.attribe.waiterapp.interfaces.OnItemAddedToOrder;
 import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
 import com.attribe.waiterapp.interfaces.QuantityPicker;
+import com.attribe.waiterapp.models.Image;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.utils.OrderContainer;
 import com.attribe.waiterapp.utils.Constants;
+
+import android.graphics.Bitmap;
+
+import android.widget.ImageView;
+import com.joooonho.SelectableRoundedImageView;
+import com.pkmmte.circularimageview.CircularImageView;
+//import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +50,8 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     private NumberPicker pricePicker;
     private ImageView itemImage;
     private ImageView backButton;
+    private TextView backCatButton;
+//    private ImageView cheffImageView;
     private Item item;
     private Intent i;
     private int itemQuantity;
@@ -50,6 +63,10 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     private ArrayList<Item> item_imageArrayList;
     private Button buttonIncrement;
     private Button buttonDecrement;
+
+ //   CircularImageView circularImageView;
+     // CircularImageView circularImageView ;
+    SelectableRoundedImageView circularImageView ;
 
     public Context mContext;
     public File cacheDir;
@@ -93,10 +110,25 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         item = (Item) i.getSerializableExtra(Constants.KEY_SERIALIZEABLE_ITEM_OBJECT);
         position = i.getIntExtra(Constants.KEY_ITEM_POSITION, -1);
         itemImage = (ImageView)findViewById(R.id.dialog_order_image);
+
+
+
+//        circularImageView = (CircularImageView)findViewById(R.id.circularCheffImage);
+        circularImageView = (SelectableRoundedImageView)findViewById(R.id.circularCheffImage);
+//        circularImageView.setCornerRadiiDP(4, 4, 0, 0);
+//        circularImageView.setBorderWidthDP(4);
+//        circularImageView.setBorderColor(Color.BLUE);
+        circularImageView.setImageResource(R.drawable.gulzar1);
+//        circularImageView.setImageResource(R.drawable.chef1);
+//        circularImageView.setBackgroundColor(Color.TRANSPARENT);
+
+
+
         textViewItemName = (TextView)findViewById(R.id.dialog_order_itemName);
         textViewItemPrice = (TextView)findViewById(R.id.dialog_order_totalPrice);
         textViewTotalPrice = (TextView) findViewById(R.id.dialog_order_totalPrice);
         textViewQuantity = (TextView)findViewById(R.id.textViewQuantity);
+
         textViewCategoryName = (TextView)findViewById(R.id.dialog_order_categoryName);
 
         pricePicker=(NumberPicker)findViewById(R.id.dialog_order_numberPicker);
@@ -126,8 +158,10 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         //////Gallery Of Images [end]
 
         backButton =(ImageView)findViewById(R.id.dialog_order_removeButton);
-
         backButton.setOnClickListener(new BackButtonListener());
+
+        backCatButton = (TextView)findViewById(R.id.dialog_order_categoryName);
+        backCatButton.setOnClickListener(new BackButtonListener());
 
         //////Initializing values
         initValues();
@@ -140,6 +174,7 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
      */
     private void initValues() {
         ////setting item name and Price
+        //textViewCategoryName.setText(item.getCategory_id());
         textViewItemName.setText(item.getName());
         textViewItemPrice.setText(String.valueOf(item.getPrice()));
 
@@ -180,8 +215,9 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         }
 
         ////set Total price View according to quantity
-        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " +
-                String.valueOf(getPrice(itemQuantity, item.getPrice())));
+//        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " +
+//                String.valueOf(getPrice(itemQuantity, item.getPrice())));
+        textViewTotalPrice.setText(String.valueOf(getPrice(itemQuantity, item.getPrice())));
     }
 
     private void setQuantityView(int itemQuantity) {
@@ -190,15 +226,14 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 
     @Override
     public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
-        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " +
-                String.valueOf(getPrice(newVal, item.getPrice())));
+        textViewTotalPrice.setText(String.valueOf(getPrice(newVal, item.getPrice())));
         itemQuantity = newVal;
 
     }
 
     @Override
     public void onQuantityValueChange(int oldVal, int newVal) {
-        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " + String.valueOf(getPrice(newVal, item.getPrice())));
+        textViewTotalPrice.setText(String.valueOf(getPrice(newVal, item.getPrice())));
         itemQuantity = newVal;
         setQuantityView(itemQuantity);
     }
