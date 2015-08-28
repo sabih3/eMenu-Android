@@ -13,7 +13,7 @@
             android:id="@+id/mainScreen_categoryList"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.95"
+            android:layout_weight="0.85"
             class = "com.attribe.waiterapp.screens.CategoryScreen"
 
             />
@@ -21,7 +21,7 @@
     <FrameLayout
                   android:id="@+id/fragment_container_items"
                   android:layout_width="0dp"
-                  android:layout_weight="2.05"
+                  android:layout_weight="2.15"
                   android:layout_height="match_parent">
         <!--
         <fragment
