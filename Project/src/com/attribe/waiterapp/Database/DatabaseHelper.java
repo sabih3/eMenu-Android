@@ -220,11 +220,26 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
 
-//    public void getItems(long category_id){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.rawQuery("Select * from ")
-//
-//    }
+    public String getCategoryName(int categoryId){
+
+        String categoryName = "";
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query="Select "+TABLE_CATEGORIES.COLUMN_NAME+" "+"from "+TABLE_CATEGORIES.TABLE_NAME_CATEGORIES+" "+
+                "where "+TABLE_CATEGORIES.COLUMN_ID+" "+"= "+categoryId;
+
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()){
+
+            categoryName = cursor.getString(cursor.getColumnIndexOrThrow(TABLE_CATEGORIES.COLUMN_NAME.trim()));
+
+
+        }
+
+        cursor.close();
+
+        return categoryName;
+    }
+
 	public void clearCategoryTable() {
 		
 		deleteQuery(TABLE_CATEGORIES.TABLE_NAME_CATEGORIES);

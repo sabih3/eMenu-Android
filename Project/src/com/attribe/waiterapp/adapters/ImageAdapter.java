@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,6 +19,7 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 
 import com.attribe.waiterapp.R;
+import com.attribe.waiterapp.models.Image;
 import com.attribe.waiterapp.models.Item;
 
 
@@ -26,7 +28,7 @@ public class ImageAdapter extends BaseAdapter {
 	private int itemBackground;
 	
 	private Context mContext;
-    private ArrayList<Item> item_imageArrayList;
+    private List<Image> item_imageArrayList;
     private LayoutInflater inflater = null;
     
 	 private File cacheDir;
@@ -34,12 +36,16 @@ public class ImageAdapter extends BaseAdapter {
 	 private File cacheFile;
 	 private Uri uri;
 	 private InputStream fileInputStream;
+     private String itemName;
+     private String itemCreatedAt;
 	
 	
-	public ImageAdapter(Context context , ArrayList<Item> itemList){
+	public ImageAdapter(Context context , List<Image> itemList,String itemName, String itemCreatedAt){
 	
-        this.mContext=context;
-        this.item_imageArrayList=itemList;
+        this.mContext = context;
+        this.item_imageArrayList = itemList;
+        this.itemName = itemName;
+        this.itemCreatedAt = itemCreatedAt;
 
 	}
 	
@@ -81,7 +87,7 @@ public class ImageAdapter extends BaseAdapter {
 		}
 		
 		cacheDir = mContext.getCacheDir();
-		filePath =  item_imageArrayList.get(position).getName()+ item_imageArrayList.get(position).getCreated_at();
+		filePath =  itemName+ item_imageArrayList.get(position).getCreated_at();
 		cacheFile = new File(cacheDir, filePath);
         uri = Uri.fromFile(cacheFile);
         
@@ -92,7 +98,8 @@ public class ImageAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-		viewHolder.imageViewItem.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+        viewHolder.imageViewItem.setImageURI(uri);
+		//viewHolder.imageViewItem.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
 
 		return view;
 	}

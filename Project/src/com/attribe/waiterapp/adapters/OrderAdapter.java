@@ -131,7 +131,7 @@ public class OrderAdapter extends BaseAdapter{
     private Uri getImage(Order order){
         File cacheDir = mContext.getCacheDir();
 
-        String filePath = order.getItem().getName()+order.getItem().getCreated_at();
+        String filePath = order.getItem().getName()+order.getItem().getImages().get(0).getCreated_at();
         File imageFile = new File(cacheDir,filePath);
 
         Uri uri=Uri.fromFile(imageFile);

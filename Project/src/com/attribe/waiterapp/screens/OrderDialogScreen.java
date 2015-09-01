@@ -15,6 +15,7 @@ import com.attribe.waiterapp.adapters.ImageAdapter;
 import com.attribe.waiterapp.interfaces.OnItemAddedToOrder;
 import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
 import com.attribe.waiterapp.interfaces.QuantityPicker;
+import com.attribe.waiterapp.models.Image;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.utils.OrderContainer;
@@ -25,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -58,7 +60,7 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     public File cacheFile;
     public Uri uri;
     public InputStream fileInputStream;
-
+    public DatabaseHelper databaseHelper;
     private QuantityPicker quantityPicker;
     private int initialQuantity;
     private int newQuantity;
@@ -91,6 +93,7 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 
     private void initContent() {
         i = getIntent();
+        databaseHelper = new DatabaseHelper(this);
         item = (Item) i.getSerializableExtra(Constants.KEY_SERIALIZEABLE_ITEM_OBJECT);
         position = i.getIntExtra(Constants.KEY_ITEM_POSITION, -1);
         itemImage = (ImageView)findViewById(R.id.dialog_order_image);
@@ -114,13 +117,8 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         //////Gallery of images [start]
         //vertical list of item images
         galleryList = (ListView)findViewById(R.id.imageGalleryViewList);
-        item_imageArrayList = new ArrayList<Item>();
-        DatabaseHelper mDatabaseHelper=new DatabaseHelper(this);
 
-        //fetching items
-        item_imageArrayList = mDatabaseHelper.getItemsWithImages(item.getCategory_id());
-
-        galleryList.setAdapter(new ImageAdapter(this,item_imageArrayList));
+        galleryList.setAdapter(new ImageAdapter(this,item.getImages(),item.getName(),item.getCreated_at()));
 
         cacheDir = OrderDialogScreen.this.getCacheDir();
         galleryList.setOnItemClickListener(new GalleryClickListener());
@@ -148,6 +146,9 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
             itemImage.setImageURI(getImageUri(item));
             //itemImage.setImageBitmap(BitmapFactory.decodeByteArray(item.getImageBlob(),0,item.getImageBlob().length));
         }
+
+
+        textViewCategoryName.setText(databaseHelper.getCategoryName(item.getCategory_id()));
 
         //////Iterate through order list to check if current item is already present in order list
         ////// if it is found, set the price and quantity according to that of order
@@ -262,12 +263,32 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
     }
 
     private Uri getImageUri(Item item){
+        //Image file is saved in following pattern
+        //filepath = ItemName+ImageFileCreationDateTime
         File cacheDir = this.getCacheDir();
-        String filePath = item.getName()+item.getCreated_at();
+
+        String filePath = item.getName()+item.getImages().get(0).getCreated_at(); // placing first image of item
         File imageFile = new File(cacheDir, filePath);
         Uri uri= Uri.fromFile(imageFile);
 
         return uri;
+    }
+
+    private void showImages(String filePath){
+
+        cacheFile = new File(cacheDir, filePath);
+        uri = Uri.fromFile(cacheFile);
+
+        try {
+            fileInputStream = new FileInputStream(cacheFile);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+
+
     }
 
 
@@ -277,19 +298,18 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            filePath =  item_imageArrayList.get(position).getName()+ item_imageArrayList.get(position).getCreated_at();
+            filePath =  item.getName()+ item_imageArrayList.get(position).getImages().get(position).getCreated_at();
             cacheFile = new File(cacheDir, filePath);
             uri = Uri.fromFile(cacheFile);
 
             try {
                 // display the images selected
                 fileInputStream = new FileInputStream(cacheFile);
-                ImageView imageView = (ImageView) findViewById(R.id.dialog_order_image);
-
-                imageView.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+                itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
 
             } catch (FileNotFoundException e) {
-                //handle exception here
+                //setting placeholder food icon if image not found
+                itemImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.sample_burger));
             }
         }
     }

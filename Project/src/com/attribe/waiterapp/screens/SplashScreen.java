@@ -278,6 +278,8 @@ public class SplashScreen extends Activity{
 
 
     private void saveImageIntoFile(String imageUrl,String itemName,String imageCreateDate){
+        //Image file is saved in following pattern
+        //filepath = ItemName+ImageFileCreationDateTime
         try {
             URL imageURL = new URL(imageUrl);
             URLConnection connection = imageURL.openConnection();
@@ -285,7 +287,7 @@ public class SplashScreen extends Activity{
             InputStream inputStream = new BufferedInputStream(imageURL.openStream(),10240);
 
             File cacheDir = getCacheDir();
-            File cacheFile = new File(cacheDir,itemName+imageCreateDate);
+            File cacheFile = new File(cacheDir,itemName + imageCreateDate);
             FileOutputStream fileOutputStream = new FileOutputStream(cacheFile);
 
             byte buffer []= new byte[1024];
@@ -385,7 +387,7 @@ public class SplashScreen extends Activity{
                         for (int x = 0; x < imageListSize; x++) {
 
                             databaseHelper.addImages(receivedItem.getId(), images.get(x).getUrl(), images.get(x).getCreated_at(), images.get(x).getUpdated_at());
-                            saveImageIntoFile(images.get(x).getUrl(), receivedItem.getName(), receivedItem.getCreated_at());
+                            saveImageIntoFile(images.get(x).getUrl(), receivedItem.getName(), images.get(x).getCreated_at());
                             //byte[] itemImage = convertToBlob(images.get(x).getUrl());
                             //databaseHelper.addImages(receivedItem.getId(),itemImage,images.get(x).getCreated_at(),images.get(x).getUpdated_at());
                         }

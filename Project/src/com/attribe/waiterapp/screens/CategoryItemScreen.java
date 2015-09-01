@@ -81,14 +81,11 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
     public void updateFragment(long id){
 
-
         if(getActivity() != null){
             DatabaseHelper mDatabaseHelper=new DatabaseHelper(getActivity());
             itemArrayList = mDatabaseHelper.getItemsWithImages(id);
             orderList = OrderContainer.getInstance().getOrderList();
             if(! orderList.isEmpty()){
-
-
 
                 for(int i = 0 ; i<orderList.size(); i++){
                     if(orderList.get(i).getItem().getCategory_id()== id){

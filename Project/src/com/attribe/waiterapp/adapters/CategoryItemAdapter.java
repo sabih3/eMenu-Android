@@ -78,11 +78,10 @@ public class CategoryItemAdapter extends BaseAdapter {
         viewHolder.position = position;
         if(imagesBlob == null){
 
-            new ThumbnailTask(context, position, viewHolder ,itemList)
+            String imageFilePath = itemList.get(position).getName()+itemList.get(position).getImages().get(0).getCreated_at();
+
+            new ThumbnailTask(context, position, viewHolder ,imageFilePath)
             .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,null);
-
-
-
 
         }
         viewHolder.itemName.setText(itemList.get(position).getName());
@@ -90,13 +89,16 @@ public class CategoryItemAdapter extends BaseAdapter {
         viewHolder.itemPrice.setText(String.valueOf(itemList.get(position).getPrice()));
 
         viewHolder.gridItemCheckBox.setBackgroundColor(context.getResources().getColor(R.color.white));
-        viewHolder.gridItemCheckBox.setChecked(itemList.get(position).isSelected());
+        //viewHolder.gridItemCheckBox.setChecked(itemList.get(position).isSelected());
 
         if(itemList.get(position).isSelected()){
             viewHolder.listItemGridLayout.setBackground(context.getResources().getDrawable(R.drawable.grid_item_background_selected));
+            viewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.ic_tick_on_b));
+            //viewHolder.gridItemCheckBox.setBackground(context.getResources().getDrawable(R.drawable.ic_tick_on_b));
         }
 
         else{
+            viewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.ic_tick_off_b));
             viewHolder.listItemGridLayout.setBackground(context.getResources().getDrawable(R.drawable.grid_item_background));
         }
 
@@ -116,6 +118,7 @@ public class CategoryItemAdapter extends BaseAdapter {
                     finalViewHolder.listItemGridLayout.setBackground(context.getResources().getDrawable(R.drawable.grid_item_background_selected));
 
                     itemList.get(position).setSelected(true);
+                    finalViewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.ic_tick_on_b));
                     OrderContainer.getInstance().putOrder(order);
 
 
@@ -137,7 +140,7 @@ public class CategoryItemAdapter extends BaseAdapter {
 
                     orderList.removeAll(toRemoveList);
                     finalViewHolder.listItemGridLayout.setBackground(context.getResources().getDrawable(R.drawable.grid_item_background));
-
+                    finalViewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.ic_tick_off_b));
                 }
 
                 finalViewHolder.gridItemCheckBox.setChecked(compoundButton.isChecked());
@@ -192,28 +195,25 @@ public class CategoryItemAdapter extends BaseAdapter {
         private Uri uri;
         private InputStream fileInputStream;
 
-        public ThumbnailTask(Context context, int position, ViewHolder viewHolder, ArrayList<Item> itemList) {
+        public ThumbnailTask(Context context, int position, ViewHolder viewHolder,
+                             String imageFilePath) {
             this.mPosition = position;
             this.mHolder = viewHolder;
             this.mContext=context;
-            this.mItemList=itemList;
+            this.filePath=imageFilePath;
         }
 
 
         @Override
         protected Object doInBackground(Object[] objects) {
             cacheDir = mContext.getCacheDir();
-            filePath = mItemList.get(mPosition).getName() + mItemList.get(mPosition).getCreated_at();
+
             cacheFile = new File(cacheDir, filePath);
+
             uri = Uri.fromFile(cacheFile);
 
             try {
                 fileInputStream = new FileInputStream(cacheFile);
-
-                //mHolder.itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
-
-                //mHolder.itemImage.setImageURI(uri);
-                //viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeFile(cacheFile.getAbsolutePath()));
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -224,8 +224,15 @@ public class CategoryItemAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(Object o) {
             if (mHolder.position == mPosition) {
+                //mHolder.itemImage.setImageURI(getImageUri(cacheDir,filePath));
                 mHolder.itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
             }
         }
+    }
+
+    private static Uri getImageUri(File cacheDir, String filePath){
+
+        File imageFile = new File(cacheDir, filePath);
+    return Uri.fromFile(imageFile);
     }
 }
