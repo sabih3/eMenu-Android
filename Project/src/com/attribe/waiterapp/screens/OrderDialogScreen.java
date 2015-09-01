@@ -32,7 +32,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by Sabih Ahmed on 5/14/2015.
  */
-public class OrderDialogScreen extends Activity implements NumberPicker.OnValueChangeListener,QuantityPicker{
+public class OrderDialogScreen extends Activity implements QuantityPicker{
 
     private TextView textViewItemName,
             textViewTotalPrice,
@@ -106,7 +106,6 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         pricePicker=(NumberPicker)findViewById(R.id.dialog_order_numberPicker);
         pricePicker.setMinValue(1);
         pricePicker.setMaxValue(100);
-        pricePicker.setOnValueChangedListener(this);
 
         buttonDecrement = (Button)findViewById(R.id.buttonDecrement);
         buttonIncrement=(Button)findViewById(R.id.buttonIncrement);
@@ -142,6 +141,7 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         textViewItemName.setText(item.getName());
         textViewItemPrice.setText(String.valueOf(item.getPrice()));
 
+
         if(item.getImageBlob() == null){
             itemImage.setImageURI(getImageUri(item));
             //itemImage.setImageBitmap(BitmapFactory.decodeByteArray(item.getImageBlob(),0,item.getImageBlob().length));
@@ -149,6 +149,7 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
 
 
         textViewCategoryName.setText(databaseHelper.getCategoryName(item.getCategory_id()));
+        textViewCategoryName.setOnClickListener(new BackNavigationListener());
 
         //////Iterate through order list to check if current item is already present in order list
         ////// if it is found, set the price and quantity according to that of order
@@ -182,25 +183,18 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         }
 
         ////set Total price View according to quantity
-        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " +
-                String.valueOf(getPrice(itemQuantity, item.getPrice())));
+        textViewTotalPrice.setText(String.valueOf(getPrice(itemQuantity, item.getPrice())));
     }
 
     private void setQuantityView(int itemQuantity) {
         textViewQuantity.setText(Integer.toString(itemQuantity)+" "+getString(R.string.items));
     }
 
-    @Override
-    public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
-        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " +
-                String.valueOf(getPrice(newVal, item.getPrice())));
-        itemQuantity = newVal;
 
-    }
 
     @Override
     public void onQuantityValueChange(int oldVal, int newVal) {
-        textViewTotalPrice.setText(getString(R.string.label_total) + "\t " + String.valueOf(getPrice(newVal, item.getPrice())));
+        textViewTotalPrice.setText(String.valueOf(getPrice(newVal, item.getPrice())));
         itemQuantity = newVal;
         setQuantityView(itemQuantity);
     }
@@ -353,6 +347,13 @@ public class OrderDialogScreen extends Activity implements NumberPicker.OnValueC
         @Override
         public void onClick(View view) {
             finish();
+        }
+    }
+
+    private class BackNavigationListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            OrderDialogScreen.this.finish();
         }
     }
 }

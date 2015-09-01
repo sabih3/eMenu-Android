@@ -5,26 +5,64 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp">
+>
+
+    <LinearLayout
+
+            android:layout_width="335dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="50dp"
+            android:background="#ffffff">
+
+     <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             >
+
+         <TextView
+                 android:id="@+id/dialog_order_totalPrice1"
+                 android:layout_width="115dp"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="30dp"
+                 android:text="Total:"
+                 android:textColor="#000000"
+                 android:textSize="45sp"
+                 android:gravity="left|start" />
+
+         <TextView
+             android:id="@+id/dialog_order_totalPrice"
+             android:layout_width="170dp"
+             android:layout_height="wrap_content"
+             android:text="3000.0"
+             android:textColor="@color/maroon"
+             android:textSize="50sp"
+             android:gravity="center"
+             android:layout_marginTop="30dp"
+             />
+
+         <TextView
+                 android:id="@+id/dialog_order_totalPrice2"
+                 android:layout_width="50dp"
+                 android:layout_height="wrap_content"
+                 android:text="Rs"
+                 android:textColor="@color/maroon"
+                 android:textSize="40sp"
+                 android:gravity="right"
+                 android:layout_marginTop="30dp"
+                 />
+
+     </LinearLayout>
 
 
 
-    <TextView
-            android:id="@+id/dialog_order_totalPrice"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Total: 30.00"
-            android:textColor="@color/maroon"
-            android:textSize="40sp"
-            />
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:orientation="horizontal">
 
         <Button
@@ -54,7 +92,9 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_marginLeft="20dp"
-                  android:textSize="20sp"/>
+                  android:textColor="#000000"
+                  android:textSize="30sp"
+                android:text="1 item(s)"/>
 
     </LinearLayout>
     <NumberPicker
@@ -70,51 +110,87 @@
 
     <TextView
             android:id="@+id/dialog_order_itemDesc"
-            android:layout_width="280dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="include medium fries and soft drink , a lovely combination to fight with the hunger"
+            android:text="A combination of roasting, then barbecuing with sauce makes this pork a delicious southern style recipe. Takes some preparation but well worth it. Excellent for feeding a crowd!"
             android:maxLines="4"
             android:textSize="20sp"
             android:textColor="#000000"
             />
 
-
+        <TextView
+                android:id="@+id/dialog_order_itemDesc1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="BBQ House-Made Chips
+Grilled Buttered Bun,
+4 Slices of American Cheese"
+                android:maxLines="4"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                />
 
     <Button
             android:id="@+id/button"
-            android:layout_width="390dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="40dp"
             android:text="@string/add_to_order"
+            android:textAllCaps="true"
             android:background="@drawable/button_maroon_bg"
             android:onClick="addCart"
             android:textSize="30sp"
             android:textColor="@color/white"
             />
 
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_marginTop="25dp"                  >
+
+    <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="60dp"
+            >
+
+        <com.joooonho.SelectableRoundedImageView
+                android:id="@+id/circularCheffImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:src="@drawable/zakir1"
+                android:scaleType="centerCrop" />
+
+    </FrameLayout>
+
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="-McFadden says"
             android:textSize="18sp"
             android:layout_gravity="center"
             android:layout_marginRight="65dp"
             android:textAlignment="center"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="80dp"
+
+            android:layout_marginLeft="10dp"
             android:textColor="#000000"/>
+
+    </LinearLayout>
 
     <TextView
             android:id="@+id/cheffSuggestion"
-            android:layout_marginTop="20dp"
-            android:layout_width="400dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:text="' This is not your average chicken burger-with a soy, sesame and honey marinade this humble BBQ '"
             android:textColor="@color/maroon"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:maxLines="3"
             android:textAlignment="center"
             />
-
+</LinearLayout>
 </LinearLayout>

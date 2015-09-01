@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/com.attribe.waiterapp"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              >
+        >
 <LinearLayout
 
               android:orientation="horizontal"
@@ -12,14 +13,15 @@
               android:background="@color/white">
 
     <LinearLayout android:layout_width="0dp"
-                  android:layout_weight="2.05"
+                  android:layout_weight="2"
                   android:layout_height="match_parent"
                   android:orientation="vertical"
             >
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="25dp">
 
             <ImageView
                     android:id="@+id/dialog_order_removeButton"
@@ -50,14 +52,14 @@
 
         <TextView
                 android:id="@+id/dialog_order_itemName"
-                android:layout_width="319dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 android:text="BBQ SANDWICHES"
                 android:textColor="@color/maroon"
-                android:textSize="30sp"
+                android:textSize="60sp"
                 android:textAllCaps="true"
-                android:textStyle="bold"/>
+                android:textStyle="normal"/>
 
 
 
@@ -65,23 +67,24 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:orientation="horizontal">
+                android:layout_height="380dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+
+                >
 
             <FrameLayout
                     android:id="@+id/order_image_frame"
-                    android:layout_width="620dp"
-                    android:layout_height="390dp"
-                    android:layout_gravity="center"
-
-                    android:layout_marginTop="5dp"
+                    android:layout_width="650dp"
+                    android:layout_height="380dp"
+                    android:layout_marginTop="0dp"
                     android:background="@drawable/dialog_order_image_bg"
                     android:focusable="false" >
 
                 <ImageView
                         android:id="@+id/dialog_order_image"
-                        android:layout_width="610dp"
-                        android:layout_height="380dp"
+                        android:layout_width="645dp"
+                        android:layout_height="375dp"
                         android:layout_gravity="center"
                         android:src="@drawable/sample_burger1_no_bg"
                         android:scaleType="centerCrop"    />
@@ -90,12 +93,12 @@
             <ListView
                     android:id="@+id/imageGalleryViewList"
                     android:layout_width="140dp"
-                    android:layout_height="390dp"
+                    android:layout_height="380dp"
                     android:divider="#ffffff"
-                    android:dividerHeight="20.0sp"
+                    android:dividerHeight="18.0sp"
                     android:background="#ffffff"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginLeft="15dp"
+                    >
 
             </ListView>
 
@@ -103,7 +106,7 @@
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
             <ImageView
@@ -148,17 +151,27 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:orientation="horizontal"
-                      android:layout_marginTop="20dp">
+                      android:layout_marginTop="15dp">
 
+            <FrameLayout
+                    android:layout_width="80dp"
+                    android:layout_height="80dp">
 
-            <ImageView android:layout_width="100dp"
-                       android:layout_height="100dp"
-                       android:layout_marginTop="10dp"
-                       android:src="@drawable/background_burger"/>
+                <com.joooonho.SelectableRoundedImageView
+                        android:id="@+id/circularCheffImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:src="@drawable/gulzar1"
+                        android:scaleType="centerCrop"
+                        />
 
-            <LinearLayout android:layout_width="match_parent"
+            </FrameLayout>
+
+            <LinearLayout android:layout_width="700dp"
                           android:layout_height="match_parent"
-                          android:orientation="vertical">
+                          android:orientation="vertical"
+                          android:layout_marginLeft="5dp">
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -172,11 +185,11 @@
 
                 <TextView
                         android:id="@+id/cheffDescription"
-                        android:layout_width="600dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:text="@string/cheff_description"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:maxLines="3"
                         android:textColor="#000000"/>
             </LinearLayout>

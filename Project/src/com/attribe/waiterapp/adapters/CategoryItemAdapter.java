@@ -98,7 +98,7 @@ public class CategoryItemAdapter extends BaseAdapter {
         }
 
         else{
-            viewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.ic_tick_off_b));
+            viewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.plus_icon));
             viewHolder.listItemGridLayout.setBackground(context.getResources().getDrawable(R.drawable.grid_item_background));
         }
 
@@ -125,9 +125,8 @@ public class CategoryItemAdapter extends BaseAdapter {
                 } else {
 
                     itemList.get(position).setSelected(false);
+                    finalViewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.plus_icon));
                     CopyOnWriteArrayList<Order> orderList = OrderContainer.getInstance().getOrderList();
-
-
 
                     ArrayList<Order> toRemoveList=new ArrayList<Order>();
                     for (Order o : orderList) {
