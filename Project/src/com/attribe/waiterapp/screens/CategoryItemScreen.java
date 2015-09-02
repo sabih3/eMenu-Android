@@ -48,7 +48,6 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
     private CopyOnWriteArrayList<Order> orderList;
     private static Activity mActivity;
     private static View view;
-
     public CategoryItemScreen(){
 
     }
@@ -65,6 +64,7 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
         view = inflater.inflate(R.layout.fragment_catergory_items, container, false);
         gridView=(GridView)view.findViewById(R.id.item_grid);
+
         itemArrayList = new ArrayList<Item>();
         CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
         gridView.setAdapter(adapter);

@@ -78,10 +78,14 @@ public class CategoryItemAdapter extends BaseAdapter {
         viewHolder.position = position;
         if(imagesBlob == null){
 
-            String imageFilePath = itemList.get(position).getName()+itemList.get(position).getImages().get(0).getCreated_at();
+            //checking if images list of item is not empty
+            if(!itemList.get(position).getImages().isEmpty()){
+                String imageFilePath = itemList.get(position).getName()+itemList.get(position).getImages().get(0).getCreated_at();
 
-            new ThumbnailTask(context, position, viewHolder ,imageFilePath)
-            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,null);
+                new ThumbnailTask(context, position, viewHolder ,imageFilePath)
+                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,null);
+            }
+
 
         }
         viewHolder.itemName.setText(itemList.get(position).getName());

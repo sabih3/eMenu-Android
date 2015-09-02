@@ -3,19 +3,23 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-
+              android:background="@drawable/category_item_selector"
         >
 
     <FrameLayout
+                 android:id="@+id/list_item_category_imageFrame"
                  android:layout_width="50dp"
                  android:layout_height="50dp"
                  android:paddingTop="15dp"
                  android:layout_marginLeft="20dp"
-                 android:layout_marginStart="20dp">
+                 android:layout_marginStart="20dp"
+                 android:background="@drawable/selector_category_image_container">
 
         <ImageView android:id="@+id/list_item_category_image"
                    android:layout_width="match_parent"
-                   android:layout_height="match_parent"/>
+                   android:layout_height="match_parent"
+
+                />
 
 
     </FrameLayout>
@@ -32,6 +36,6 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:id="@+id/list_item_category"
-            android:textColor="@drawable/category_row_selector"
+
             />
 </LinearLayout>

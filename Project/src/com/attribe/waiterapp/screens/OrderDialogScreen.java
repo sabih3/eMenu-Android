@@ -143,7 +143,13 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
 
 
         if(item.getImageBlob() == null){
-            itemImage.setImageURI(getImageUri(item));
+            try {
+                itemImage.setImageURI(getImageUri(item));
+            }
+
+            catch (NullPointerException e){
+                itemImage.setImageDrawable(getResources().getDrawable(R.drawable.sample_burger));
+            }
             //itemImage.setImageBitmap(BitmapFactory.decodeByteArray(item.getImageBlob(),0,item.getImageBlob().length));
         }
 
@@ -187,7 +193,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
     }
 
     private void setQuantityView(int itemQuantity) {
-        textViewQuantity.setText(Integer.toString(itemQuantity)+" "+getString(R.string.items));
+        textViewQuantity.setText(Integer.toString(itemQuantity) + " " + getString(R.string.items));
     }
 
 
@@ -260,10 +266,13 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         //Image file is saved in following pattern
         //filepath = ItemName+ImageFileCreationDateTime
         File cacheDir = this.getCacheDir();
+        Uri uri = null;
+        if(!item.getImages().isEmpty()){
+            String filePath = item.getName()+item.getImages().get(0).getCreated_at(); // placing first image of item
+            File imageFile = new File(cacheDir, filePath);
+            uri= Uri.fromFile(imageFile);
+        }
 
-        String filePath = item.getName()+item.getImages().get(0).getCreated_at(); // placing first image of item
-        File imageFile = new File(cacheDir, filePath);
-        Uri uri= Uri.fromFile(imageFile);
 
         return uri;
     }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.attribe.waiterapp.R;
@@ -22,15 +23,16 @@ import java.util.ArrayList;
 /**
  * Created by Sabih Ahmed on 5/12/2015.
  */
-public class CategoryAdapter extends BaseAdapter
-{
+public class CategoryAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Category> categoryArrayList;
-    public CategoryAdapter(Context context , ArrayList<Category> categoryArrayList){
+
+    public CategoryAdapter(Context context, ArrayList<Category> categoryArrayList) {
         this.context = context;
         this.categoryArrayList = categoryArrayList;
 
     }
+
     @Override
     public int getCount() {
         return categoryArrayList.size();
@@ -49,58 +51,77 @@ public class CategoryAdapter extends BaseAdapter
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        LayoutInflater  layoutInflater= (LayoutInflater) context.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
-        View row;
 
-        row = layoutInflater.inflate(R.layout.list_item_category, null);
+        ViewHolder viewHolder = new ViewHolder();
+
+        if (view == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
+            view = layoutInflater.inflate(R.layout.list_item_category, null);
+
+            viewHolder = createViewHolder(view);
+            view.setTag(viewHolder);
+        } else {
+
+            viewHolder = (ViewHolder) view.getTag();
+        }
+
+        setCategoryImage(viewHolder, position);
+        setCategoryName(viewHolder, position);
 
 
-//        if(DevicePreferences.getInstance().isRtlLayout()){
-//             row=layoutInflater.inflate(R.layout.list_item_category_rtl,null);
+//        if(categoryArrayList.get(position).isSelected()){
+//            categoryArrayList.get(position).setSelected(false);
+//
+//            viewHolder.frameImageContainer.setBackground(context.getResources().getDrawable(R.drawable.shape_circle_white));
+//
+//
 //        }
 //
 //        else{
-//             row = layoutInflater.inflate(R.layout.list_item_category, null);
+//            view.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
 //        }
 
+        return view;
+    }
 
+    private void setCategoryName(ViewHolder viewHolder, int position) {
+        viewHolder.categoryName.setText(categoryArrayList.get(position).getName());
+    }
 
-        TextView categoryName= (TextView) row.findViewById(R.id.list_item_category);
-        ImageView imageView=(ImageView)row.findViewById(R.id.list_item_category_image);
-
-        if(categoryArrayList.get(position).getImageBlob()==null){
+    private void setCategoryImage(ViewHolder viewHolder, int position) {
+        if (categoryArrayList.get(position).getImageBlob() == null) {
 
             File cacheDir = context.getCacheDir();
-            String filePath = categoryArrayList.get(position).getName()+categoryArrayList.get(position).getCreated_at();
+            String filePath = categoryArrayList.get(position).getName() + categoryArrayList.get(position).getCreated_at();
             File cacheFile = new File(cacheDir, filePath);
             try {
-                InputStream fileInputStream=new FileInputStream(cacheFile);
+                InputStream fileInputStream = new FileInputStream(cacheFile);
 
-                imageView.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+                viewHolder.imageView.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
-
-//            imageView.setImageBitmap(BitmapFactory.decodeByteArray(categoryArrayList.get(position).getImageBlob(),
-//                    0,
-//                    categoryArrayList.get(position).getImageBlob().length));
         }
 
-        categoryName.setText(categoryArrayList.get(position).getName());
+    }
 
-        if(categoryArrayList.get(position).isSelected()){
-            row.setBackground(context.getResources().getDrawable(R.drawable.dialog_order_bg));
-            ((TextView) row.findViewById(R.id.list_item_category)).setTextColor(context.getResources()
-                    .getColor(R.color.maroon));
-            categoryArrayList.get(position).setSelected(false);
-        }
+    private static class ViewHolder {
 
-        else{
-            row.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
-        }
+        private TextView categoryName;
+        private ImageView imageView;
+        private FrameLayout frameImageContainer;
 
-        return row;
+    }
+
+    private ViewHolder createViewHolder(View row) {
+        ViewHolder viewHolder = new ViewHolder();
+
+        viewHolder.categoryName = (TextView) row.findViewById(R.id.list_item_category);
+        viewHolder.imageView = (ImageView) row.findViewById(R.id.list_item_category_image);
+        ;
+        viewHolder.frameImageContainer = (FrameLayout) row.findViewById(R.id.list_item_category_imageFrame);
+
+        return viewHolder;
     }
 }
