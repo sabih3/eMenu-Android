@@ -4,21 +4,24 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@drawable/category_item_selector"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingBottom="4dp"
+              android:paddingTop="4dp"
         >
+
 
     <FrameLayout
                  android:id="@+id/list_item_category_imageFrame"
                  android:layout_width="50dp"
                  android:layout_height="50dp"
-                 android:paddingTop="15dp"
-                 android:layout_marginLeft="20dp"
-                 android:layout_marginStart="20dp"
+
                  android:background="@drawable/selector_category_image_container">
 
         <ImageView android:id="@+id/list_item_category_image"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-
+                   android:layout_width="25dp"
+                   android:layout_height="25dp"
+                   android:layout_gravity="center"
                 />
 
 
@@ -27,14 +30,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
+            android:textSize="28sp"
+            android:textStyle="normal"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="3dp"
             android:id="@+id/list_item_category"
 
             />
