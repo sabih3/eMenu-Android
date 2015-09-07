@@ -3,26 +3,28 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/category_item_selector"
+
         >
 
-    <FrameLayout
+    <LinearLayout
                  android:id="@+id/list_item_category_imageFrame"
+                 android:orientation="vertical"
                  android:layout_width="50dp"
                  android:layout_height="50dp"
+                 android:layout_gravity="center_horizontal"
                  android:paddingTop="15dp"
                  android:layout_marginLeft="20dp"
                  android:layout_marginStart="20dp"
-                 android:background="@drawable/selector_category_image_container">
+                 android:background="@drawable/shape_circle_red">
 
         <ImageView android:id="@+id/list_item_category_image"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-
+                   android:layout_width="30dp"
+                   android:layout_height="30dp"
+                   android:layout_gravity="center_horizontal"
                 />
 
 
-    </FrameLayout>
+    </LinearLayout>
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

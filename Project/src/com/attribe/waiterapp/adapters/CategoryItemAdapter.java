@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -34,7 +34,6 @@ public class CategoryItemAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Item> itemList;
-
 
     public CategoryItemAdapter(Context context, ArrayList<Item> itemList){
         this.context = context;
@@ -59,6 +58,7 @@ public class CategoryItemAdapter extends BaseAdapter {
     @Override
     public View getView(final int position,  View view, ViewGroup viewGroup) {
         ViewHolder viewHolder =new ViewHolder();
+
 
         if(view == null){
             LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -143,7 +143,7 @@ public class CategoryItemAdapter extends BaseAdapter {
 
                     orderList.removeAll(toRemoveList);
                     finalViewHolder.listItemGridLayout.setBackground(context.getResources().getDrawable(R.drawable.grid_item_background));
-                    finalViewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.ic_tick_off_b));
+                    //finalViewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.ic_tick_off_b));
                 }
 
                 finalViewHolder.gridItemCheckBox.setChecked(compoundButton.isChecked());

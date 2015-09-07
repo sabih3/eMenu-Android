@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LauncherActivity;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
     private CategoryAdapter listAdapter;
     private ArrayList<Category> categoryArrayList;
     private ListView listView;
-
+    private int oldPosition = - 1;
     public CategoryScreen(){
 
     }
@@ -97,6 +98,22 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+        if(oldPosition != position){
+            if(oldPosition !=-1){
+                categoryArrayList.get(oldPosition).setSelected(false);
+            }
+
+            categoryArrayList.get(position).setSelected(true);
+            listAdapter.notifyDataSetChanged();
+        }
+
+        oldPosition=position;
+
+
+
+        //int sdk = Build.VERSION.SDK_INT;
+
         callBack.onCategorySelected(id);
     }
 

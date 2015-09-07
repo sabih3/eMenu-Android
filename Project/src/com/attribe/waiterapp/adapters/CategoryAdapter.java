@@ -6,10 +6,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.models.Category;
 import com.attribe.waiterapp.utils.DevicePreferences;
@@ -60,6 +57,7 @@ public class CategoryAdapter extends BaseAdapter {
 
             viewHolder = createViewHolder(view);
             view.setTag(viewHolder);
+
         } else {
 
             viewHolder = (ViewHolder) view.getTag();
@@ -68,18 +66,21 @@ public class CategoryAdapter extends BaseAdapter {
         setCategoryImage(viewHolder, position);
         setCategoryName(viewHolder, position);
 
+        final ViewHolder finalViewHolder = viewHolder;
 
-//        if(categoryArrayList.get(position).isSelected()){
-//            categoryArrayList.get(position).setSelected(false);
-//
-//            viewHolder.frameImageContainer.setBackground(context.getResources().getDrawable(R.drawable.shape_circle_white));
-//
-//
-//        }
-//
-//        else{
-//            view.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
-//        }
+        if(categoryArrayList.get(position).isSelected()){
+
+
+            viewHolder.frameImageContainer.setBackground(context.getResources().getDrawable(R.drawable.shape_circle_white));
+            view.setBackgroundDrawable((context.getResources().
+                    getDrawable(R.drawable.shape_rectangle_maroon)));
+
+        }
+
+        else{
+            view.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            viewHolder.frameImageContainer.setBackground(context.getResources().getDrawable(R.drawable.shape_circle_red));
+        }
 
         return view;
     }
@@ -110,7 +111,7 @@ public class CategoryAdapter extends BaseAdapter {
 
         private TextView categoryName;
         private ImageView imageView;
-        private FrameLayout frameImageContainer;
+        private LinearLayout frameImageContainer;
 
     }
 
@@ -119,8 +120,8 @@ public class CategoryAdapter extends BaseAdapter {
 
         viewHolder.categoryName = (TextView) row.findViewById(R.id.list_item_category);
         viewHolder.imageView = (ImageView) row.findViewById(R.id.list_item_category_image);
-        ;
-        viewHolder.frameImageContainer = (FrameLayout) row.findViewById(R.id.list_item_category_imageFrame);
+
+        viewHolder.frameImageContainer = (LinearLayout) row.findViewById(R.id.list_item_category_imageFrame);
 
         return viewHolder;
     }
