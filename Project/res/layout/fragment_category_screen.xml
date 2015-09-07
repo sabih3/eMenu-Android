@@ -38,9 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="10dp"
-
             android:footerDividersEnabled="false"
-            android:dividerHeight="2dp"
             android:divider="@android:color/transparent"
             android:choiceMode="singleChoice"
             android:listSelector="@drawable/category_item_selector"

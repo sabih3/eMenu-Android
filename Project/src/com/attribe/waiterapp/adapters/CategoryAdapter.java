@@ -1,8 +1,10 @@
 package com.attribe.waiterapp.adapters;
 
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +48,7 @@ public class CategoryAdapter extends BaseAdapter {
         return categoryArrayList.get(i).getId();
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
 

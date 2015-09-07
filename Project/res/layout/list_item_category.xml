@@ -14,7 +14,7 @@
                  android:paddingTop="15dp"
                  android:layout_marginLeft="20dp"
                  android:layout_marginStart="20dp"
-                 android:background="@drawable/shape_circle_red">
+                 >
 
         <ImageView android:id="@+id/list_item_category_image"
                    android:layout_width="30dp"
