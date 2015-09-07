@@ -40,11 +40,13 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
     public GridView ordergrid;
     private OrderAdapter orderAdapter;
     private CopyOnWriteArrayList<Order> orderList;
-    private TextView totalText, totalPrice;
+    private TextView totalText, totalPrice ;
+    private TextView totalItemsQuantity;
     private Button confirmButton;
     View view;
     private ArrayList<Item> itemArrayList;
     private static OrderFragment orderFragment;
+    private Order order;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,17 +58,22 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
     private void initContents(View view) {
 
+
+
         long total = 0;
         totalText= (TextView) view.findViewById(R.id.fragment_order_textTotal);
         totalPrice = (TextView) view.findViewById(R.id.fragment_order_textTotalPrice);
         ordergrid = (GridView) view.findViewById(R.id.fragment_order_grid);
         confirmButton =(Button)view.findViewById(R.id.fragment_order_confirmButton);
         orderList = OrderContainer.getInstance().getOrderList();
-
+        totalItemsQuantity = (TextView) view.findViewById(R.id.grid_TotalItemsQuantity);
 
         orderAdapter = new OrderAdapter(getActivity(),orderList);
 
         totalPrice.setText(Double.toString(computeTotalPrice()));
+
+        totalItemsQuantity.setText(Double.toString(OrderContainer.getInstance().getOrderList().size())+ " " + "item(s)") ;
+
 
         ordergrid.setAdapter(orderAdapter);
         ordergrid.setOnItemClickListener(this);
@@ -117,13 +124,18 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
             total += order.getItem().getPrice() * order.getQuantityValue();
         }
 
+
         return total;
     }
 
     @Override
     public void onQuantityChanged() {
+        int size = (int) OrderContainer.getInstance().getOrderList().size();
         totalPrice.setText(Double.toString(computeTotalPrice()));
+        totalItemsQuantity.setText(Integer.toString(size)+" " + "item(s)") ;
         orderAdapter.notifyDataSetChanged();
+
+
     }
 
     public class ComfirmButtonClick implements View.OnClickListener {

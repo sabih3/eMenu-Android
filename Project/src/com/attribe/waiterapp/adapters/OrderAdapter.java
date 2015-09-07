@@ -77,9 +77,12 @@ public class OrderAdapter extends BaseAdapter{
         }
 
         viewHolder.itemName.setText(orderList.get(i).getItem().getName());
-        viewHolder.itemQuantity.setText("x "+ Integer.toString(orderList.get(i).getQuantityValue())+"\t = "+
-                                        computeTotal(orderList.get(i).getQuantityValue(),orderList.get(i).getItem().getPrice()));
+        viewHolder.itemQuantityTotal.setText( computeTotal(orderList.get(i).getQuantityValue(),orderList.get(i).getItem().getPrice()));
+        viewHolder.grid_ItemQuantity.setText(Integer.toString(orderList.get(i).getQuantityValue())+ " " + "item(s)");
         viewHolder.itemPrice.setText(Double.toString(orderList.get(i).getItem().getPrice()));
+
+//        viewHolder.itemQuantity.setText("x "+ Integer.toString(orderList.get(i).getQuantityValue())+"\t = "+
+//                                        computeTotal(orderList.get(i).getQuantityValue(),orderList.get(i).getItem().getPrice()));
 
         if(orderList.get(i).getItem().getImageBlob()== null){
 
@@ -114,15 +117,16 @@ public class OrderAdapter extends BaseAdapter{
 
 
         viewHolder.itemName= (TextView) convertView.findViewById(R.id.grid_item_itemName);
-        viewHolder.itemQuantity=(TextView)convertView.findViewById(R.id.grid_item_order_quantity);
+        viewHolder.itemQuantityTotal=(TextView)convertView.findViewById(R.id.grid_item_order_quantity);
         viewHolder.itemPrice=(TextView)convertView.findViewById(R.id.grid_item_price);
+        viewHolder.grid_ItemQuantity=(TextView)convertView.findViewById(R.id.grid_ItemQuantity);
         viewHolder.crossBox=(CheckBox) convertView.findViewById(R.id.grid_item_order_cross);
         viewHolder.itemImage=(ImageView)convertView.findViewById(R.id.grid_item_image);
         return viewHolder;
     }
 
     private class ViewHolder {
-        TextView itemName,itemPrice,itemQuantity;
+        TextView itemName,itemPrice,itemQuantityTotal,grid_ItemQuantity ;
         CheckBox crossBox;
         ImageView itemImage;
 
