@@ -117,6 +117,8 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         //vertical list of item images
         galleryList = (ListView)findViewById(R.id.imageGalleryViewList);
 
+        item_imageArrayList = new ArrayList<Item>();
+
         galleryList.setAdapter(new ImageAdapter(this,item.getImages(),item.getName(),item.getCreated_at()));
 
         cacheDir = OrderDialogScreen.this.getCacheDir();

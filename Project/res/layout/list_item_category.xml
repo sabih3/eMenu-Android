@@ -3,7 +3,6 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-
         >
 
     <LinearLayout
@@ -20,8 +19,7 @@
         <ImageView android:id="@+id/list_item_category_image"
                    android:layout_width="30dp"
                    android:layout_height="30dp"
-                   android:layout_gravity="center_horizontal"
-                />
+                   android:layout_gravity="center_horizontal"/>
 
 
     </LinearLayout>
@@ -29,14 +27,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
+            android:textSize="28sp"
+            android:textStyle="normal"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="3dp"
             android:id="@+id/list_item_category"
 
             />

@@ -83,8 +83,8 @@
 
                 <ImageView
                         android:id="@+id/dialog_order_image"
-                        android:layout_width="645dp"
-                        android:layout_height="375dp"
+                        android:layout_width="644dp"
+                        android:layout_height="374dp"
                         android:layout_gravity="center"
                         android:src="@drawable/sample_burger1_no_bg"
                         android:scaleType="centerCrop"    />

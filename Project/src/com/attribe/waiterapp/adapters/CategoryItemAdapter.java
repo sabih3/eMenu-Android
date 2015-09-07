@@ -16,7 +16,7 @@ import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.screens.OrderDialogScreen;
 import com.attribe.waiterapp.utils.Constants;
 import com.attribe.waiterapp.utils.OrderContainer;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -319,7 +319,7 @@ public class SplashScreen extends Activity{
 		dialog.setContentView(R.layout.dialog_pass_code);
 
 		EditText passCodeText=(EditText)dialog.findViewById(R.id.dialog_pass_code_text);
-		String passCode = passCodeText.getText().toString();
+		final String passCode = passCodeText.getText().toString();
 		Button verifyButton = (Button)dialog.findViewById(R.id.dialog_pass_code_button);
 		verifyButton.setOnClickListener(new View.OnClickListener() {
 
@@ -406,7 +406,7 @@ public class SplashScreen extends Activity{
         });
 	}
 
-    private void showProcessStatus(String message) {
+    private void showProcessStatus(final String message) {
 
         runOnUiThread(new Runnable() {
             @Override
@@ -417,13 +417,13 @@ public class SplashScreen extends Activity{
     }
 
     private void showSetupDialog() {
-		Dialog dialog = new Dialog(SplashScreen.this);
+		final Dialog dialog = new Dialog(SplashScreen.this);
 
 		dialog.setTitle(R.string.title_device_registration);
 		dialog.setContentView(R.layout.dialog_register_device);
 
-        EditText passCode=(EditText)dialog.findViewById(R.id.dialog_register_text);
-		EditText deviceNameText=(EditText) dialog.findViewById(R.id.dialog_register_deviceName);
+        final EditText passCode=(EditText)dialog.findViewById(R.id.dialog_register_text);
+		final EditText deviceNameText=(EditText) dialog.findViewById(R.id.dialog_register_deviceName);
 		Button registerButton = (Button)dialog.findViewById(R.id.dialog_register_button);
 
 		registerButton.setOnClickListener(new View.OnClickListener() {
