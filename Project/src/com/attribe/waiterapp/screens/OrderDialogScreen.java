@@ -50,7 +50,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
     private static OnQuantityChangeListener quantityChangeListener;
     private static OnItemAddedToOrder onItemAddedToOrder;
     private ListView galleryList;
-    private ArrayList<Item> item_imageArrayList;
+    private List<Image> item_imageArrayList;
     private Button buttonIncrement;
     private Button buttonDecrement;
 
@@ -117,7 +117,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         //vertical list of item images
         galleryList = (ListView)findViewById(R.id.imageGalleryViewList);
 
-        item_imageArrayList = new ArrayList<Item>();
+        item_imageArrayList = item.getImages();
 
         galleryList.setAdapter(new ImageAdapter(this,item.getImages(),item.getName(),item.getCreated_at()));
 
@@ -303,7 +303,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            filePath =  item.getName()+ item_imageArrayList.get(position).getImages().get(position).getCreated_at();
+            filePath =  item.getName()+ item_imageArrayList.get(position).getCreated_at();
             cacheFile = new File(cacheDir, filePath);
             uri = Uri.fromFile(cacheFile);
 

@@ -86,9 +86,15 @@ public class OrderAdapter extends BaseAdapter{
 
         if(orderList.get(i).getItem().getImageBlob()== null){
 
-            viewHolder.itemImage.setImageURI(getImage(orderList.get(i)));
-//            viewHolder.itemImage.setImageBitmap(BitmapFactory.decodeByteArray(orderList.get(i).getItem().getImageBlob(),0,
-//                    orderList.get(i).getItem().getImageBlob().length));
+            try {
+                viewHolder.itemImage.setImageURI(getImage(orderList.get(i)));
+            }
+
+            catch (NullPointerException e){
+                viewHolder.itemImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.sample_burger));
+            }
+
+
         }
 
         viewHolder.crossBox.setOnClickListener(new View.OnClickListener() {
@@ -134,11 +140,19 @@ public class OrderAdapter extends BaseAdapter{
 
     private Uri getImage(Order order){
         File cacheDir = mContext.getCacheDir();
+        Uri uri;
+        try {
 
-        String filePath = order.getItem().getName()+order.getItem().getImages().get(0).getCreated_at();
-        File imageFile = new File(cacheDir,filePath);
+            String filePath = order.getItem().getName()+order.getItem().getImages().get(0).getCreated_at();
+            File imageFile = new File(cacheDir,filePath);
 
-        Uri uri=Uri.fromFile(imageFile);
+            uri = Uri.fromFile(imageFile);
+        }
+
+        catch (IndexOutOfBoundsException e){
+            uri = null;
+        }
+
 
         return uri;
 

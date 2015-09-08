@@ -72,7 +72,7 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
         totalPrice.setText(Double.toString(computeTotalPrice()));
 
-        totalItemsQuantity.setText(Double.toString(OrderContainer.getInstance().getOrderList().size())+ " " + "item(s)") ;
+        totalItemsQuantity.setText(Integer.toString((int)OrderContainer.getInstance().getOrderList().size())+ " " + "item(s)") ;
 
 
         ordergrid.setAdapter(orderAdapter);
@@ -115,6 +115,7 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
     public void onItemRemoved() {
         //totalPrice.invalidate();
         totalPrice.setText(Double.toString(computeTotalPrice()));
+        totalItemsQuantity.setText(Integer.toString((int) OrderContainer.getInstance().getOrderList().size())+" " + "item(s)") ;
     }
 
     private double computeTotalPrice() {
@@ -130,9 +131,7 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
     @Override
     public void onQuantityChanged() {
-        int size = (int) OrderContainer.getInstance().getOrderList().size();
         totalPrice.setText(Double.toString(computeTotalPrice()));
-        totalItemsQuantity.setText(Integer.toString(size)+" " + "item(s)") ;
         orderAdapter.notifyDataSetChanged();
 
 
