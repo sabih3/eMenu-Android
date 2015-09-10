@@ -2,6 +2,7 @@ package com.attribe.waiterapp.screens;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import com.attribe.waiterapp.Database.Constants;
 import com.attribe.waiterapp.R;
+import com.attribe.waiterapp.controls.ImageAdapter;
 import com.attribe.waiterapp.controls.Carousel;
 import com.attribe.waiterapp.controls.CarouselAdapter;
 
@@ -29,9 +31,11 @@ public class CarouselScreen extends Activity {
 
         carousel.setOnItemClickListener(new CarouselItemClickListener());
 
-        CategoryScreen categoryScreen=new CategoryScreen();
+        TypedArray images = getResources().obtainTypedArray(R.array.entries);
+        ImageAdapter imageAdapter = new ImageAdapter(this);
+        imageAdapter.SetImages(images,false);
 
-
+        carousel.setAdapter(imageAdapter);
     }
 
 

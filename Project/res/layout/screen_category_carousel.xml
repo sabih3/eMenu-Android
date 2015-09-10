@@ -17,8 +17,6 @@
             pj:UseReflection="false"
             pj:SelectedItem="0"
             android:animationDuration="200"
-            pj:Items="@array/entries"
-
             />
     <!--without Label final
     <com.attribe.waiterapp.controls.Carousel
