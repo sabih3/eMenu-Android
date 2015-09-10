@@ -85,16 +85,6 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
         }
     }
 
-//    @Override
-//    public void onListItemClick(ListView listView, View v, int position, long id) {
-//
-//        long itemIdAtPosition = listView.getItemIdAtPosition(position);
-//
-//        categoryArrayList.get(position).setSelected(true);
-//
-//        listAdapter.notifyDataSetChanged();
-//
-//    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -109,10 +99,6 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
         }
 
         oldPosition=position;
-
-
-
-        //int sdk = Build.VERSION.SDK_INT;
 
         callBack.onCategorySelected(id);
     }

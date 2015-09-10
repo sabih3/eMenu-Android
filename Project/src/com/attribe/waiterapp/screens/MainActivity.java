@@ -92,56 +92,6 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
                 .replace(R.id.fragment_container_items, itemScreen)
                 .commit();
 
-
-        //  CategoryItemScreen.getInstance().updateFragment(id);
-
-
-
-
-
-        //Show Grid of items of required category
-
-        //TODO:Removed HardCoded Fragment
-        //Fragment callingFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-
-
-        /**
-        if(callingFragment instanceof CategoryItemScreen){
-
-
-            CategoryItemScreen itemFragment=null;
-            itemFragment = (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-            itemFragment.updateFragment(id);
-        }
-
-        else if(callingFragment instanceof OrderFragment){
-            fragmentManager = getSupportFragmentManager();
-            dynamicFragment = CategoryItemScreen.getInstance();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container_items, dynamicFragment);
-            fragmentTransaction.commit();
-
-            if(getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen) instanceof OrderFragment){
-
-
-                CategoryItemScreen categoryFragment;
-                categoryFragment=(CategoryItemScreen)(dynamicFragment);
-                categoryFragment.updateFragment(id);
-            }**/
-
-
-            /**
-            //User in on order screen, and has tapped any of the category item
-            OrderFragment itemFragment = null;
-            itemFragment = (OrderFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-            //hiding the Order screen
-            itemFragment.getView().findViewById(R.id.fragment_order_amountLayout).setVisibility(View.GONE);
-            //fetching the items of desired category
-            itemFragment.updateFragment(id);
-            **/
-
-       // }
-
     }
 
 
@@ -164,7 +114,6 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         switch (item.getItemId()){
 
             case R.id.action_cart:
-                //openOrderScreen();
                 showOrderFragment();
 
             default:
@@ -177,16 +126,8 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         fragmentManager = getSupportFragmentManager();
 
         fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen));
-//        fragmentTransaction.add(R.id.fragment_container_items, OrderFragment.getInstance());
         fragmentTransaction.replace(R.id.fragment_container_items, OrderFragment.getInstance());
         fragmentTransaction.commit();
-
-        /**
-        CategoryItemScreen itemScreen= (CategoryItemScreen) getSupportFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-        itemScreen.showOrderFragment();
-        **/
-
 
     }
 

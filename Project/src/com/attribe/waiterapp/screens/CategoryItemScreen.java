@@ -14,16 +14,8 @@ import com.attribe.waiterapp.adapters.CategoryItemAdapter;
 import com.attribe.waiterapp.interfaces.OnItemAddedToOrder;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
-import com.attribe.waiterapp.network.RestClient;
 import com.attribe.waiterapp.utils.Constants;
-import com.attribe.waiterapp.utils.DevicePreferences;
 import com.attribe.waiterapp.utils.OrderContainer;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -39,10 +31,8 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
     private View listView;
     private GridView gridView;
     Fragment detailFragment;
-    Fragment carouselFragment;
     private OrderFragment orderFragment;
     private ArrayList<Item> itemArrayList;
-    private CheckBox gridItemCheckBox;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     private CopyOnWriteArrayList<Order> orderList;
@@ -116,101 +106,17 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
                 }
             }
 
-
-            /**
-            Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-            if(!itemFragment.isVisible()){
-
-                itemFragment.getView().setVisibility(View.VISIBLE);
-                gridView.setVisibility(View.VISIBLE);
-            }
-
-            if( orderFragment != null) {
-                if (orderFragment.isVisible()) {
-                    orderFragment.getView().setVisibility(View.GONE);
-                }
-            }**/
             gridView.setAdapter(adapter);
             gridView.setVisibility(View.VISIBLE);
 
         }
-
-        /**
-        else{
-            DatabaseHelper mDatabaseHelper=new DatabaseHelper(mActivity);
-            itemArrayList = mDatabaseHelper.getItemsWithImages(id);
-
-            orderList = OrderContainer.getInstance().getOrderList();
-            if(! orderList.isEmpty()){
-
-
-
-                for(int i = 0 ; i<orderList.size(); i++){
-                    if(orderList.get(i).getItem().getCategory_id()== id){
-                        for(int x = 0; x < itemArrayList.size() ; x++){
-
-                            if(itemArrayList.get(x).getId() == orderList.get(i).getItem().getId()){
-                                itemArrayList.get(x).setSelected(true);
-                                continue;
-                            }
-
-
-                        }
-
-
-                    }
-
-
-                }
-
-
-            }
-
-            CategoryItemAdapter adapter = new CategoryItemAdapter(mActivity, itemArrayList);
-
-            if(detailFragment!=null){
-                if(detailFragment.getView()!=null){
-                    detailFragment.getView().setVisibility(View.GONE);
-                }
-            }
-
-
-            Fragment itemFragment = getFragmentManager().findFragmentById(R.id.fragment_itemScreen);
-            if(!itemFragment.isVisible()){
-
-                itemFragment.getView().setVisibility(View.VISIBLE);
-                gridView.setVisibility(View.VISIBLE);
-            }
-
-            if( orderFragment != null) {
-                if (orderFragment.isVisible()) {
-                    orderFragment.getView().setVisibility(View.GONE);
-                }
-            }
-
-            if(itemFragment instanceof OrderFragment){
-                itemFragment.getView().setVisibility(View.GONE);
-            }
-
-
-
-            gridView= (GridView) view.findViewById(R.id.item_grid);
-            gridView.setAdapter(adapter);
-            gridView.setVisibility(View.VISIBLE);
-        }**/
-
-
-
-
 
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View listView, int i, long l) {
-
         this.listView = listView;
-
         showOrderDialog(itemArrayList.get(i), i);
 
     }
@@ -238,13 +144,8 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
 
     public void showOrderFragment() {
         fragmentManager = getFragmentManager();
-
-
         gridView.setVisibility(View.GONE);
-
-
         orderFragment = OrderFragment.getInstance();
-
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container_items, orderFragment);
         fragmentTransaction.commit();
@@ -259,8 +160,7 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         CheckBox itemCheckBox = (CheckBox) listView.findViewById(R.id.grid_item_check);
         itemArrayList.get(position).setSelected(true);
         itemArrayList.get(position).setDesiredQuantity(itemQuantity);
-        //itemCheckBox.setButtonDrawable(R.drawable.tick_green);
-       itemCheckBox.setChecked(true);
+        itemCheckBox.setChecked(true);
     }
 
     public static CategoryItemScreen getInstance() {

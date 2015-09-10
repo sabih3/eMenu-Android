@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -152,7 +151,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
             catch (NullPointerException e){
                 itemImage.setImageDrawable(getResources().getDrawable(R.drawable.sample_burger));
             }
-            //itemImage.setImageBitmap(BitmapFactory.decodeByteArray(item.getImageBlob(),0,item.getImageBlob().length));
+
         }
 
 
@@ -176,10 +175,6 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
                     setQuantityView(itemQuantity);
 
                 }
-//                else{
-//                    pricePicker.setValue(1);
-//                    itemQuantity = 0;
-//                }
             }
         }
 
