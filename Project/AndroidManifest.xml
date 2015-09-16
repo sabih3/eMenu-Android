@@ -34,7 +34,8 @@
         </activity>
         <activity android:name=".screens.ExceptionView"/>
         <activity android:name=".screens.SetupScreen"/>
-        <activity android:name=".screens.CarouselScreen"/>
+        <activity android:name=".screens.CarouselScreen"
+                  android:screenOrientation="landscape"/>
 
 
         <receiver android:name=".Broadcasts.BootReceiver">

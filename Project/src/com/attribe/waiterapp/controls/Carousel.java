@@ -833,8 +833,9 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
 
         // Track the motion
         //TODO: Sabih had changed below from -ve multiplier to positive multiplier
+        //trackMotionScroll(-1 * (int) (distanceX);
         //This effected the scrolling as needed
-        trackMotionScroll(1 * (int) distanceX);
+        trackMotionScroll(1 * (int) (distanceX/10));    //Modified by Sabih Dividing distance  by 10, to reduce speed
 
         mIsFirstScroll = false;
         return true;
@@ -871,7 +872,7 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
     private void Calculate3DPosition(CarouselImageView child, int diameter, float angleOffset){
         angleOffset = angleOffset * (float)(Math.PI/180.0f);
 
-        float x = -(float)(diameter/2* Math.sin(angleOffset));
+        float x = -(float)((diameter)/2* Math.sin(angleOffset));
         float z = diameter/2 * (1.0f - (float) Math.cos(angleOffset));
         float y = - getHeight()/2 + (float) (z * Math.sin(mTheta));
 
