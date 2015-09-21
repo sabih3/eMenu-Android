@@ -1,5 +1,7 @@
 package com.attribe.waiterapp.models;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class Category {
     private String image;
     private byte[] imageBlob;
     private boolean selected;
+    private Drawable mCarouselDrawable;
     
 
 
@@ -104,5 +107,14 @@ public class Category {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public void setCarouselImage(Drawable drawable){
+
+        this.mCarouselDrawable = drawable;
+    }
+
+    public Drawable getCarouselImage() {
+        return mCarouselDrawable;
     }
 }

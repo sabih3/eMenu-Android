@@ -15,6 +15,7 @@ import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public abstract class  CarouselAdapter <T extends Adapter> extends ViewGroup {
@@ -103,6 +104,8 @@ public abstract class  CarouselAdapter <T extends Adapter> extends ViewGroup {
      * The listener that receives notifications when an item is clicked.
      */
     OnItemClickListener mOnItemClickListener;
+
+    AdapterView.OnItemClickListener onItemClickListener;
 
     /**
      * The listener that receives notifications when an item is long clicked.
@@ -205,6 +208,11 @@ public abstract class  CarouselAdapter <T extends Adapter> extends ViewGroup {
         super(context, attrs, defStyle);
     }
 
+    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+
+        this.onItemClickListener = onItemClickListener;
+    }
+
 
     /**
      * Interface definition for a callback to be invoked when an item in this
@@ -259,6 +267,7 @@ public abstract class  CarouselAdapter <T extends Adapter> extends ViewGroup {
         if (mOnItemClickListener != null) {
             playSoundEffect(SoundEffectConstants.CLICK);
             mOnItemClickListener.onItemClick(this, view, position, id);
+
             return true;
         }
 

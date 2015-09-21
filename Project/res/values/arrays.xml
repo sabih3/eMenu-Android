@@ -2,20 +2,19 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <array name="entries">
 
-        <item>@drawable/chinese_2</item>
         <item>@drawable/bbq_2</item>
-        <item>@drawable/soup_2</item>
         <item>@drawable/pizza_2</item>
         <item>@drawable/fastfood_2</item>
-        <item>@drawable/continental_2</item>
+        <item>@drawable/chinese_2</item>
         <item>@drawable/pakistani_2</item>
+        <item>@drawable/soup_2</item>
         <item>@drawable/chinese_2</item>
+        <item>@drawable/continental_2</item>
         <item>@drawable/bbq_2</item>
         <item>@drawable/soup_2</item>
         <item>@drawable/pizza_2</item>
         <item>@drawable/fastfood_2</item>
         <item>@drawable/continental_2</item>
-
 
 
         <!--with label downside

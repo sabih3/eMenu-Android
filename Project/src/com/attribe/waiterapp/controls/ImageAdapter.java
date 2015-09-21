@@ -8,6 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import com.attribe.waiterapp.models.Category;
+
+import java.util.ArrayList;
 
 /**
  * Created by Sabih Ahmed on 09-Sep-15.
@@ -16,9 +19,15 @@ public class ImageAdapter extends BaseAdapter {
 
     private Context mContext;
     private CarouselImageView[] mImages;
+    private ArrayList<Category> categoriesList;
 
     public ImageAdapter(Context c) {
         mContext = c;
+    }
+
+    public ImageAdapter(Context mContext, ArrayList<Category> categoriesList) {
+        this.mContext = mContext;
+        this.categoriesList = categoriesList;
     }
 
     @SuppressWarnings("unused")
@@ -113,11 +122,39 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public long getItemId(int position) {
-        return position;
+        return categoriesList.get(position).getId();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+
         return mImages[position];
     }
 
+    public void SetImages(ArrayList<Category> mCategoriesList) {
+
+        categoriesList = mCategoriesList;
+        int size = mCategoriesList.size();
+        Drawable[] drawables = new Drawable[size];
+        mImages = new CarouselImageView[size];
+
+        for (int i = 0; i < size  ; i++) {
+
+            drawables[i] = mCategoriesList.get(i).getCarouselImage();
+            Bitmap originalImage = ((BitmapDrawable) drawables[i]).getBitmap();
+
+            CarouselImageView imageView = new CarouselImageView(mContext);
+            imageView.setSelected(false);
+            imageView.setImageBitmap(originalImage);
+            imageView.setIndex(i);
+            imageView.setFocusable(false);
+            mImages[i] = imageView;
+
+
+
+        }
+
+
+
+
+    }
 }

@@ -843,6 +843,24 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
 
 
     public boolean onSingleTapUp(MotionEvent e) {
+
+        int x = (int)e.getX();
+        int y = (int)e.getY();
+
+        int rangeX1=450;
+        int rangeY1=300;
+        int rangeX2=800;
+        int rangeY2=450;
+
+        if((x >=rangeX1 && x<=rangeX2) && (y >= rangeY1 && y <= rangeY2)){
+            performItemClick(mDownTouchView, mDownTouchPosition, mAdapter
+                    .getItemId(mDownTouchPosition));
+
+            return true;
+        }
+
+
+        /**TODO: Commented by Sabih to avoid intercepting click on item other then center position
         if (mDownTouchPosition >= 0) {
 
             // An item tap should make it selected, so scroll to this child.
@@ -855,7 +873,7 @@ public class Carousel extends CarouselSpinner implements GestureDetector.OnGestu
             }
 
             return true;
-        }
+        }**/
 
         return false;
     }
