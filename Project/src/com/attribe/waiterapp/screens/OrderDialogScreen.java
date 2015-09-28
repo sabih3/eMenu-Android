@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
 import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.adapters.ImageAdapter;
+import com.attribe.waiterapp.adapters.SwipeImageAdapter;
 import com.attribe.waiterapp.interfaces.OnItemAddedToOrder;
 import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
 import com.attribe.waiterapp.interfaces.QuantityPicker;
@@ -41,6 +43,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
     private NumberPicker pricePicker;
     private ImageView itemImage;
     private ImageView backButton;
+    private TextView  backToMainScreen;
     private Item item;
     private Intent i;
     private int itemQuantity;
@@ -63,6 +66,9 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
     private QuantityPicker quantityPicker;
     private int initialQuantity;
     private int newQuantity;
+
+    private SwipeImageAdapter swipeImageAdapter;
+    private ViewPager viewPager;
 
     public OrderDialogScreen(){
 
@@ -95,7 +101,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         databaseHelper = new DatabaseHelper(this);
         item = (Item) i.getSerializableExtra(Constants.KEY_SERIALIZEABLE_ITEM_OBJECT);
         position = i.getIntExtra(Constants.KEY_ITEM_POSITION, -1);
-        itemImage = (ImageView)findViewById(R.id.dialog_order_image);
+ //       itemImage = (ImageView)findViewById(R.id.dialog_order_image);
         textViewItemName = (TextView)findViewById(R.id.dialog_order_itemName);
         textViewItemPrice = (TextView)findViewById(R.id.dialog_order_totalPrice);
         textViewTotalPrice = (TextView) findViewById(R.id.dialog_order_totalPrice);
@@ -125,9 +131,19 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         //////Gallery Of Images [end]
 
         backButton =(ImageView)findViewById(R.id.dialog_order_removeButton);
-
         backButton.setOnClickListener(new BackButtonListener());
+        backToMainScreen = (TextView) findViewById(R.id.dialog_order_categoryName);
+        backToMainScreen.setOnClickListener(new BackButtonListener());
 
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        Intent i = getIntent();
+        int position = i.getIntExtra("position", 0);
+
+        swipeImageAdapter = new SwipeImageAdapter(this,item.getImages(),item.getName(),item.getCreated_at());
+        viewPager.setAdapter(swipeImageAdapter);
+
+        // displaying selected image first
+        viewPager.setCurrentItem(position);
         //////Initializing values
         initValues();
 
@@ -143,16 +159,16 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         textViewItemPrice.setText(String.valueOf(item.getPrice()));
 
 
-        if(item.getImageBlob() == null){
-            try {
-                itemImage.setImageURI(getImageUri(item));
-            }
-
-            catch (NullPointerException e){
-                itemImage.setImageDrawable(getResources().getDrawable(R.drawable.sample_burger));
-            }
-
-        }
+//        if(item.getImageBlob() == null){
+//            try {
+//                itemImage.setImageURI(getImageUri(item));
+//            }
+//
+//            catch (NullPointerException e){
+//                itemImage.setImageDrawable(getResources().getDrawable(R.drawable.sample_burger));
+//            }
+//
+//        }
 
 
         textViewCategoryName.setText(databaseHelper.getCategoryName(item.getCategory_id()));

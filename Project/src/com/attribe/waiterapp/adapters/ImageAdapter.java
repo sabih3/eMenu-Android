@@ -1,5 +1,9 @@
 package com.attribe.waiterapp.adapters;
 
+/**
+ * Created by M.Maaz on 9/22/2015.
+ */
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -73,10 +77,10 @@ public class ImageAdapter extends BaseAdapter {
 		if(view == null){
 
 			LayoutInflater inflater= (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view  = inflater.inflate(R.layout.new_order_image_screen_dialogue, null);
+			view  = inflater.inflate(R.layout.item_order_list, null);
 
 			viewHolder =new ViewHolder();
-			viewHolder.imageViewItem = (ImageView) view.findViewById(R.id.iv_new_order_image);
+			viewHolder.imageViewItem = (ImageView) view.findViewById(R.id.item_order_list_image);
 
 			view.setTag(viewHolder);
 		}
@@ -86,17 +90,17 @@ public class ImageAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) view.getTag();
 		}
 		
-		cacheDir = mContext.getCacheDir();
+				cacheDir = mContext.getCacheDir();
 		filePath =  itemName+ item_imageArrayList.get(position).getCreated_at();
 		cacheFile = new File(cacheDir, filePath);
-        uri = Uri.fromFile(cacheFile);
-        
-        try {
-            fileInputStream = new FileInputStream(cacheFile);
+		uri = Uri.fromFile(cacheFile);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+		try {
+			fileInputStream = new FileInputStream(cacheFile);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
         viewHolder.imageViewItem.setImageURI(uri);
 		//viewHolder.imageViewItem.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));

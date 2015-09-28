@@ -81,13 +81,14 @@
                     android:background="@drawable/dialog_order_image_bg"
                     android:focusable="false" >
 
-                <ImageView
-                        android:id="@+id/dialog_order_image"
+                <android.support.v4.view.ViewPager
+                        android:id="@+id/pager"
                         android:layout_width="644dp"
                         android:layout_height="374dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/sample_burger1_no_bg"
-                        android:scaleType="centerCrop"    />
+                        android:scaleType="centerCrop"/>
+
+
             </FrameLayout>
 
             <ListView
