@@ -66,13 +66,13 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
     private QuantityPicker quantityPicker;
     private int initialQuantity;
     private int newQuantity;
-
     private SwipeImageAdapter swipeImageAdapter;
+    private ImageAdapter verticalGalleryAdapter;
     private ViewPager viewPager;
 
-    public OrderDialogScreen(){
+    private int oldSelectedPosition = -1;       // no item selected by default
 
-    }
+    public OrderDialogScreen(){}
 
     public void setOnItemAddedToOrderListener(OnItemAddedToOrder onItemAddedToOrderListener){
         this.onItemAddedToOrder = onItemAddedToOrderListener;
@@ -97,11 +97,12 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
 
 
     private void initContent() {
+
         i = getIntent();
         databaseHelper = new DatabaseHelper(this);
         item = (Item) i.getSerializableExtra(Constants.KEY_SERIALIZEABLE_ITEM_OBJECT);
         position = i.getIntExtra(Constants.KEY_ITEM_POSITION, -1);
- //       itemImage = (ImageView)findViewById(R.id.dialog_order_image);
+
         textViewItemName = (TextView)findViewById(R.id.dialog_order_itemName);
         textViewItemPrice = (TextView)findViewById(R.id.dialog_order_totalPrice);
         textViewTotalPrice = (TextView) findViewById(R.id.dialog_order_totalPrice);
@@ -121,13 +122,14 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         //////Gallery of images [start]
         //vertical list of item images
         galleryList = (ListView)findViewById(R.id.imageGalleryViewList);
-
         item_imageArrayList = item.getImages();
+        verticalGalleryAdapter=new ImageAdapter(this,item_imageArrayList,item.getName(),item.getCreated_at());
 
-        galleryList.setAdapter(new ImageAdapter(this,item.getImages(),item.getName(),item.getCreated_at()));
+        galleryList.setAdapter(verticalGalleryAdapter);
 
         cacheDir = OrderDialogScreen.this.getCacheDir();
         galleryList.setOnItemClickListener(new GalleryClickListener());
+
         //////Gallery Of Images [end]
 
         backButton =(ImageView)findViewById(R.id.dialog_order_removeButton);
@@ -142,9 +144,10 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         swipeImageAdapter = new SwipeImageAdapter(this,item.getImages(),item.getName(),item.getCreated_at());
         viewPager.setAdapter(swipeImageAdapter);
 
+        viewPager.setOnPageChangeListener(new SwipeImageListener());
         // displaying selected image first
         viewPager.setCurrentItem(position);
-        //////Initializing values
+        //Initializing values
         initValues();
 
     }
@@ -158,19 +161,6 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         textViewItemName.setText(item.getName());
         textViewItemPrice.setText(String.valueOf(item.getPrice()));
 
-
-//        if(item.getImageBlob() == null){
-//            try {
-//                itemImage.setImageURI(getImageUri(item));
-//            }
-//
-//            catch (NullPointerException e){
-//                itemImage.setImageDrawable(getResources().getDrawable(R.drawable.sample_burger));
-//            }
-//
-//        }
-
-
         textViewCategoryName.setText(databaseHelper.getCategoryName(item.getCategory_id()));
         textViewCategoryName.setOnClickListener(new BackNavigationListener());
 
@@ -183,7 +173,6 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
 
                 ////if current item is found in order list
                 if(order.getItem().getId()== item.getId()){
-
 
                     ////set its price & quantity
                     pricePicker.setValue(order.getQuantityValue());
@@ -213,32 +202,20 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
 
     @Override
     public void onQuantityValueChange(int oldVal, int newVal) {
+
         textViewTotalPrice.setText(String.valueOf(getPrice(newVal, item.getPrice())));
         itemQuantity = newVal;
         setQuantityView(itemQuantity);
+
     }
 
     private double getPrice(int newVal, double price) {
         return newVal*price;
     }
 
-    public void orderNow(View view){
-
-        /**
-        String itemName = textViewItemName.getText().toString();
-        String itemPrice = textViewItemPrice.getText().toString();
-        int quantityValue = itemQuantity ;
-        int itemId = item.getId();
-        int itemCategoryId = item.getCategory_id();
-        String totalPrice = textViewTotalPrice.getText().toString().replace("Total","").trim();
-
-        //Order order = new Order(itemName, itemPrice,quantityValue,itemId,itemCategoryId,totalPrice);
-        Order order= new Order(item,itemQuantity);
-        OrderContainer.getInstance().orderList.add(order);
-        **/
-    }
 
     public void addCart(View view){
+
         Order order = new Order(item,itemQuantity);
 
         boolean update = false;
@@ -249,33 +226,25 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
 
                 if(iterator.getItem().getId()== order.getItem().getId()){ // Item already exists in order
 
-
                     iterator.setQuantityValue(itemQuantity);            //intention of increasing quantity
                     if(quantityChangeListener != null){
                         quantityChangeListener.onQuantityChanged();
                     }
                     update = true;
-
                 }
-
             }
-
             if(!update){
                 onItemAddedToOrder.onItemAdded(position,itemQuantity);
-
             }
-
         }
         else{
               onItemAddedToOrder.onItemAdded(position,itemQuantity);
         }
-
-
         this.finish();
-
     }
 
     private Uri getImageUri(Item item){
+
         //Image file is saved in following pattern
         //filepath = ItemName+ImageFileCreationDateTime
         File cacheDir = this.getCacheDir();
@@ -285,8 +254,6 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
             File imageFile = new File(cacheDir, filePath);
             uri= Uri.fromFile(imageFile);
         }
-
-
         return uri;
     }
 
@@ -296,15 +263,12 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         uri = Uri.fromFile(cacheFile);
 
         try {
-            fileInputStream = new FileInputStream(cacheFile);
+              fileInputStream = new FileInputStream(cacheFile);
 
-        } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
-
-
     }
 
 
@@ -312,22 +276,53 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
 
     private class GalleryClickListener implements AdapterView.OnItemClickListener {
 
+        View res;
+
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            filePath =  item.getName()+ item_imageArrayList.get(position).getCreated_at();
-            cacheFile = new File(cacheDir, filePath);
-            uri = Uri.fromFile(cacheFile);
 
-            try {
-                // display the images selected
-                fileInputStream = new FileInputStream(cacheFile);
-                itemImage.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+            viewPager.setCurrentItem(position, true);
 
-            } catch (FileNotFoundException e) {
-                //setting placeholder food icon if image not found
-                itemImage.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.sample_burger));
-            }
+           if(oldSelectedPosition != position) {
+               if(oldSelectedPosition != -1){
+
+                   item_imageArrayList.get(oldSelectedPosition).setSelected(false);
+               }
+               item_imageArrayList.get(position).setSelected(true);
+               verticalGalleryAdapter.notifyDataSetChanged();
+           }
+              oldSelectedPosition=position;
+
+            verticalGalleryAdapter.notifyDataSetChanged();
         }
+    }
+
+
+    private class SwipeImageListener implements ViewPager.OnPageChangeListener{
+
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {}
+
+        @Override
+        public void onPageSelected(int position) {
+
+            if(oldSelectedPosition != position) {
+                if(oldSelectedPosition != -1){
+
+                    item_imageArrayList.get(oldSelectedPosition).setSelected(false);
+                }
+                item_imageArrayList.get(position).setSelected(true);
+                verticalGalleryAdapter.notifyDataSetChanged();
+            }
+            oldSelectedPosition=position;
+
+            verticalGalleryAdapter.notifyDataSetChanged();
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {}
+
     }
 
     private class QuantityIncrementListener implements View.OnClickListener {
@@ -341,12 +336,10 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
             newQuantity = itemQuantity;
 
             quantityPicker.onQuantityValueChange(initialQuantity,newQuantity);
-
         }
     }
 
     private class QuantityDecrementListener implements View.OnClickListener {
-
 
         @Override
         public void onClick(View view) {
@@ -359,8 +352,6 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
 
                 quantityPicker.onQuantityValueChange(initialQuantity,newQuantity);
             }
-
-
         }
     }
 
@@ -373,6 +364,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
     }
 
     private class BackNavigationListener implements View.OnClickListener {
+
         @Override
         public void onClick(View view) {
             OrderDialogScreen.this.finish();

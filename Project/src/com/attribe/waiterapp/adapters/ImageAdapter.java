@@ -22,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
+import android.widget.RelativeLayout;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.models.Image;
 import com.attribe.waiterapp.models.Item;
@@ -30,7 +31,6 @@ import com.attribe.waiterapp.models.Item;
 public class ImageAdapter extends BaseAdapter {
     	
 	private int itemBackground;
-	
 	private Context mContext;
     private List<Image> item_imageArrayList;
     private LayoutInflater inflater = null;
@@ -81,16 +81,18 @@ public class ImageAdapter extends BaseAdapter {
 
 			viewHolder =new ViewHolder();
 			viewHolder.imageViewItem = (ImageView) view.findViewById(R.id.item_order_list_image);
+			viewHolder.listItemLayout = (RelativeLayout) view.findViewById(R.id.item_order_list_parent);
 
 			view.setTag(viewHolder);
+
 		}
 
 		else{
 
 			viewHolder = (ViewHolder) view.getTag();
 		}
-		
-				cacheDir = mContext.getCacheDir();
+
+		cacheDir = mContext.getCacheDir();
 		filePath =  itemName+ item_imageArrayList.get(position).getCreated_at();
 		cacheFile = new File(cacheDir, filePath);
 		uri = Uri.fromFile(cacheFile);
@@ -103,16 +105,35 @@ public class ImageAdapter extends BaseAdapter {
 		}
 
         viewHolder.imageViewItem.setImageURI(uri);
-		//viewHolder.imageViewItem.setImageBitmap(BitmapFactory.decodeStream(fileInputStream));
+
+
+		if(item_imageArrayList.get(position).isSelected()){
+
+			highlightItem(position,viewHolder);
+		}
+		else{
+
+			unHighlightItem(position,viewHolder);
+		}
 
 		return view;
+	}
+
+	private void highlightItem(int position, ViewHolder viewHolder) {
+
+		viewHolder.listItemLayout.setBackground(mContext.getResources().getDrawable(R.drawable.dialog_order_image_bg));
+	}
+
+	private void unHighlightItem(int position , ViewHolder viewHolder){
+
+		viewHolder.listItemLayout.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
 	}
 
 
 	private static class ViewHolder{
 
 		ImageView imageViewItem ;
+		RelativeLayout listItemLayout;
 	}
 
-	
 }

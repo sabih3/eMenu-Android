@@ -12,6 +12,7 @@ public class Image implements Serializable{
     private String url;
     private String created_at;
     private String updated_at;
+    private boolean selected;
 
     public Image(Integer id, String url, String created_at, String updated_at) {
         this.id = id;
@@ -60,7 +61,13 @@ public class Image implements Serializable{
     public String getUrl() {
         return url;
     }
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
+    public boolean isSelected() {
+        return this.selected;
+    }
 
     public void setUrl(String url) {
         this.url = url;

@@ -31,9 +31,7 @@ import java.util.List;
  */
 public class SwipeImageAdapter extends PagerAdapter {
 
-//    private Activity _activity;
-//    private ArrayList<String> _imagePaths;
-      private LayoutInflater inflater;
+    private LayoutInflater inflater;
     private Context mContext;
     private List<Image> item_imageArrayList;
     private File cacheDir;
@@ -47,8 +45,6 @@ public class SwipeImageAdapter extends PagerAdapter {
 
     // constructor
     public SwipeImageAdapter(Context context , List<Image> itemList,String itemName, String itemCreatedAt) {
-//        this._activity = activity;
-//        this._imagePaths = imagePaths;
 
         this.mContext = context;
         this.item_imageArrayList = itemList;
@@ -77,16 +73,13 @@ public class SwipeImageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+
         ImageView imgDisplay;
-//        TouchImageView imgDisplay;
-//        imgDisplay = new TouchImageView(mContext.getApplicationContext());
 
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewLayout = inflater.inflate(R.layout.new_order_image_screen_dialogue, container, false);
 
-//        imgDisplay = (TouchImageView) viewLayout.findViewById(R.id.iv_new_order_image);
         imgDisplay = (ImageView) viewLayout.findViewById(R.id.iv_new_order_image);
-
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -103,8 +96,6 @@ public class SwipeImageAdapter extends PagerAdapter {
             e.printStackTrace();
         }
 
-//        Bitmap bitmap = BitmapFactory.decodeFile(item_imageArrayList.get(position), options);
-//        imgDisplay.setImageBitmap(bitmap);
         imgDisplay.setImageURI(uri);
 
         ((ViewPager) container).addView(viewLayout);

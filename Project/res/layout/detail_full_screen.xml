@@ -99,6 +99,7 @@
                     android:dividerHeight="18.0sp"
                     android:background="#ffffff"
                     android:layout_marginLeft="15dp"
+                    android:choiceMode="singleChoice"
                     >
 
             </ListView>
