@@ -16,8 +16,8 @@ public class Category {
     private String updated_at;
     private String image;
     private byte[] imageBlob;
-    private boolean selected;
-    private Drawable mCarouselDrawable;
+    private transient boolean selected;
+    private transient Drawable mCarouselDrawable;
     
 
 
