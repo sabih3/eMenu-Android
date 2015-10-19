@@ -1,14 +1,17 @@
 package com.attribe.waiterapp.screens;
 
 
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LauncherActivity;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.*;
 import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.adapters.CategoryAdapter;
+import com.attribe.waiterapp.adapters.PromotionAreaAdapter;
 import com.attribe.waiterapp.models.Category;
 import com.attribe.waiterapp.network.RestClient;
 import com.attribe.waiterapp.utils.DevicePreferences;
@@ -36,7 +40,11 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
     private CategoryAdapter listAdapter;
     private ArrayList<Category> categoryArrayList;
     private ListView listView;
+    private ViewPager viewPager;
     private int oldPosition = - 1;
+    private SwipeTimer timer;
+    private int position;
+
     public CategoryScreen(){
 
     }
@@ -59,6 +67,9 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
 
         listAdapter = new CategoryAdapter(getActivity(), categoryArrayList);
 
+
+
+
     }
 
     @Override
@@ -69,6 +80,13 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
         listView.setOnItemClickListener(this);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(listAdapter);
+
+        viewPager = (ViewPager)view.findViewById(R.id.promo_area_pager);
+        viewPager.setAdapter(new PromotionAreaAdapter(getActivity()));
+
+        position = 0;
+        timer = new SwipeTimer(3000,3000);
+
 
         return view;
     }
@@ -104,6 +122,37 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
     }
 
 
+    public class SwipeTimer extends CountDownTimer {
+
+
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public SwipeTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+
+
+            viewPager.setCurrentItem(position);
+            viewPager.setAnimationCacheEnabled(true);
+            position++;
+            timer.start();
+
+
+        }
+    }
     public interface OnCategorySelectListener{
 
         public void onCategorySelected(long id);
