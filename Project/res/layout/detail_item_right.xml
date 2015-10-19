@@ -28,7 +28,7 @@
                  android:layout_height="wrap_content"
                  android:layout_marginTop="30dp"
                  android:text="Total:"
-                 android:textColor="#000000"
+                 android:textColor="@color/ginsoy_primary"
                  android:textSize="45sp"
                  android:gravity="left|start" />
 
@@ -74,7 +74,7 @@
                 android:textSize="40sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:background="@drawable/button_black_bg"/>
+                android:background="@drawable/button_decrement_bg"/>
 
 
         <Button
@@ -85,7 +85,7 @@
                 android:textSize="40sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:background="@drawable/button_black_bg"/>
+                android:background="@drawable/button_decrement_bg"/>
 
         <TextView
                   android:id="@+id/textViewQuantity"
@@ -139,7 +139,7 @@ Grilled Buttered Bun,
             android:layout_marginTop="40dp"
             android:text="@string/add_to_order"
             android:textAllCaps="true"
-            android:background="@drawable/button_maroon_bg"
+            android:background="@drawable/button_decrement_bg"
             android:onClick="addCart"
             android:textSize="30sp"
             android:textColor="@color/white"

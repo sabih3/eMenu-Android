@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.models.Category;
-import com.attribe.waiterapp.utils.DevicePreferences;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,13 +75,13 @@ public class CategoryAdapter extends BaseAdapter {
 
             viewHolder.frameImageContainer.setBackground(context.getResources().getDrawable(R.drawable.shape_circle_white));
             view.setBackgroundDrawable((context.getResources().
-                    getDrawable(R.drawable.shape_rectangle_maroon)));
+                    getDrawable(R.drawable.shape_category_selector)));
 
         }
 
         else{
             view.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
-            viewHolder.frameImageContainer.setBackground(context.getResources().getDrawable(R.drawable.shape_circle_red));
+            viewHolder.frameImageContainer.setBackground(context.getResources().getDrawable(R.drawable.shape_category_circle));
         }
 
         return view;

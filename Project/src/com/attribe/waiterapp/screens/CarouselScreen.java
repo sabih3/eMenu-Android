@@ -67,10 +67,10 @@ public class CarouselScreen extends Activity {
 
         categoryListCarousel.add(mCategoriesList.get(2));
         categoryListCarousel.add(mCategoriesList.get(3));
-        categoryListCarousel.add(mCategoriesList.get(4));
-        categoryListCarousel.add(mCategoriesList.get(5));
-        categoryListCarousel.add(mCategoriesList.get(2));
-        categoryListCarousel.add(mCategoriesList.get(3));
+//        categoryListCarousel.add(mCategoriesList.get(4));
+//        categoryListCarousel.add(mCategoriesList.get(5));
+//        categoryListCarousel.add(mCategoriesList.get(2));
+//        categoryListCarousel.add(mCategoriesList.get(3));
 
 
         ImageAdapter imageAdapter = new ImageAdapter(this);

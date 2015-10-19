@@ -43,8 +43,8 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         //Setting Action bar's color programmatically
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_bar)));
-        //actionBar.setIcon(R.drawable.dm_logo_white);
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ginsoy_primary)));
+
 
         //Handling Exceptions
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));

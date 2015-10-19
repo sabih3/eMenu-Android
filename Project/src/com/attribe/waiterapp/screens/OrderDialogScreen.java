@@ -135,7 +135,7 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         backButton =(ImageView)findViewById(R.id.dialog_order_removeButton);
         backButton.setOnClickListener(new BackButtonListener());
         backToMainScreen = (TextView) findViewById(R.id.dialog_order_categoryName);
-        backToMainScreen.setOnClickListener(new BackButtonListener());
+        backToMainScreen.setOnClickListener(new BackNavigationListener());
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         Intent i = getIntent();

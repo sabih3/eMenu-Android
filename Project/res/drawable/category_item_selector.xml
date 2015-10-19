@@ -3,12 +3,12 @@
 
 
     <item android:state_pressed="true"
-          android:drawable="@drawable/shape_rectangle_maroon"/>
+          android:drawable="@drawable/shape_category_selector"/>
 
     <item
             android:state_pressed="true"
             android:state_selected="true"
-            android:drawable="@drawable/shape_rectangle_maroon" />
+            android:drawable="@drawable/shape_category_selector" />
 
 
 
