@@ -53,14 +53,14 @@
                 android:textSize="45sp"
                 android:text="1500.0"
                 android:textStyle="bold"
-                android:textColor="#992004"
+                android:textColor="#000000"
                 android:layout_marginBottom="5dp"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rs"
-                android:textColor="#992004"
+                android:textColor="#000000"
                 android:textSize="25sp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"/>
