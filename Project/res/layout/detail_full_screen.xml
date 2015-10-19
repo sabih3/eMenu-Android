@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="User Views(12)"
-                    android:textColor="@color/maroon"
+                    android:textColor="@color/ginsoy_primary"
                     android:textSize="20sp"
                     android:maxLines="1"
                     />
@@ -166,7 +166,7 @@
                         android:layout_gravity="start"
                         android:src="@drawable/gulzar1"
                         android:scaleType="centerCrop"
-                        />
+                        android:background="@color/ginsoy_primary"/>
 
             </FrameLayout>
 

@@ -28,7 +28,7 @@
                  android:layout_height="wrap_content"
                  android:layout_marginTop="30dp"
                  android:text="Total:"
-                 android:textColor="@color/ginsoy_primary"
+                 android:textColor="#000000"
                  android:textSize="45sp"
                  android:gravity="left|start" />
 
@@ -37,7 +37,7 @@
              android:layout_width="170dp"
              android:layout_height="wrap_content"
              android:text="3000.0"
-             android:textColor="@color/maroon"
+             android:textColor="@color/ginsoy_primary"
              android:textSize="50sp"
              android:gravity="center"
              android:layout_marginTop="30dp"
@@ -48,7 +48,7 @@
                  android:layout_width="50dp"
                  android:layout_height="wrap_content"
                  android:text="Rs"
-                 android:textColor="@color/maroon"
+                 android:textColor="@color/ginsoy_primary"
                  android:textSize="40sp"
                  android:gravity="right"
                  android:layout_marginTop="30dp"
@@ -94,7 +94,7 @@
                   android:layout_marginLeft="20dp"
                   android:textColor="#000000"
                   android:textSize="30sp"
-                android:text="1 item(s)"/>
+                  android:text="1 item(s)"/>
 
     </LinearLayout>
     <NumberPicker
@@ -161,7 +161,7 @@ Grilled Buttered Bun,
                 android:id="@+id/circularCheffImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
+                android:background="@color/ginsoy_primary"
                 android:src="@drawable/zakir1"
                 android:scaleType="centerCrop" />
 
@@ -187,7 +187,7 @@ Grilled Buttered Bun,
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:text="' This is not your average chicken burger-with a soy, sesame and honey marinade this humble BBQ '"
-            android:textColor="@color/maroon"
+            android:textColor="@color/ginsoy_primary"
             android:textSize="18sp"
             android:maxLines="3"
             android:textAlignment="center"
