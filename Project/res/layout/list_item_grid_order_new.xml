@@ -42,7 +42,7 @@
                 android:text="2000.0"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="#992004"
+                android:textColor="#000000"
                 android:layout_marginLeft="5dp" />
 
                 <TextView
@@ -52,7 +52,7 @@
                         android:layout_marginTop="8dp"
                         android:text="Rs"
                         android:textSize="17sp"
-                        android:textColor="#992004"
+                        android:textColor="#000000"
                       />
 
                 <TextView
@@ -134,7 +134,7 @@
                 android:text="Les infos burgers"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="#992004"
+                android:textColor="#000000"
                 android:maxLines="1"
                 android:layout_marginLeft="10dp"/>
 

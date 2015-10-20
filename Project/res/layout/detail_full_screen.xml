@@ -166,7 +166,7 @@
                         android:layout_gravity="start"
                         android:src="@drawable/gulzar1"
                         android:scaleType="centerCrop"
-                        android:background="@color/ginsoy_primary"/>
+                       />
 
             </FrameLayout>
 
