@@ -161,7 +161,7 @@ Grilled Buttered Bun,
                 android:id="@+id/circularCheffImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/ginsoy_primary"
+
                 android:src="@drawable/zakir1"
                 android:scaleType="centerCrop" />
 
