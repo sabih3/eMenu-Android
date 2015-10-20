@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import com.attribe.waiterapp.Database.Constants;
 import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
@@ -44,7 +41,12 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ginsoy_primary)));
+        LayoutInflater mInflater = LayoutInflater.from(this);
 
+        View mCustomView = mInflater.inflate(R.layout.custom_action_bar, null);
+
+        actionBar.setCustomView(mCustomView);
+        actionBar.setDisplayShowCustomEnabled(true);
 
         //Handling Exceptions
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));

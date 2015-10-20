@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/ginsoy_primary">
+
+
+    <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/dm_logo_white" />
+
+
+
+    <TextView
+            android:id="@+id/fragment_order_textTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_text"
+            android:textSize="30sp"
+            android:textColor="#000000"
+            android:layout_marginTop="25dp"
+            android:layout_toLeftOf="@+id/fragment_order_textTotalPrice"/>
+
+    <TextView
+            android:id="@+id/fragment_order_textTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="45sp"
+            android:text="1500.0"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/imageButton"
+            android:layout_toLeftOf="@+id/textView"
+            android:layout_marginRight="30dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rs"
+            android:textColor="#000000"
+            android:textSize="25sp"
+            android:id="@+id/textView"
+            android:layout_alignTop="@+id/grid_TotalItemsQuantity"
+            android:layout_toLeftOf="@+id/grid_TotalItemsQuantity"
+            android:layout_marginRight="61dp"
+            android:layout_marginTop="10dp"/>
+
+    <TextView
+            android:id="@+id/grid_TotalItemsQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:text="12 item(s)"
+            android:layout_gravity="center"
+            android:layout_alignTop="@+id/imageView1" android:layout_toLeftOf="@+id/imageButton"
+            android:layout_marginRight="67dp"/>
+
+    <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:background="#ffffff"
+            android:src="@drawable/order_button" />
+
+
+</RelativeLayout>
