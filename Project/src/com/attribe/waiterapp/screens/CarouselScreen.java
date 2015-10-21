@@ -51,11 +51,24 @@ public class CarouselScreen extends Activity {
         TypedArray images = getResources().obtainTypedArray(R.array.entries);
 
         mCategoriesList = mDatabaseHelper.getAllCategories();
-        categoryListCarousel =  new ArrayList<>(13);
-        ArrayList<Category> repeatedCategories=new ArrayList<>();
-        int size = mCategoriesList.size();
 
-        for(int i = 0; i < size  ; i++){
+        ArrayList<Category> sortedCategoryList = new ArrayList<>();
+
+
+        for(int i=mCategoriesList.size() -1; i>=0 ;i--){
+
+            sortedCategoryList.add(mCategoriesList.get(i));
+
+        }
+
+
+        mCategoriesList = sortedCategoryList;
+
+        categoryListCarousel =  new ArrayList<>(13);
+
+        int size = mCategoriesList.size() -1;
+
+        for(int i = 0; i < size   ; i++){
 
             if(!mCategoriesList.get(i).getName().equalsIgnoreCase("Beverages")){
                 mCategoriesList.get(i).setCarouselImage(images.getDrawable(i));
@@ -66,11 +79,15 @@ public class CarouselScreen extends Activity {
         }
 
         categoryListCarousel.add(mCategoriesList.get(2));
-        categoryListCarousel.add(mCategoriesList.get(3));
-        categoryListCarousel.add(mCategoriesList.get(1));
         categoryListCarousel.add(mCategoriesList.get(1));
         categoryListCarousel.add(mCategoriesList.get(2));
-        categoryListCarousel.add(mCategoriesList.get(3));
+        categoryListCarousel.add(mCategoriesList.get(0));
+        categoryListCarousel.add(mCategoriesList.get(1));
+        categoryListCarousel.add(mCategoriesList.get(2));
+        categoryListCarousel.add(mCategoriesList.get(0));
+        categoryListCarousel.add(mCategoriesList.get(1));
+        categoryListCarousel.add(mCategoriesList.get(2));
+
 
 
 
