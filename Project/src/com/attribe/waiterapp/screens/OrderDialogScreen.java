@@ -69,6 +69,10 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
     private SwipeImageAdapter swipeImageAdapter;
     private ImageAdapter verticalGalleryAdapter;
     private ViewPager viewPager;
+    private LinearLayout reviewArea,postCommentsArea, userReviewsArea;
+    private TextView cheffName,cheffComments,comments_area;
+
+
 
     private int oldSelectedPosition = -1;       // no item selected by default
 
@@ -141,6 +145,14 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         Intent i = getIntent();
         int position = i.getIntExtra("position", 0);
 
+        reviewArea = (LinearLayout)findViewById(R.id.reviews_area);
+        postCommentsArea = (LinearLayout)findViewById(R.id.post_comments_area);
+        userReviewsArea = (LinearLayout)findViewById(R.id.user_reviews_area);
+        cheffName = (TextView)findViewById(R.id.cheffName);
+        cheffComments = (TextView)findViewById(R.id.cheffDescription);
+        comments_area = (TextView)findViewById(R.id.comments_area);
+
+        handleReviewArea(position);
         swipeImageAdapter = new SwipeImageAdapter(this,item.getImages(),item.getName(),item.getCreated_at());
         viewPager.setAdapter(swipeImageAdapter);
 
@@ -150,6 +162,20 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         //Initializing values
         initValues();
 
+    }
+
+    private void handleReviewArea(int position) {
+        if(position == 0 || position == 1 || position == 2){
+
+            cheffName.setVisibility(View.VISIBLE);
+            cheffComments.setVisibility(View.VISIBLE);
+
+            reviewArea.setBackground(null);
+
+
+            postCommentsArea.setVisibility(View.GONE);
+            userReviewsArea.setVisibility(View.VISIBLE);
+        }
     }
 
     /**This method initializes & renders the necessary information

@@ -146,7 +146,9 @@ Grilled Buttered Bun,
             />
 
 
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+                  android:id="@+id/post_comments_area"
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal"
                   android:layout_marginTop="60dp"
@@ -182,16 +184,35 @@ Grilled Buttered Bun,
 
     </LinearLayout>
 
-  <!--  <TextView
-            android:id="@+id/cheffSuggestion"
+  <LinearLayout
+          android:id="@+id/user_reviews_area"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="120dp"
+          android:orientation="vertical"
+          android:visibility="gone">
+
+
+   <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Reviews "
+             android:textSize="18sp"
+             android:textColor="@color/black"
+           />
+
+   <TextView
+            android:id="@+id/comments_area"
+            android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="' This is not your average chicken burger-with a soy, sesame and honey marinade this humble BBQ '"
-            android:textColor="@color/ginsoy_primary"
+            android:text="' delicious food.. dynamite prawns were awesome but a bit spicy...'"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:maxLines="3"
             android:textAlignment="center"
-            /> -->
+
+            />
+  </LinearLayout>
 </LinearLayout>
 </LinearLayout>
