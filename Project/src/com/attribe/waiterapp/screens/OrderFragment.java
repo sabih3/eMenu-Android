@@ -148,6 +148,7 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
     public void onOrderSentToPrint() {
 
         hideOrderFragment();
+        OrderContainer.getInstance().getOrderList().clear();
     }
 
     public class ComfirmButtonClick implements View.OnClickListener {
