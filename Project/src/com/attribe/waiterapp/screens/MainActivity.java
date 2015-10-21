@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.*;
+import android.widget.Button;
 import com.attribe.waiterapp.Database.Constants;
 import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
 import android.support.v4.app.FragmentActivity;
 import com.attribe.waiterapp.adapters.CategoryItemAdapter;
+import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.utils.ExceptionHanlder;
@@ -29,6 +32,7 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
     private CategoryItemScreen dynamicFragment;
     private ArrayList<Item> itemArrayList;
     private CopyOnWriteArrayList<Order> orderList;
+    private ActionBar actionBar;
 
     /**
      * Called when the activity is first created.
@@ -38,15 +42,12 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         super.onCreate(savedInstanceState);
 
         //Setting Action bar's color programmatically
-        ActionBar actionBar = getActionBar();
+        actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ginsoy_primary)));
-        LayoutInflater mInflater = LayoutInflater.from(this);
 
-        View mCustomView = mInflater.inflate(R.layout.custom_action_bar, null);
+        setCustomActionBar();
 
-        actionBar.setCustomView(mCustomView);
-        actionBar.setDisplayShowCustomEnabled(true);
 
         //Handling Exceptions
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHanlder(this));
@@ -60,9 +61,26 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
         }
 
 
+        OrderDialogScreen orderDialogScreen = new OrderDialogScreen();
 
 
 
+
+
+
+    }
+
+    private void setCustomActionBar() {
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        View mCustomView = mInflater.inflate(R.layout.custom_action_bar, null);
+
+        actionBar.setCustomView(mCustomView);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        Button showOrderButton = (Button)actionBar.getCustomView().findViewById(R.id.ab_button);
+
+        showOrderButton.setOnClickListener(new ShowOrderButtonListener());
     }
 
     @Override
@@ -98,6 +116,8 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
 
 
 
+
+
     @Override
     public void onBackStackChanged() {
 
@@ -105,8 +125,8 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_main, menu);
 
         return true;
     }
@@ -134,4 +154,11 @@ public class MainActivity extends FragmentActivity implements CategoryScreen.OnC
     }
 
 
+    private class ShowOrderButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            getActionBar().getCustomView().findViewById(R.id.ab_parent).setVisibility(View.GONE);
+            showOrderFragment();
+        }
+    }
 }

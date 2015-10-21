@@ -13,22 +13,40 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp">
 
+        <!--
+        <VideoView
+                   android:id="@+id/videoView"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"/>
+
+                   -->
+
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:background="@drawable/main_sub_frame_image_bg"
                >
-    <android.support.v4.view.ViewPager
-               android:id="@+id/promo_area_pager"
-               android:layout_width="match_parent"
-               android:layout_height="200dp"
-               android:layout_gravity="center">
+
+            <VideoView
+                    android:id="@+id/videoView"
+                    android:layout_width="800dp"
+                    android:layout_height="190dp"
+                    android:layout_gravity="center"
+                    />
+        <!--
+<android.support.v4.view.ViewPager
+           android:id="@+id/promo_area_pager"
+           android:layout_width="match_parent"
+           android:layout_height="200dp"
+           android:layout_gravity="center">
 
 
 
-    </android.support.v4.view.ViewPager>
+</android.support.v4.view.ViewPager>
 
-        </FrameLayout>
+ !-->
+    </FrameLayout>
+
 
         <ListView
             android:id="@+id/catrgoryScreen_list"

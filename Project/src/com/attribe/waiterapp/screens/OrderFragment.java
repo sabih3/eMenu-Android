@@ -72,7 +72,9 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
         totalPrice.setText(Double.toString(computeTotalPrice()));
 
-        totalItemsQuantity.setText(Integer.toString((int)OrderContainer.getInstance().getOrderList().size())+ " " + "item(s)") ;
+        //totalItemsQuantity.setText(Integer.toString((int)OrderContainer.getInstance().getOrderList().size())+ " " + "item(s)") ;
+
+        totalItemsQuantity.setText(Integer.toString((OrderContainer.getInstance().getQuantity()))+ " " + "item(s)");
 
 
         ordergrid.setAdapter(orderAdapter);

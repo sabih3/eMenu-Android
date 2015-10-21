@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LauncherActivity;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -65,6 +68,18 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
         DatabaseHelper mDatabaseHelper = new DatabaseHelper(getActivity());
         categoryArrayList= mDatabaseHelper.getAllCategories();
 
+        int size = categoryArrayList.size() -1;
+        ArrayList<Category> sortedCategoryList = new ArrayList<>();
+
+
+        for(int i=size; i>=0 ;i--){
+
+            sortedCategoryList.add(categoryArrayList.get(i));
+
+        }
+
+
+        categoryArrayList = sortedCategoryList;
         listAdapter = new CategoryAdapter(getActivity(), categoryArrayList);
 
 
@@ -81,14 +96,49 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(listAdapter);
 
-        viewPager = (ViewPager)view.findViewById(R.id.promo_area_pager);
-        viewPager.setAdapter(new PromotionAreaAdapter(getActivity()));
+//        viewPager = (ViewPager)view.findViewById(R.id.promo_area_pager);
+//        viewPager.setAdapter(new PromotionAreaAdapter(getActivity()));
+//
+//        position = 0;
+//        timer = new SwipeTimer(3000,3000);
 
-        position = 0;
-        timer = new SwipeTimer(3000,3000);
+        initVideo(view);
+
 
 
         return view;
+    }
+
+    private void initVideo(View view) {
+        VideoView videoView = (VideoView)view.findViewById(R.id.videoView);
+        String path = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.ginsoy_video;
+
+        videoView.setVideoURI(Uri.parse(path));
+        videoView.start();
+
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+
+                mp.setLooping(true);
+            }
+        });
+
+        videoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(videoView.isPlaying()){
+                    videoView.pause();
+                }
+
+                else{
+                    videoView.start();
+                }
+                return false;
+            }
+        });
     }
 
     @Override

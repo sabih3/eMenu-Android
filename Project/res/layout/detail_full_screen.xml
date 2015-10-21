@@ -109,7 +109,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
             <ImageView
                        android:layout_width="25dp"
@@ -157,7 +158,8 @@
 
             <FrameLayout
                     android:layout_width="80dp"
-                    android:layout_height="80dp">
+                    android:layout_height="80dp"
+                    android:visibility="gone">
 
                 <com.joooonho.SelectableRoundedImageView
                         android:id="@+id/circularCheffImage"
@@ -173,8 +175,11 @@
             <LinearLayout android:layout_width="700dp"
                           android:layout_height="match_parent"
                           android:orientation="vertical"
-                          android:layout_marginLeft="5dp">
+                          android:layout_marginTop="30dp"
+                          android:layout_marginBottom="10dp"
+                          android:background="@drawable/fb_like">
 
+                <!--
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -194,6 +199,7 @@
                         android:textSize="18sp"
                         android:maxLines="3"
                         android:textColor="#000000"/>
+                        !-->
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
