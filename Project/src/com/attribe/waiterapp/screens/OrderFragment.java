@@ -147,7 +147,7 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
     @Override
     public void onOrderSentToPrint() {
 
-        showConfirmDialog();
+        hideOrderFragment();
     }
 
     public class ComfirmButtonClick implements View.OnClickListener {
