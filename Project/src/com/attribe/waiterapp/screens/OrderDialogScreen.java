@@ -161,7 +161,15 @@ public class OrderDialogScreen extends Activity implements QuantityPicker{
         textViewItemName.setText(item.getName());
         textViewItemPrice.setText(String.valueOf(item.getPrice()));
 
-        textViewCategoryName.setText(databaseHelper.getCategoryName(item.getCategory_id()));
+        if(i.getBooleanExtra("fromOrder",false)){
+            textViewCategoryName.setText("Back to order");
+
+        }
+        else{
+            textViewCategoryName.setText(databaseHelper.getCategoryName(item.getCategory_id()));
+        }
+
+
         textViewCategoryName.setOnClickListener(new BackNavigationListener());
 
         //////Iterate through order list to check if current item is already present in order list

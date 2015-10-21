@@ -19,6 +19,7 @@ import com.attribe.waiterapp.adapters.CategoryItemAdapter;
 import com.attribe.waiterapp.adapters.OrderAdapter;
 import com.attribe.waiterapp.interfaces.OnItemRemoveListener;
 import com.attribe.waiterapp.interfaces.OnQuantityChangeListener;
+import com.attribe.waiterapp.interfaces.PrintOrder;
 import com.attribe.waiterapp.models.*;
 import com.attribe.waiterapp.network.RestClient;
 import com.attribe.waiterapp.utils.Constants;
@@ -35,7 +36,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by Sabih Ahmed on 5/26/2015.
  */
 public class OrderFragment extends Fragment implements GridView.OnItemClickListener,
-        OnItemRemoveListener,OnQuantityChangeListener{
+        OnItemRemoveListener,OnQuantityChangeListener,PrintOrder{
 
     public GridView ordergrid;
     private OrderAdapter orderAdapter;
@@ -58,8 +59,6 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
     private void initContents(View view) {
 
-
-
         long total = 0;
         totalText= (TextView) view.findViewById(R.id.fragment_order_textTotal);
         totalPrice = (TextView) view.findViewById(R.id.fragment_order_textTotalPrice);
@@ -74,7 +73,7 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
         //totalItemsQuantity.setText(Integer.toString((int)OrderContainer.getInstance().getOrderList().size())+ " " + "item(s)") ;
 
-        totalItemsQuantity.setText(Integer.toString((OrderContainer.getInstance().getQuantity()))+ " " + "item(s)");
+        totalItemsQuantity.setText(Integer.toString((OrderContainer.getInstance().getQuantity())) + " " + "item(s)");
 
 
         ordergrid.setAdapter(orderAdapter);
@@ -85,6 +84,10 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
         OrderDialogScreen dialogScreen=new OrderDialogScreen();
         dialogScreen.setQuantityChangeListener(this);
+
+
+        OrderTakingScreen orderTakingScreen = new OrderTakingScreen();
+        orderTakingScreen.setOrderPrintInterface(this);
 
     }
 
@@ -108,7 +111,7 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
         Intent intent = new Intent(getActivity(),OrderDialogScreen.class);
         intent.putExtra(Constants.KEY_SERIALIZEABLE_ITEM_OBJECT, item);
-
+        intent.putExtra("fromOrder",true);
         startActivity(intent);
 
     }
@@ -139,6 +142,14 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
 
     }
 
+
+
+    @Override
+    public void onOrderSentToPrint() {
+
+        showConfirmDialog();
+    }
+
     public class ComfirmButtonClick implements View.OnClickListener {
 
         @Override
@@ -147,36 +158,47 @@ public class OrderFragment extends Fragment implements GridView.OnItemClickListe
                 Toast.makeText(getActivity(),getString(R.string.select_items_prompt),Toast.LENGTH_SHORT).show();
             }
             else{
-
-                showConfirmDialog();
+                ArrayList<order_detail> order_detail=getOrderDetail(OrderContainer.getInstance().getOrderList());
+                showOrderPage();
+                //showConfirmDialog();
             }
         }
 
-        private void showConfirmDialog() {
-            AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                    .setTitle(getString(R.string.proceed_to_order))
-                    .setMessage(getString(R.string.proceed_to_order_message))
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            ArrayList<order_detail> order_detail=getOrderDetail(OrderContainer.getInstance().getOrderList());
-                            String deviceId = DevicePreferences.getInstance().getDeviceId();
-                            int tableNumber = DevicePreferences.getInstance().getTableNumber();
-
-                            placeOrder(makeOrder(order_detail,
-                                    deviceId, computeTotalPrice(),tableNumber));
-
-                            Toast.makeText(getActivity(),getString(R.string.order_placed),Toast.LENGTH_SHORT).show();
-                            OrderContainer.getInstance().getOrderList().clear();
 
 
-                            hideOrderFragment();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
-        }
+
+    }
+
+    private void showConfirmDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.proceed_to_order))
+                .setMessage(getString(R.string.proceed_to_order_message))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        ArrayList<order_detail> order_detail=getOrderDetail(OrderContainer.getInstance().getOrderList());
+                        String deviceId = DevicePreferences.getInstance().getDeviceId();
+                        int tableNumber = DevicePreferences.getInstance().getTableNumber();
+
+                        placeOrder(makeOrder(order_detail,
+                                deviceId, computeTotalPrice(),tableNumber));
+
+                        Toast.makeText(getActivity(),getString(R.string.order_placed),Toast.LENGTH_SHORT).show();
+                        OrderContainer.getInstance().getOrderList().clear();
+
+
+                        hideOrderFragment();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    private void showOrderPage() {
+
+        Intent intent = new Intent(getActivity(),OrderTakingScreen.class);
+        startActivity(intent);
     }
 
     private void hideOrderFragment() {

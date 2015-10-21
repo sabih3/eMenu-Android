@@ -16,7 +16,7 @@ public class TextViewProxiOrange extends TextView {
     }
 
     private void init(AttributeSet attrs) {
-        Typeface  fontProxi=Typeface.createFromAsset(getContext().getAssets(),"fonts/Proxima Nova Regular.ttf");
+        Typeface  fontProxi=Typeface.createFromAsset(getContext().getAssets(),"fonts/TalkingToTheMoon.ttf");
         setTypeface(fontProxi);
         setTextColor(getResources().getColor(R.color.orange));
 
