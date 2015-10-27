@@ -67,6 +67,7 @@
 
 
     <LinearLayout
+            android:id="@+id/FeedBack_Frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -88,6 +89,14 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 >
+
+            <RadioGroup
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,7 +104,7 @@
                     android:textColor="@color/white"
                     android:text="@string/feedback_question1"
 
-                    />
+                    android:checked="false" />
 
             <RadioButton
                     android:layout_width="wrap_content"
@@ -113,7 +122,12 @@
                     android:text="@string/feedback_question3"
                     />
 
-            <Button android:layout_width="wrap_content"
+            </RadioGroup>
+
+
+            <Button
+                    android:id="@+id/FeedBack_btn"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/post_feedback"
