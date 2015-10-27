@@ -110,7 +110,7 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
     }
 
     private void initVideo(View view) {
-        VideoView videoView = (VideoView)view.findViewById(R.id.videoView);
+       final VideoView videoView = (VideoView)view.findViewById(R.id.videoView);
         String path = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.ginsoy_video;
 
         videoView.setVideoURI(Uri.parse(path));

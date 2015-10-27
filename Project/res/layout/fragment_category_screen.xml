@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@android:color/transparent"
-               >
+              android:orientation="vertical" >
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp">
+
+
+    <LinearLayout     android:layout_width="match_parent"
+                      android:layout_height="600dp"
+                      android:orientation="vertical"
+                      android:background="@android:color/transparent"
+                  >
+
 
         <!--
         <VideoView
@@ -49,20 +49,69 @@
 
 
         <ListView
-            android:id="@+id/catrgoryScreen_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp"
-            android:footerDividersEnabled="false"
-            android:divider="@android:color/transparent"
-            android:choiceMode="singleChoice"
-            android:listSelector="@drawable/category_item_selector"
+                android:id="@+id/catrgoryScreen_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:footerDividersEnabled="false"
+                android:divider="@android:color/transparent"
+                android:choiceMode="singleChoice"
+                android:listSelector="@drawable/category_item_selector"
+                android:layout_marginBottom="30dp"
+                >
 
-            >
+        </ListView>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="20dp">
 
 
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="How was the food ?"
+                    android:textSize="40sp"
+                    />
 
-    </ListView>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:textColor="@color/ginsoy_primary"
+                        android:text="Ok"
+
+                        />
+
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:textColor="@color/ginsoy_primary"
+                        android:text="Better"
+                        />
+
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:textColor="@color/ginsoy_primary"
+                        android:text="Perfect"
+                        />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
+
+
 
 </LinearLayout>
