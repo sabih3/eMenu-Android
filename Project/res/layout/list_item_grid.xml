@@ -78,7 +78,7 @@
                     android:layout_height="145dp"
                     android:src="@drawable/food_placeholder"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
+                    android:scaleType="centerInside"
                     />
 
 

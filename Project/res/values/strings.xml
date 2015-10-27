@@ -34,5 +34,9 @@
     <string name="currency">Rs</string>
     <string name="zero"> 0.0</string>
     <string name="zero_quantity">0 Item</string>
+    <string name="feedback_question1">Good</string>
+    <string name="feedback_question2">Satisfactory</string>
+    <string name="feedback_question3">Below standard</string>
+    <string name="post_feedback">Post Feedback</string>
 
 </resources>

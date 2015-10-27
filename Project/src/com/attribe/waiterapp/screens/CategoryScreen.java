@@ -111,7 +111,7 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
 
     private void initVideo(View view) {
        final VideoView videoView = (VideoView)view.findViewById(R.id.videoView);
-        String path = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.ginsoy_video;
+        String path = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.ginsoy_vdo;
 
         videoView.setVideoURI(Uri.parse(path));
         videoView.start();
@@ -121,7 +121,8 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
             @Override
             public void onPrepared(MediaPlayer mp) {
 
-                mp.setLooping(true);
+                mp.setVolume(0,0);
+                mp.setLooping(false);
             }
         });
 
