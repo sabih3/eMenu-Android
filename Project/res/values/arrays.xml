@@ -2,9 +2,9 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <array name="entries">
 
-        <item>@drawable/ginsoy_chicken</item>
-        <item>@drawable/ginsoy_seafood</item>
-        <item>@drawable/ginsoy_beef</item>
+        <item>@drawable/ginsoy_chicken2</item>
+        <item>@drawable/ginsoy_seafood2</item>
+        <item>@drawable/ginsoy_beef2</item>
 
 
 

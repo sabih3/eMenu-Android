@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.attribe.waiterapp"
+          xmlns:tools="http://schemas.android.com/tools" package="com.attribe.waiterapp"
           android:versionCode="1"
           android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="11"/>
+    <uses-sdk android:minSdkVersion="11"
+            />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -36,6 +37,10 @@
         <activity android:name=".screens.SetupScreen"/>
         <activity android:name=".screens.CarouselScreen"
                   android:screenOrientation="landscape"/>
+        <activity android:name=".screens.OrderTakingScreen"
+                  android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar"
+
+                  tools:ignore="NewApi"/>
 
 
         <receiver android:name=".Broadcasts.BootReceiver">

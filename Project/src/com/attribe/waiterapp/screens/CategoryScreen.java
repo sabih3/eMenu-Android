@@ -47,6 +47,8 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
     private int oldPosition = - 1;
     private SwipeTimer timer;
     private int position;
+    private Button btnFeedBack;
+    private LinearLayout frame_feedBack;
 
     public CategoryScreen(){
 
@@ -104,14 +106,23 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
 
         initVideo(view);
 
+        frame_feedBack = (LinearLayout)view.findViewById(R.id.FeedBack_Frame);
+        btnFeedBack = (Button)view.findViewById(R.id.FeedBack_btn);
+        btnFeedBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Toast.makeText(view.getContext(), " Thank you so much for your valuable feedback , have a nice day...!", Toast.LENGTH_LONG).show();
+                frame_feedBack.setVisibility(View.GONE);
+            }
+        });
 
         return view;
     }
 
     private void initVideo(View view) {
-        VideoView videoView = (VideoView)view.findViewById(R.id.videoView);
-        String path = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.ginsoy_video;
+       final VideoView videoView = (VideoView)view.findViewById(R.id.videoView);
+        String path = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.ginsoy_vdo;
 
         videoView.setVideoURI(Uri.parse(path));
         videoView.start();
@@ -121,7 +132,8 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
             @Override
             public void onPrepared(MediaPlayer mp) {
 
-                mp.setLooping(true);
+                mp.setVolume(0, 0);
+                mp.setLooping(false);
             }
         });
 
@@ -129,11 +141,9 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                if(videoView.isPlaying()){
+                if (videoView.isPlaying()) {
                     videoView.pause();
-                }
-
-                else{
+                } else {
                     videoView.start();
                 }
                 return false;
