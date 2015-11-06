@@ -16,7 +16,7 @@
             android:clickable="true"
             />
 
-    <com.attribe.waiterapp.customUI.TextViewProxiOrange
+    <com.attribe.genericwaiterapp.customUI.TextViewProxiOrange
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
               android:layout_alignBottom="@+id/row_category_item_image" android:layout_alignLeft="@+id/item_row_name"/>
                 />
 
-    <com.attribe.waiterapp.customUI.TextViewProxiOrange
+    <com.attribe.genericwaiterapp.customUI.TextViewProxiOrange
               android:id="@+id/item_row_price"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"

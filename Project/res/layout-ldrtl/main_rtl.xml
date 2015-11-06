@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2.05"
             android:layout_gravity="right"
-            class = "com.attribe.waiterapp.screens.CategoryItemScreen"
+            class = "com.attribe.genericwaiterapp.screens.CategoryItemScreen"
             />
     <fragment
 
@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.95"
-            class = "com.attribe.waiterapp.screens.CategoryScreen"
+            class = "com.attribe.genericwaiterapp.screens.CategoryScreen"
 
             />
 </LinearLayout>

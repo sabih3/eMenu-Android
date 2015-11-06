@@ -159,6 +159,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp">
 
+                <!--
                 <com.joooonho.SelectableRoundedImageView
                         android:id="@+id/circularCheffImage"
                         android:layout_width="match_parent"
@@ -167,7 +168,7 @@
                         android:src="@drawable/gulzar1"
                         android:scaleType="centerCrop"
                         />
-
+                    !-->
             </FrameLayout>
 
             <LinearLayout android:layout_width="700dp"

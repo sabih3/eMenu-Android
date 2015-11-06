@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:pj="http://schemas.android.com/apk/res/com.attribe.waiterapp"
+                xmlns:pj="http://schemas.android.com/apk/res/com.attribe.genericwaiterapp"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -9,7 +9,7 @@
 
 <FrameLayout android:layout_width="match_parent" android:layout_height="650dp">
 
-    <com.attribe.waiterapp.controls.Carousel
+    <com.attribe.genericwaiterapp.controls.Carousel
             android:id="@+id/carousel"
             android:layout_width="match_parent"
             android:layout_height="550dp"

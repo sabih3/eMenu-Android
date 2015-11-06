@@ -16,7 +16,7 @@
             android:id="@+id/dialog_order_itemImage"
             android:src="@drawable/biryani"/>
 
-    <com.attribe.waiterapp.customUI.TextViewProxiOrange
+    <com.attribe.genericwaiterapp.customUI.TextViewProxiOrange
               android:id="@+id/dialog_order_itemName"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
 
             />
 
-    <com.attribe.waiterapp.customUI.TextViewProxiOrange
+    <com.attribe.genericwaiterapp.customUI.TextViewProxiOrange
               android:id="@+id/dialog_order_itemPrice"
               android:layout_alignBaseline="@+id/dialog_order_itemName"
               android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
               android:textSize="25sp"
               android:layout_marginLeft="40dp"/>
 
-    <com.attribe.waiterapp.customUI.TextViewProxiOrange
+    <com.attribe.genericwaiterapp.customUI.TextViewProxiOrange
             android:id="@+id/dialog_order_totalPrice"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_order_numberPicker"
