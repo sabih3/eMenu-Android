@@ -132,7 +132,7 @@ public class CategoryScreen extends Fragment implements AdapterView.OnItemClickL
             @Override
             public void onPrepared(MediaPlayer mp) {
 
-                mp.setVolume(0, 0);
+                mp.setVolume(5,5);
                 mp.setLooping(false);
             }
         });

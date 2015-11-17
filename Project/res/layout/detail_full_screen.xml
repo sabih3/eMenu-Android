@@ -47,7 +47,7 @@
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
                       android:layout_marginLeft="50dp"
-               android:background="#ffffff" >
+                      android:background="#ffffff" >
 
 
         <TextView
@@ -59,7 +59,8 @@
                 android:textColor="@color/ginsoy_primary"
                 android:textSize="60sp"
                 android:textAllCaps="true"
-                android:textStyle="normal"/>
+                android:textStyle="normal"
+                />
 
 
 
