@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">dm</string>
+    <string name="app_name">Ginsoy</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</string>
     <string name="order_now">Order now</string>
     <string name="label_total">Total</string>
@@ -26,9 +26,17 @@
     <string name="no_connection_title">No Network</string>
     <string name="registering_device">Let us register your device</string>
     <string name="cheff_description">We made this dish(and the chilli paste) using Tesco mixed chillies and it was FAR
-        too Spicy !! My husband really liked it but it blew my head off!!
+        too Spicy !!
     </string>
-    <string name="cheff_name">Cooking Jenny</string>
+    <string name="cheff_name">Cheff\'s Comments</string>
     <string name="items">item(s)</string>
+    <string name="view_cart">View All</string>
+    <string name="currency">Rs</string>
+    <string name="zero"> 0.0</string>
+    <string name="zero_quantity">0 Item</string>
+    <string name="feedback_question1">Good</string>
+    <string name="feedback_question2">Satisfactory</string>
+    <string name="feedback_question3">Below standard</string>
+    <string name="post_feedback">Post Feedback</string>
 
 </resources>

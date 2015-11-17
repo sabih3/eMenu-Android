@@ -47,7 +47,7 @@
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
                       android:layout_marginLeft="50dp"
-               android:background="#ffffff" >
+                      android:background="#ffffff" >
 
 
         <TextView
@@ -59,7 +59,8 @@
                 android:textColor="@color/ginsoy_primary"
                 android:textSize="60sp"
                 android:textAllCaps="true"
-                android:textStyle="normal"/>
+                android:textStyle="normal"
+                />
 
 
 
@@ -86,7 +87,7 @@
                         android:layout_width="644dp"
                         android:layout_height="374dp"
                         android:layout_gravity="center"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerInside"/>
 
 
             </FrameLayout>
@@ -109,7 +110,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
             <ImageView
                        android:layout_width="25dp"
@@ -157,7 +159,8 @@
 
             <FrameLayout
                     android:layout_width="80dp"
-                    android:layout_height="80dp">
+                    android:layout_height="80dp"
+                    android:visibility="gone">
 
                 <com.joooonho.SelectableRoundedImageView
                         android:id="@+id/circularCheffImage"
@@ -166,24 +169,32 @@
                         android:layout_gravity="start"
                         android:src="@drawable/gulzar1"
                         android:scaleType="centerCrop"
-                        android:background="@color/ginsoy_primary"/>
+                       />
 
             </FrameLayout>
 
-            <LinearLayout android:layout_width="700dp"
+            <LinearLayout
+                          android:id="@+id/reviews_area"
+                          android:layout_width="700dp"
                           android:layout_height="match_parent"
                           android:orientation="vertical"
-                          android:layout_marginLeft="5dp">
+                          android:layout_marginTop="30dp"
+                          android:layout_marginBottom="10dp"
+                          android:background="@drawable/fb_like"
+                      >
+
 
                 <TextView
+                        android:id="@+id/cheffName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:text="@string/cheff_name"
-                        android:textColor="@color/maroon"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:maxLines="1"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_marginBottom="5dp"
+                        android:visibility="gone"/>
 
                 <TextView
                         android:id="@+id/cheffDescription"
@@ -193,7 +204,9 @@
                         android:text="@string/cheff_description"
                         android:textSize="18sp"
                         android:maxLines="3"
-                        android:textColor="#000000"/>
+                        android:textColor="#000000"
+                        android:visibility="gone"/>
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

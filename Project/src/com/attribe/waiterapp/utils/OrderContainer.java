@@ -46,7 +46,20 @@ public class OrderContainer {
 
     }
 
+    public int getQuantity(){
+        return this.orderList.size();
+    }
 
+    public double computeTotalPrice(){
+        double total = 0;
+        for(Order order :OrderContainer.getInstance().getOrderList()){
+
+            total += order.getItem().getPrice() * order.getQuantityValue();
+        }
+
+
+        return total;
+    }
 
     public void addOrderToSelectedList(Order order){
 

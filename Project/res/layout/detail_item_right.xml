@@ -146,12 +146,15 @@ Grilled Buttered Bun,
             />
 
 
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+                  android:id="@+id/post_comments_area"
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal"
-                  android:layout_marginTop="25dp"                  >
+                  android:layout_marginTop="60dp"
+                  android:background="@drawable/fb_comment">
 
-    <FrameLayout
+ <!--   <FrameLayout
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="60dp"
@@ -161,7 +164,7 @@ Grilled Buttered Bun,
                 android:id="@+id/circularCheffImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/ginsoy_primary"
+
                 android:src="@drawable/zakir1"
                 android:scaleType="centerCrop" />
 
@@ -177,20 +180,39 @@ Grilled Buttered Bun,
             android:textAlignment="center"
 
             android:layout_marginLeft="10dp"
-            android:textColor="#000000"/>
+            android:textColor="#000000"/> -->
 
     </LinearLayout>
 
-    <TextView
-            android:id="@+id/cheffSuggestion"
+  <LinearLayout
+          android:id="@+id/user_reviews_area"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="120dp"
+          android:orientation="vertical"
+          android:visibility="gone">
+
+
+   <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Reviews "
+             android:textSize="18sp"
+             android:textColor="@color/black"
+           />
+
+   <TextView
+            android:id="@+id/comments_area"
+            android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="' This is not your average chicken burger-with a soy, sesame and honey marinade this humble BBQ '"
-            android:textColor="@color/ginsoy_primary"
+            android:text="' delicious food.. dynamite prawns were awesome but a bit spicy...'"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:maxLines="3"
             android:textAlignment="center"
+
             />
+  </LinearLayout>
 </LinearLayout>
 </LinearLayout>

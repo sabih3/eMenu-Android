@@ -11,6 +11,7 @@ import android.widget.*;
 import com.attribe.waiterapp.Database.DatabaseHelper;
 import com.attribe.waiterapp.R;
 import com.attribe.waiterapp.adapters.CategoryItemAdapter;
+import com.attribe.waiterapp.interfaces.OnInstantOrder;
 import com.attribe.waiterapp.interfaces.OnItemAddedToOrder;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
@@ -24,7 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 
 public class CategoryItemScreen extends Fragment implements GridView.OnItemClickListener,
-        FragmentManager.OnBackStackChangedListener,OnItemAddedToOrder{
+        FragmentManager.OnBackStackChangedListener,OnItemAddedToOrder,OnInstantOrder{
 
 
     private static final String TAG = CategoryItemScreen.class.getSimpleName();
@@ -64,7 +65,18 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         orderDialogScreen.setOnItemAddedToOrderListener(this);
 
         updateFragment(getArguments().getLong(com.attribe.waiterapp.Database.Constants.EXTRA_CATEGORY_ID));
-       return view;
+
+        View actionBarLayout = getActivity().getActionBar().getCustomView().findViewById(R.id.ab_parent);
+
+        if(actionBarLayout.getVisibility() == View.GONE){
+            actionBarLayout.setVisibility(View.VISIBLE);
+
+            setActionBarValues();
+
+
+        }
+
+        return view;
     }
 
 
@@ -99,6 +111,7 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
             }
 
             CategoryItemAdapter adapter = new CategoryItemAdapter(getActivity(), itemArrayList);
+            adapter.setInstantOrderListener(this);
 
             if(detailFragment!=null){
                 if(detailFragment.getView()!=null){
@@ -163,6 +176,20 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         itemCheckBox.setChecked(true);
     }
 
+    @Override
+    public void onItemAddedInstantly() {
+        setActionBarValues();
+
+    }
+
+    private void setActionBarValues(){
+        TextView quantityView= (TextView)getActivity().getActionBar().getCustomView().findViewById(R.id.ab_quantity);
+        quantityView.setText(Integer.toString(OrderContainer.getInstance().getQuantity()) + " " + "item(s)");
+
+
+        TextView totalView = (TextView)getActivity().getActionBar().getCustomView().findViewById(R.id.ab_total);
+        totalView.setText(Integer.toString((int) (OrderContainer.getInstance().computeTotalPrice())) + " " + getString(R.string.currency));
+    }
     public static CategoryItemScreen getInstance() {
 
         CategoryItemScreen categoryItemScreen = new CategoryItemScreen();
@@ -170,4 +197,6 @@ public class CategoryItemScreen extends Fragment implements GridView.OnItemClick
         return categoryItemScreen;
 
     }
+
+
 }

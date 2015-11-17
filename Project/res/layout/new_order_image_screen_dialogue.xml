@@ -9,7 +9,7 @@
             android:layout_width="644dp"
             android:layout_height="374dp"
             android:src="@drawable/sample_burger1_no_bg"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             />
 
 </RelativeLayout>

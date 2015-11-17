@@ -217,7 +217,7 @@
                 />
 
         <TextView
-                android:id="@+id/cheffSuggestion"
+                android:id="@+id/comments_area"
                 android:layout_width="400dp"
                 android:layout_height="80dp"
                 android:text="' This is not your average chicken burger-with a soy, sesame and honey marinade this humble BBQ '"

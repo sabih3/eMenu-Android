@@ -22,7 +22,7 @@ public class PassCodeDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                    builder.setView(R.layout.dialog_pass_code);
+                    //builder.setView(R.layout.dialog_pass_code);
         return  builder.create();
     }
 }

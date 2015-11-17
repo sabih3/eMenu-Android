@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.attribe.waiterapp.R;
+import com.attribe.waiterapp.interfaces.ItemAddedTotalValue;
+import com.attribe.waiterapp.interfaces.OnInstantOrder;
 import com.attribe.waiterapp.models.Item;
 import com.attribe.waiterapp.models.Order;
 import com.attribe.waiterapp.screens.OrderDialogScreen;
@@ -34,10 +36,23 @@ public class CategoryItemAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Item> itemList;
+    private OnInstantOrder onInstantOrder;
+    private ItemAddedTotalValue itemAddedTotalValue;
+
+    public void setInstantOrderListener(OnInstantOrder onInstantOrder){
+
+        this.onInstantOrder = onInstantOrder;
+    }
+
+    public void setItemAddedTotalValue(ItemAddedTotalValue itemAddedTotalValue){
+
+        this.itemAddedTotalValue = itemAddedTotalValue;
+    }
 
     public CategoryItemAdapter(Context context, ArrayList<Item> itemList){
         this.context = context;
         this.itemList = itemList;
+
     }
 
     @Override
@@ -126,6 +141,10 @@ public class CategoryItemAdapter extends BaseAdapter {
                     OrderContainer.getInstance().putOrder(order);
 
 
+
+
+
+
                 } else {
 
                     itemList.get(position).setSelected(false);
@@ -144,8 +163,10 @@ public class CategoryItemAdapter extends BaseAdapter {
                     orderList.removeAll(toRemoveList);
                     finalViewHolder.listItemGridLayout.setBackground(context.getResources().getDrawable(R.drawable.grid_item_background));
                     //finalViewHolder.gridItemCheckBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.ic_tick_off_b));
-                }
 
+
+                }
+                onInstantOrder.onItemAddedInstantly();
                 finalViewHolder.gridItemCheckBox.setChecked(compoundButton.isChecked());
 
             }
