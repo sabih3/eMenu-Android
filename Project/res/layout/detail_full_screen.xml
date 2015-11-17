@@ -160,16 +160,16 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:visibility="gone">
-
+<!--
                 <com.joooonho.SelectableRoundedImageView
-                        android:id="@+id/circularCheffImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="start"
-                        android:src="@drawable/gulzar1"
-                        android:scaleType="centerCrop"
-                       />
-
+                    android:id="@+id/circularCheffImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:src="@drawable/gulzar1"
+                    android:scaleType="centerCrop"
+                    />
+                                  -->
             </FrameLayout>
 
             <LinearLayout
@@ -178,7 +178,7 @@
                           android:layout_height="match_parent"
                           android:orientation="vertical"
                           android:layout_marginTop="30dp"
-                          android:layout_marginBottom="10dp"
+                          android:layout_marginBottom="20dp"
                           android:background="@drawable/fb_like"
                       >
 
