@@ -36,7 +36,9 @@
         <activity android:name=".screens.SetupScreen"/>
         <activity android:name=".screens.CarouselScreen"
                   android:screenOrientation="landscape"/>
-
+        <activity android:name=".screens.OrderTakingScreen"
+                  android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"
+                />
 
         <receiver android:name=".Broadcasts.BootReceiver">
             <intent-filter>
